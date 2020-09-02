@@ -78,6 +78,37 @@ export default defineConfig({
               component: './ListTableList',
             },
             {
+              name: 'property.manage',
+              icon: 'bank',
+              path: '/property',
+              component: './PropertyManage',
+            },
+            {
+              name: 'equipment.manage',
+              icon: 'database',
+              path: '/equipment',
+              component: './EquipmentManage',
+            },
+            {
+              name: 'order.manage',
+              icon: 'account-book',
+              path: '/order',
+              component: './OrderManage',
+            },
+
+            {
+              name: 'contract.manage',
+              icon: 'file-text',
+              path: '/contract',
+              component: './ContractManage'
+            },
+            {
+              name: 'user.manage',
+              icon: 'user',
+              path: '/user-manage',
+              component: './UserManage'
+            },
+            {
               component: './404',
             },
           ],

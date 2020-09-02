@@ -1,10 +1,12 @@
-# Ant Design Pro
+# 基于5G物联的区块链共享房屋租赁平台
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+> 租客、房东、代理商、监管等多方参与、共同维护的可靠房源信息发布平台。 
 
-## Environment Prepare
+**本项目基于 [Ant Design Pro](https://pro.ant.design)**
 
-Install `node_modules`:
+## 启动前准备
+
+项目启动前安装 `node_modules` 中的项目依赖，需执行以下命令:
 
 ```bash
 npm install
@@ -16,42 +18,16 @@ or
 yarn
 ```
 
-## Provided Scripts
+## 执行脚本
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
-
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
+### 启动
 
 ```bash
 npm start
 ```
 
-### Build project
+### 项目打包
 
 ```bash
 npm run build
 ```
-
-### Check code style
-
-```bash
-npm run lint
-```
-
-You can also use script to auto fix some lint error:
-
-```bash
-npm run lint:fix
-```
-
-### Test code
-
-```bash
-npm test
-```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).

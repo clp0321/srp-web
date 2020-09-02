@@ -35,7 +35,7 @@ const Login = props => {
   return (
     <div className={styles.main}>
       <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account" tab="账户密码登录">
+        {/* <Tab key="account" tab="账户密码登录">
           {status === 'error' && loginType === 'account' && !submitting && (
             <LoginMessage content="账户或密码错误（admin/ant.design）" />
           )}
@@ -59,7 +59,7 @@ const Login = props => {
               },
             ]}
           />
-        </Tab>
+        </Tab> */}
         <Tab key="mobile" tab="手机号登录">
           {status === 'error' && loginType === 'mobile' && !submitting && (
             <LoginMessage content="验证码错误" />

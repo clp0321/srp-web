@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 
 class UserManage extends Component {
   render() {
-    return <PageContainer></PageContainer>;
+    return <PageContainer>
+      <PageLoading />
+    </PageContainer>;
   }
 }
 

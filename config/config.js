@@ -26,6 +26,16 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
+      path: '/srp/welcome',
+      name: 'welcome',
+      component: './Portal/Welcome'
+    },
+    {
+     path: '/srp/rent',
+     name: 'rent',
+     component: './Portal/Rent'
+    },
+    {
       path: '/user',
       component: '../layouts/UserLayout',
       routes: [

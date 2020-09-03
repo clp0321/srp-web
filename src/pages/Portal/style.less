@@ -1,0 +1,573 @@
+@charset "UTF-8";
+/*css 初始化 */
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+  margin: 0;
+  padding: 0;
+}
+fieldset,
+img,
+input,
+button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline-style: none;
+} /*去掉边框、去掉轮廓（比如输入框外面的蓝边框）*/
+
+/*去掉列表前面的圆点*/
+ul,
+ol {
+  list-style: none;
+}
+input {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-family: 'SimSun', '宋体';
+} /*字体一般是指定这两个*/
+select,
+input {
+  vertical-align: middle;
+}
+select,
+input,
+textarea {
+  font-size: 12px;
+  margin: 0;
+}
+textarea {
+  resize: none;
+} /*禁止文本输入框在右下角拖拽（因为拖动后会调整输入框大小）*/
+img {
+  border: 0;
+  vertical-align: middle;
+} /* 去掉图片底侧默认的3像素空白缝隙*/
+table {
+  border-collapse: collapse;
+}
+body {
+  font: 12px/150% Arial, Verdana, '\5b8b\4f53'; /*\5b8b\4f53指的是宋体*/
+  color: #666;
+  background: #fff;
+}
+
+/*start:清除浮动【推荐此方式进行清除浮动】。左浮动和右浮动都清除了，盒子刚好达到闭合的状态*/
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1; /*IE/7/6*/
+}
+/*end：清除浮动*/
+
+a {
+  color: #666;
+  text-decoration: none;
+} /*去掉超链接的下划线*/
+a:hover {
+  color: #c81623;
+} /*鼠标悬停时的颜色*/
+/* h1,h2,h3,h4,h5,h6 {text-decoration:none;font-weight:normal;font-size:100%;} font-size:100% 的意思是：让它们和父亲一样大，避免在不同的浏览器中显示大小不一致 */
+s,
+i,
+em {
+  font-style: normal;
+  text-decoration: none;
+} /*去掉i标签和em的斜体，取消s标签的删除线*/
+.col-red {
+  color: #c81623 !important;
+}
+
+.header {
+  height: 35px;
+  width: 100%;
+  line-height: 35px;
+  border-bottom: 1px solid #dddddd;
+}
+.header_w {
+  width: 1190px;
+  margin: 0 auto;
+}
+
+// home style
+
+.header_l {
+  display: inline-block;
+}
+.header_w h3 {
+  display: inline;
+  font-size: 12px;
+  color: #ff552e;
+  line-height: 35px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+.header_w h3:hover {
+  cursor: pointer;
+}
+.weather {
+  display: inline-block;
+}
+.wyzf {
+  float: right;
+  padding-left: 30px;
+  background: url('../../assets/images/bulb2.png') no-repeat left center;
+  background-size: 25px;
+}
+.wyzf h3 {
+  color: #ff552e;
+  margin-right: 0px;
+}
+.banner {
+  width: 100%;
+  height: 500px;
+  background: url('../../assets/images/rentbanner.png') no-repeat center center;
+  margin-bottom: 40px;
+}
+
+.break {
+  display: block;
+  width: 100%;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+.introduce {
+  width: 1190px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.introduce h1 {
+  font-size: 32px;
+  line-height: 48px;
+  width: 200px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.in_con p {
+  width: 960px;
+  font-size: 16px;
+  line-height: 30px;
+  margin-bottom: 40px;
+}
+.feature {
+  width: 1190px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+h1 {
+  font-size: 32px;
+  line-height: 48px;
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.pro_list_item {
+  float: left;
+}
+.pro_list_item :hover {
+  cursor: pointer;
+}
+.pro_list {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+.pro_item_dec {
+  width: 378px;
+  height: 150px;
+  border: 1px solid #cccccc;
+  border-top-style: none;
+}
+.pro_item_dec p {
+  padding: 10px;
+  text-indent: 2em;
+  line-height: 22px;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+}
+.architecture {
+  width: 1190px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+.architecture img {
+  width: 1000px;
+  height: 600px;
+  margin: auto;
+  display: block;
+}
+.footer {
+  margin-top: 20px;
+  width: 100%;
+  border-top: 1px solid #dddddd;
+  text-align: center;
+}
+
+// rent css
+.header_home h3 {
+  padding-left: 25px;
+}
+.header_home {
+  width: 100px;
+  float: left;
+  margin-left: 10px;
+  background: url('../../assets/images/home.png') no-repeat left center;
+  background-size: 15px;
+}
+.h_r_icon {
+  height: 20px;
+  width: 20px;
+  float: right;
+  background: url('../../assets/images/user.png') no-repeat 50% / contain;
+  margin-top: 8px;
+}
+.header_r {
+  float: right;
+}
+.h_r_link {
+  display: inline-block;
+}
+.header_r .gap {
+  margin: 0 2px;
+}
+.search {
+  width: 1190px;
+  height: 32px;
+  margin: 20px auto;
+}
+.search_h {
+  height: 32px;
+  line-height: 30px;
+}
+.s_logo {
+  width: 200px;
+  height: 40px;
+  float: left;
+  display: block;
+  margin-right: 50px;
+  color: #ef6500;
+  /* background: url("https://s1.ljcdn.com/matrix_pc/dist/pc/src/resource/img/logo.png?v=1597731258356")
+    no-repeat; */
+}
+.search_input {
+  border: 1px solid #cccccc;
+  border-right-width: 0;
+  width: 300px;
+  float: left;
+  height: 30px;
+  padding: 0 10px;
+}
+.search_btm {
+  height: 30px;
+  background: #ef6500;
+  color: white;
+  font-family: 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', Tahoma, Arial, simhei, Helvetica,
+    sans-serif;
+  padding: 0 10px;
+  display: inline-block;
+}
+.search_opt {
+  margin-left: 15px;
+  display: inline-block;
+}
+.search_opt li {
+  display: inline-block;
+}
+.search_opt li a {
+  font-weight: 700;
+  margin-right: 10px;
+}
+.search_opt li:first-child {
+  font-weight: 700;
+}
+.realase {
+  float: right;
+  height: 32px;
+  background: #ef6500;
+  color: white;
+  font: 700 14px/32px Arial, Verdana, 'SimSun', '宋体';
+  padding: 0 10px;
+}
+.realase:hover {
+  cursor: pointer;
+}
+.opt_filter {
+  position: relative;
+  width: 1190px;
+  margin: 0 auto;
+}
+.filter_con {
+  width: 1190px;
+  margin: 20px auto;
+  height: 220px;
+  border: 1px solid #e6e6e6;
+  box-sizing: border-box;
+}
+.con_header {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #e6e6e6;
+  padding-left: 15px;
+}
+.area {
+  display: inline-block;
+  background: url('../../assets/images/area.png') no-repeat;
+  background-position: left 10px;
+  background-size: 18px;
+}
+.con_header a {
+  font-weight: 700;
+  margin-left: 25px;
+}
+.position {
+  display: inline-block;
+}
+.subway {
+  display: inline-block;
+  background: url('../../assets/images/map.png') no-repeat;
+  background-position: left 10px;
+  background-size: 18px;
+  margin-left: 10px;
+}
+.select::after,
+.select::before {
+  border: 8px solid transparent;
+  border-bottom: 8px solid rgba(250, 250, 250, 1);
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 5px;
+  content: ' ';
+  top: 13px;
+}
+.select::before {
+  border-bottom-color: #e6e6e6;
+  top: 12px;
+}
+.con_option {
+  position: relative;
+}
+.select_all {
+  background: rgba(250, 250, 250, 1);
+}
+.select_ul {
+  padding-left: 56px;
+}
+.select_all ul li {
+  display: inline-block;
+  margin-right: 15px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: bold;
+}
+.options {
+  height: 30px;
+  line-height: 30px;
+}
+.top {
+  margin-top: 10px;
+}
+.options ul {
+  padding-left: 15px;
+}
+.otption_ul li {
+  display: inline-block;
+  margin-right: 15px;
+}
+.otption_ul li:first-child {
+  margin-right: 0px;
+}
+.otption_ul li a {
+  position: relative;
+  font-weight: 700;
+}
+.rent_search {
+  border: 1px solid #cccccc;
+  width: 50px;
+  height: 20px;
+  padding: 0 10px;
+}
+.show_result {
+  width: 1190px;
+  margin: 0 auto;
+  font-weight: bold;
+}
+.show_result span {
+  font-size: 16px;
+  color: #ef6500;
+  vertical-align: middle;
+}
+.list_check {
+  width: 1190px;
+  margin: 20px auto;
+  font-weight: bold;
+  border-bottom: 2px solid #ef6500;
+}
+.list_check ul li {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px;
+}
+.list_check a {
+  color: black;
+}
+.checked {
+  background: #ef6500;
+}
+.checked a {
+  color: white;
+}
+.con {
+  width: 1190px;
+  margin: 0 auto;
+}
+.con .house_list {
+  width: 800px;
+  float: left;
+}
+.house_list_item {
+  width: 800px;
+  display: flex;
+  margin-bottom: 20px;
+}
+.mid_dec {
+  width: 400px;
+  margin-left: 15px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.mid_dec h2 {
+  font-size: 24px;
+  color: black;
+}
+.mid_dec p {
+  margin-top: 10px;
+}
+.mid_dec button {
+  padding: 5px 10px;
+  background: #efefef;
+  margin-right: 5px;
+}
+.price {
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #ef6500;
+}
+.pagination {
+  width: 300px;
+  margin: 0 auto;
+  ul li {
+    background: #ef6500;
+    display: inline-block;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 10px;
+    height: 10px;
+    width: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+}
+.con .house_recommend {
+  width: 390px;
+  float: left;
+}
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: block;
+  height: 0;
+}
+.wycz {
+  height: 180px;
+  width: 320px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+.cz_banner {
+  height: 140px;
+  background: url('../../assets/images/searchhouse.png') repeat center center;
+}
+.wycz_btn {
+  height: 50px;
+  background: #ef6500;
+  color: white;
+  font: 700 20px/50px Arial, Verdana, 'SimSun', '宋体';
+  text-align: center;
+}
+.wycz:hover {
+  box-shadow: 0px 0px 10px #000;
+  cursor: pointer;
+}
+.rmfy {
+  width: 320px;
+  margin: auto;
+  color: black;
+}
+.rmfy h2 {
+  margin-bottom: 20px;
+}
+.hot_house_item {
+  width: 320px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.hot_house_item .item_out {
+  border: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100px;
+}
+
+.hot_house_item p:last-child {
+  color: #ef6500;
+}
+.footer {
+  margin-top: 20px;
+  width: 100%;
+  border-top: 1px solid #dddddd;
+  text-align: center;
+}

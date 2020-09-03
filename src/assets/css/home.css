@@ -1,0 +1,123 @@
+
+.header-l {
+  display: inline-block;
+}
+.header-w h3 {
+  display: inline;
+  font-size: 12px;
+  color: #ff552e;
+  line-height: 35px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+.header-w h3:hover {
+  cursor: pointer;
+}
+.weather {
+  display: inline-block;
+}
+.wyzf {
+  float: right;
+  padding-left: 30px;
+  background: url('../images/bulb2.png') no-repeat left center;
+  background-size: 25px;
+}
+.wyzf h3 {
+  color: #ff552e;
+  margin-right: 0px;
+}
+.banner {
+  width: 100%;
+  height: 500px;
+  background: url('../images/rentbanner.png') no-repeat center center;
+  margin-bottom: 40px;
+}
+
+.break {
+  display: block;
+  width: 100%;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+.introduce {
+  width: 1190px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.introduce h1 {
+  font-size: 32px;
+  line-height: 48px;
+  width: 200px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.in-con p {
+  width: 960px;
+  font-size: 16px;
+  line-height: 30px;
+  margin-bottom: 40px;
+
+}
+.feature {
+  width: 1190px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+h1 {
+  font-size: 32px;
+  line-height: 48px;
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.pro-list-item {
+  float: left;
+}
+.pro-list-item :hover {
+  cursor: pointer;
+}
+.pro-list {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+.pro-item-dec {
+  width: 378px;
+  height: 150px;
+  border: 1px solid #cccccc;
+  border-top-style: none;
+}
+.pro-list-item p {
+  padding: 10px;
+  text-indent: 2em;
+  line-height: 22px;
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+.architecture {
+  width: 1190px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+.architecture img {
+  width: 1000px;
+  height: 600px;
+  margin: auto;
+  display: block;
+}
+.footer {
+  margin-top: 20px;
+  width: 100%;
+  border-top: 1px solid #dddddd;
+  text-align: center;
+}

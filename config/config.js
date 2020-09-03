@@ -36,17 +36,17 @@ export default defineConfig({
      component: './Portal/Rent'
     },
     {
-      path: '/user',
+      path: '/client',
       component: '../layouts/UserLayout',
       routes: [
         {
           name: 'login',
-          path: '/user/login',
+          path: '/client/logining',
           component: './user/login',
         },
         {
           name: 'register',
-          pathL: '/user/register',
+          pathL: '/client/register',
           component: './user/register'
         }
       ],

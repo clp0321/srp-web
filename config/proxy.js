@@ -14,6 +14,10 @@ export default {
         '^': '',
       },
     },
+    '/user': {
+      target: 'http://219.223.193.108:8989',
+      changeOrigin: true,
+    }
   },
   test: {
     '/api/': {

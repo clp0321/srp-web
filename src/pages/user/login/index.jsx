@@ -1,4 +1,4 @@
-import { Alert, Checkbox } from 'antd';
+import { Alert, Checkbox, Button } from 'antd';
 import React, { useState } from 'react';
 import { Link, connect } from 'umi';
 import FormWraper from '@/components/FormWraper';
@@ -19,26 +19,25 @@ const LoginMessage = ({ content }) => (
 
 const Login = (props) => {
   const { userLogin = {}, submitting } = props;
-  const { status, type: loginType } = userLogin;
+  const { status } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState('account');
 
   const handleSubmit = (values) => {
     const { dispatch } = props;
+    const { userName, password } = values;
     dispatch({
       type: 'login/login',
-      payload: { ...values, type },
+      payload: { userName, password },
     });
   };
 
+
   return (
     <div className={styles.main}>
-      <FormWraper activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        {status === 'error' && loginType === 'username' && !submitting && (
-          <LoginMessage content="验证码错误" />
-        )}
+      <FormWraper onSubmit={handleSubmit}>
+        {status === 'error' && !submitting && <LoginMessage content="登陆失败" />}
         <UserName
-          name="username"
+          name="userName"
           placeholder="用户名"
           rules={[
             {
@@ -70,12 +69,14 @@ const Login = (props) => {
             },
           ]}
         />
-        <Submit type="primary" htmlType="submit" loading={submitting}>登录</Submit>
+        <Submit type="primary" htmlType="submit" loading={submitting}>
+          登录
+        </Submit>
         <div className={styles.other}>
-        <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
+          <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
             自动登录
           </Checkbox>
-          <Link className={styles.register} to="/user/register">
+          <Link className={styles.register} to="/client/register">
             注册账户
           </Link>
         </div>

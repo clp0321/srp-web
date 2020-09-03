@@ -86,7 +86,7 @@ const Register = (props) => {
         <Submit loading={submitting} type="primary">
           注册
         </Submit>
-        <Submit onClick={() => history.push('/user/login')}>前往登陆</Submit>
+        <Submit onClick={() => history.push('/client/logining')}>前往登陆</Submit>
       </FormWraper>
     </div>
   );

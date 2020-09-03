@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Form, message } from 'antd';
+import { Button, Col, Input, Row, Form, message, Select } from 'antd';
 import React, { useState, useCallback, useEffect } from 'react';
 import omit from 'omit.js';
 import { getFakeCaptcha } from '@/services/login';
@@ -7,6 +7,7 @@ import LoginContext from './LoginContext';
 import styles from './index.less';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
   const options = {
@@ -24,7 +25,7 @@ const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules })
   return options;
 };
 
-const LoginItem = props => {
+const LoginItem = (props) => {
   const [count, setCount] = useState(props.countDown || 0);
   const [timing, setTiming] = useState(false); // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
 
@@ -41,7 +42,7 @@ const LoginItem = props => {
     tabUtil,
     ...restProps
   } = props;
-  const onGetCaptcha = useCallback(async mobile => {
+  const onGetCaptcha = useCallback(async (mobile) => {
     const result = await getFakeCaptcha(mobile);
 
     if (result === false) {
@@ -57,7 +58,7 @@ const LoginItem = props => {
 
     if (timing) {
       interval = window.setInterval(() => {
-        setCount(preSecond => {
+        setCount((preSecond) => {
           if (preSecond <= 1) {
             setTiming(false);
             clearInterval(interval); // 重置秒数
@@ -110,6 +111,19 @@ const LoginItem = props => {
     );
   }
 
+  if (type === 'Select') {
+    return (
+    <FormItem name={name} {...options}>
+      <Select {...customProps} {...otherProps}>
+        <Option value={0}>房东</Option>
+        <Option value={1}>租客</Option>
+        <Option value={2}>代理服务商</Option>
+        <Option value={3}>监管用户</Option>
+      </Select>
+    </FormItem>
+    )
+  }
+
   return (
     <FormItem name={name} {...options}>
       <Input {...customProps} {...otherProps} />
@@ -118,12 +132,12 @@ const LoginItem = props => {
 };
 
 const LoginItems = {};
-Object.keys(ItemMap).forEach(key => {
+Object.keys(ItemMap).forEach((key) => {
   const item = ItemMap[key];
 
-  LoginItems[key] = props => (
+  LoginItems[key] = (props) => (
     <LoginContext.Consumer>
-      {context => (
+      {(context) => (
         <LoginItem
           customProps={item.props}
           rules={item.rules}

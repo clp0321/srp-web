@@ -28,9 +28,9 @@ class Rent extends Component {
             </div>
             <div className={style.header_r}>
               <div className={style.h_r_link}>
-                <a href="#">登陆</a>
+                <Link to="/user/login">登陆</Link>
                 <span className={style.gap}>|</span>
-                <a href="#">注册</a>
+                <Link to="/">注册</Link>
               </div>
             </div>
             <i className={style.h_r_icon}></i>

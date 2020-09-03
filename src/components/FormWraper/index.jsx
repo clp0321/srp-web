@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import LoginContext from './LoginContext';
 import LoginItem from './LoginItem';
 import LoginSubmit from './LoginSubmit';
-import LoginTab from './LoginTab';
 import styles from './index.less';
 
 const Login = props => {
@@ -16,19 +15,7 @@ const Login = props => {
     value: props.activeKey,
     onChange: props.onTabChange,
   });
-  const TabChildren = [];
-  const otherChildren = [];
-  React.Children.forEach(props.children, child => {
-    if (!child) {
-      return;
-    }
 
-    if (child.type.typeName === 'LoginTab') {
-      TabChildren.push(child);
-    } else {
-      otherChildren.push(child);
-    }
-  });
   return (
     <LoginContext.Provider
       value={{
@@ -62,34 +49,17 @@ const Login = props => {
             }
           }}
         >
-          {tabs.length ? (
-            <React.Fragment>
-              <Tabs
-                destroyInactiveTabPane
-                animated={false}
-                className={styles.tabs}
-                activeKey={type}
-                onChange={activeKey => {
-                  setType(activeKey);
-                }}
-              >
-                {TabChildren}
-              </Tabs>
-              {otherChildren}
-            </React.Fragment>
-          ) : (
-            props.children
-          )}
+          {props.children}
         </Form>
       </div>
     </LoginContext.Provider>
   );
 };
 
-Login.Tab = LoginTab;
 Login.Submit = LoginSubmit;
 Login.UserName = LoginItem.UserName;
 Login.Password = LoginItem.Password;
 Login.Mobile = LoginItem.Mobile;
 Login.Captcha = LoginItem.Captcha;
+Login.Select = LoginItem.Select;
 export default Login;

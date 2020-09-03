@@ -1,12 +1,13 @@
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
-import { Link, connect } from 'umi';
+import { Link, connect, history } from 'umi';
 import FormWraper from '@/components/FormWraper';
 import styles from './style.less';
 
-const { UserName, Password, Mobile, Captcha, Submit } = FormWraper;
+const { UserName, Password, Mobile, Select, Submit } = FormWraper;
 
-const LoginMessage = ({ content }) => (
+// 错误提示信息
+const RegisterMessage = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
@@ -17,12 +18,13 @@ const LoginMessage = ({ content }) => (
   />
 );
 
-const Login = (props) => {
+const Register = (props) => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState('account');
 
+  // 注册用户
   const handleSubmit = (values) => {
     const { dispatch } = props;
     dispatch({
@@ -35,7 +37,7 @@ const Login = (props) => {
     <div className={styles.main}>
       <FormWraper activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         {status === 'error' && loginType === 'username' && !submitting && (
-          <LoginMessage content="验证码错误" />
+          <RegisterMessage content="验证码错误" />
         )}
         <UserName
           name="username"
@@ -57,28 +59,34 @@ const Login = (props) => {
             },
           ]}
         />
-        <Captcha
-          name="captcha"
-          placeholder="验证码"
-          countDown={120}
-          getCaptchaButtonText=""
-          getCaptchaSecondText="秒"
+        <Mobile
+          name="phone"
+          placeholder="手机号"
           rules={[
             {
               required: true,
-              message: '请输入验证码！',
+              message: '请输手机号码！',
+            },
+            {
+              pattern: /^1\d{10}$/,
+              message: '请输入正确的手机号！',
             },
           ]}
         />
-        <Submit type="primary" htmlType="submit" loading={submitting}>登录</Submit>
-        <div className={styles.other}>
-        <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
-            自动登录
-          </Checkbox>
-          <Link className={styles.register} to="/user/register">
-            注册账户
-          </Link>
-        </div>
+        <Select
+          name="role"
+          placeholder="用户角色"
+          rules={[
+            {
+              required: true,
+              message: '请选择用户角色',
+            },
+          ]}
+        />
+        <Submit loading={submitting} type="primary">
+          注册
+        </Submit>
+        <Submit onClick={() => history.push('/user/login')}>前往登陆</Submit>
       </FormWraper>
     </div>
   );
@@ -87,4 +95,4 @@ const Login = (props) => {
 export default connect(({ login, loading }) => ({
   userLogin: login,
   submitting: loading.effects['login/login'],
-}))(Login);
+}))(Register);

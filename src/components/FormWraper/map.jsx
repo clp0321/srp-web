@@ -69,4 +69,16 @@ export default {
       },
     ],
   },
+  Select: {
+    props: {
+      size: 'large',
+      placeholder: 'select',
+    },
+    rules: [
+      {
+        required: true,
+        message: 'Please Select',
+      },
+    ],
+  },
 };

@@ -5,11 +5,11 @@ import styles from './index.less';
 
 const FormItem = Form.Item;
 
-const LoginSubmit = ({ className, ...rest }) => {
+const LoginSubmit = ({ className, type, htmlType = "", ...rest }) => {
   const clsString = classNames(styles.submit, className);
   return (
     <FormItem>
-      <Button size="large" className={clsString} type="primary" htmlType="submit" {...rest} />
+      <Button size="large" className={clsString} type={type} {...rest} />
     </FormItem>
   );
 };

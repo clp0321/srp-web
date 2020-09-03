@@ -44,6 +44,11 @@ export default defineConfig({
           path: '/user/login',
           component: './user/login',
         },
+        {
+          name: 'register',
+          pathL: '/user/register',
+          component: './user/register'
+        }
       ],
     },
     {

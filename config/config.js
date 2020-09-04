@@ -120,7 +120,7 @@ export default defineConfig({
             {
               name: 'user.manage',
               icon: 'user',
-              path: '/user-manage',
+              path: '/manage',
               component: './UserManage'
             },
             {

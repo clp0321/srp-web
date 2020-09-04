@@ -6,6 +6,8 @@ const { Step } = Steps;
 const { TextArea } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
+
+// form 样式
 const formLayout = {
   labelCol: {
     span: 7,
@@ -39,6 +41,7 @@ const UpdateForm = props => {
 
   const backward = () => setCurrentStep(currentStep - 1);
 
+  // 下一步
   const handleNext = async () => {
     const fieldsValue = await form.validateFields();
     setFormVals({ ...formVals, ...fieldsValue });
@@ -50,6 +53,7 @@ const UpdateForm = props => {
     }
   };
 
+  // 内容渲染
   const renderContent = () => {
     if (currentStep === 1) {
       return (
@@ -151,6 +155,7 @@ const UpdateForm = props => {
     );
   };
 
+  // 页面底端渲染
   const renderFooter = () => {
     if (currentStep === 1) {
       return (

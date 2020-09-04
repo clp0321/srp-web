@@ -13,7 +13,6 @@ import { queryRule, updateRule, addRule, removeRule } from './service';
 
 const handleAdd = async fields => {
   const hide = message.loading('正在添加');
-
   try {
     await addRule({ ...fields });
     hide();
@@ -32,7 +31,6 @@ const handleAdd = async fields => {
 
 const handleUpdate = async fields => {
   const hide = message.loading('正在配置');
-
   try {
     await updateRule({
       name: fields.name,

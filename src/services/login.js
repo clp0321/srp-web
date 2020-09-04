@@ -16,15 +16,15 @@ export async function userLogin(data) {
   return request('/user/login', {
     method: 'POST',
     data,
-    requestType: 'form'
+    requestType: 'form',
   });
 }
 
 // 用户注册
-export async function userRegister(data) {
+export async function userAdd(data) {
   return request('/user/register', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     data: JSON.stringify(data),
   });
 }
@@ -33,7 +33,7 @@ export async function userRegister(data) {
 export async function deleteUser(params) {
   return request('/user/deleteUser', {
     method: 'DELETE',
-    params,
+    data: params,
   });
 }
 
@@ -41,11 +41,14 @@ export async function deleteUser(params) {
 export async function updateUser(params) {
   return request('/user/updateUser', {
     method: 'PUT',
-    params,
+    headers: { 'Content-Type': 'application/json' },
+    data: JSON.stringify(data),
   });
 }
 
 // 获取用户所有信息
 export async function getAllUser() {
-  return request('/user/getAllUser');
+  const resp = await request('/user/getAllUser');
+  console.log(resp);
+  return resp;
 }

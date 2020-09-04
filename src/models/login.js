@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { userLogin, userRegister } from '@/services/login';
+import { userLogin, userAdd } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
@@ -48,7 +48,7 @@ const Model = {
     },
     // 用户注册
     *register({ payload }, { call, put }) {
-      const response = yield call(userRegister, payload);
+      const response = yield call(userAdd, payload);
       console.log(response)
     },
 

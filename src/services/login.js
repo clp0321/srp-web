@@ -24,7 +24,8 @@ export async function userLogin(data) {
 export async function userRegister(data) {
   return request('/user/register', {
     method: 'POST',
-    data,
+    headers: {'Content-Type': 'application/json'},
+    data: JSON.stringify(data),
   });
 }
 

@@ -35,14 +35,21 @@
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": ["prettier --write"]
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-layout": "^6.4.1",
     "@ant-design/pro-table": "^2.5.3",
     "antd": "^4.5.3",
+    "axios": "^0.20.0",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
@@ -90,7 +97,9 @@
     "puppeteer-core": "^5.0.0",
     "stylelint": "^13.0.0"
   },
-  "engines": { "node": ">=10.0.0" },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "checkFiles": [
     "src/**/*.js*",
     "src/**/*.ts*",

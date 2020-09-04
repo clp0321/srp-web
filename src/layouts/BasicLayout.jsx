@@ -78,7 +78,7 @@ const BasicLayout = (props) => {
     <ProLayout
       menuHeaderRender={() => (
         <div>
-          <img src={logo} />
+          <img src={logo} height="60%" width="auto" />
           <span
             style={{
               color: 'white',

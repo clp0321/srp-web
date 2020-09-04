@@ -82,12 +82,14 @@ const TableList = () => {
       title: '规则名称',
       dataIndex: 'name',
       tip: '规则名称是唯一的 key',
-      rules: [
-        {
-          required: true,
-          message: '规则名称为必填项',
-        },
-      ],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '规则名称为必填项',
+          },
+        ],
+      }
     },
     {
       title: '描述',

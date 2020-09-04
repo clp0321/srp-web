@@ -1,9 +1,11 @@
 import { Modal } from 'antd';
-const CreateForm = props => {
-    
+import style from './style.less';
+
+const CreateForm = (props) => {
   const { title, modalVisible, onCancel } = props;
   return (
     <Modal
+      className={style.modal}
       title={title}
       destroyOnClose
       onCancel={() => onCancel()}
@@ -12,7 +14,7 @@ const CreateForm = props => {
     >
       {props.children}
     </Modal>
-  )
+  );
 };
 
 export default CreateForm;

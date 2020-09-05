@@ -1,7 +1,8 @@
-import { Alert, Checkbox } from 'antd';
+import { Alert, Checkbox, message, Form } from 'antd';
 import React, { useState } from 'react';
 import { Link, connect, history } from 'umi';
 import FormWraper from '@/components/FormWraper';
+import { findSomeOne } from '@/services/login';
 import styles from './style.less';
 
 const { UserName, Password, Mobile, Select, Submit } = FormWraper;
@@ -19,28 +20,62 @@ const RegisterMessage = ({ content }) => (
 );
 
 const Register = (props) => {
+  const [form] = Form.useForm();
+  const [userError, setError] = useState('');
+  const [help, setHelp] = useState(null);
+  const [initialValue] = useState({
+    userName:'',
+    password: '',
+    rePassword: '',
+    phone: '',
+    role: '选择用户角色'
+  })
   const { userRegister = {}, submitting } = props;
   const { registerStatus, type: loginType } = userRegister;
+  
 
   // 注册用户
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, form) => {
     const { dispatch } = props;
     const { userName, password, phone, role } = values;
     dispatch({
       type: 'login/register',
-      payload: { userName, password, phone, role }
-    })
+      payload: { userName, password, phone, role },
+    }).then((res) => {
+      if (res) {
+        message.success('注册成功');
+        console.log(form)
+        form.resetFields();
+      } else {
+        message.error('注册失败');
+      }
+    });
   };
+
+  const handleOnblur = async (e) => {
+    const resp = await findSomeOne(e.target.value);
+    if (resp && resp.data) {
+      setError('error');
+      setHelp('用户名已存在')
+    } else {
+      setError('');
+      setHelp(null)
+    }
+  };
+
 
   return (
     <div className={styles.main}>
-      <FormWraper onSubmit={handleSubmit}>
+      <FormWraper onSubmit={handleSubmit} initialValue={initialValue} form={form}>
         {registerStatus === 'error' && loginType === 'username' && !submitting && (
           <RegisterMessage content="注册失败" />
         )}
         <UserName
           name="userName"
           placeholder="用户名"
+          onBlur={handleOnblur}
+          status={userError}
+          help={help}
           rules={[
             {
               required: true,
@@ -64,7 +99,7 @@ const Register = (props) => {
           rules={[
             {
               required: true,
-              message: '请输入确认密码！'
+              message: '请输入确认密码！',
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -72,8 +107,8 @@ const Register = (props) => {
                   return Promise.resolve();
                 }
                 return Promise.reject('两次输入密码不一致！');
-              }
-            })
+              },
+            }),
           ]}
         />
         <Mobile

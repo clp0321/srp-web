@@ -15,12 +15,12 @@ const Model = {
     *login({ payload }, { call, put }) {
       const response = yield call(userLogin, payload);
       const { data } = response;
-      console.log(data)
+      console.log(data);
       if (data) {
         yield put({
           type: 'changeLoginStatus',
-          payload: {currentAuthority: data.userName, status: 'ok'}
-        })
+          payload: { currentAuthority: data.userName, status: 'ok' },
+        });
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -42,14 +42,23 @@ const Model = {
       } else {
         yield put({
           type: 'changeLoginStatus',
-          payload: { currentAuthority: 'guest', status: 'error' }
-        })
+          payload: { currentAuthority: 'guest', status: 'error' },
+        });
       }
     },
     // 用户注册
     *register({ payload }, { call, put }) {
       const response = yield call(userAdd, payload);
       console.log(response)
+      if (response && response.msg === 'SUCCESS') {
+        yield put({
+          type: 'changeRegisterStatus',
+          payload: { registerStatus: true },
+        });
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // 退出
@@ -71,8 +80,8 @@ const Model = {
       return { ...state, status: payload.status };
     },
     changeRegisterStatus(state, { payload }) {
-      return { ...state, registerStatus: payload.status }
-    }
+      return { ...state, registerStatus: payload.registerStatus };
+    },
   },
 };
 export default Model;

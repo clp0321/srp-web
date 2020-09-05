@@ -11,7 +11,7 @@ const { Option } = Select;
 const FormItem = Form.Item;
 
 const Selects = ({ name, initialValue }) => (
-  <FormItem name={name} className={style.select} initialValue={initialValue}>
+  <FormItem name={name} initialValue={initialValue}>
     <Select placeholder="请选择用户角色">
       <Option value={0}>房东</Option>
       <Option value={1}>租客</Option>
@@ -43,7 +43,7 @@ const handleUpdate = async (field) => {
 };
 
 // 删除用户
-const handleDelete = async selectedRows => {
+const handleDelete = async (selectedRows) => {
   hide('正在刪除');
   if (!selectedRows) return true;
   const resp = await deleteUser(selectedRows);
@@ -61,8 +61,8 @@ const UserManage = () => {
     status: '',
     phone: '',
     address: '',
-    userHash: ''
-  })
+    userHash: '',
+  });
   const actionRef = useRef();
   const columns = [
     {
@@ -76,7 +76,7 @@ const UserManage = () => {
             message: '用户名为必填项',
           },
         ],
-        initialValue: updateVals.userName
+        initialValue: updateVals.userName,
       },
     },
     {
@@ -90,7 +90,7 @@ const UserManage = () => {
             message: '用户姓名为必填项',
           },
         ],
-        initialValue: updateVals.addressName
+        initialValue: updateVals.addressName,
       },
     },
     {
@@ -110,13 +110,21 @@ const UserManage = () => {
         const { role } = record;
         let returnText;
         switch (role) {
-          case 0: returnText = '房东';break;
-          case 1: returnText = '租客';break;
-          case 2: returnText = '代理服务商';break;
-          case 3: returnText = '监管用户';break;
+          case 0:
+            returnText = '房东';
+            break;
+          case 1:
+            returnText = '租客';
+            break;
+          case 2:
+            returnText = '代理服务商';
+            break;
+          case 3:
+            returnText = '监管用户';
+            break;
         }
         return returnText;
-      }
+      },
     },
     {
       title: '身份证号',
@@ -128,8 +136,16 @@ const UserManage = () => {
             required: true,
             message: '身份证号为必填项',
           },
+          {
+            pattern: /^(\d{18,18}|\d{15,15}|\d{17,17}X)$/,
+            message: '身份证信息不正确'
+          },
+          {
+            pattern: /^1\d{10}$/,
+            message: '手机号输入不正确',
+          },
         ],
-        initialValue: updateVals.certId
+        initialValue: updateVals.certId,
       },
     },
     {
@@ -148,7 +164,7 @@ const UserManage = () => {
             message: '电话为必填项',
           },
         ],
-        initialValue: updateVals.phone
+        initialValue: updateVals.phone,
       },
     },
     {
@@ -162,7 +178,7 @@ const UserManage = () => {
             message: '地址为必填项',
           },
         ],
-        initialValue: updateVals.address
+        initialValue: updateVals.address,
       },
     },
     {
@@ -179,7 +195,7 @@ const UserManage = () => {
           <a
             onClick={() => {
               setUpdateValues(record);
-              handleModalVisible(true)
+              handleModalVisible(true);
             }}
           >
             更新
@@ -212,10 +228,13 @@ const UserManage = () => {
         rowKey="userName"
         request={(params, sorter, filter) => getAllUser({ ...params, sorter, filter })}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => {
-            setUpdateValues({})
-            handleModalVisible(true)
-          }}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setUpdateValues({});
+              handleModalVisible(true);
+            }}
+          >
             <PlusOutlined /> 新增用户
           </Button>,
         ]}
@@ -257,6 +276,7 @@ const UserManage = () => {
         modalVisible={createModalVisible}
       >
         <Protable
+          className={style.select}
           type="form"
           rowKey="userName"
           columns={columns}

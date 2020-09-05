@@ -15,7 +15,7 @@ export default {
       },
     },
     '/user': {
-      target: 'http://219.223.194.24:8989',
+      target: 'http://10.113.8.184:8080',
       changeOrigin: true,
     }
   },

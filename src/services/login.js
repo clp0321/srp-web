@@ -48,7 +48,16 @@ export async function updateUser(params) {
 
 // 获取用户所有信息
 export async function getAllUser() {
-  const resp = await request('/user/getAllUser');
-  console.log(resp);
-  return resp;
+  return request('/user/getAllUser');
+}
+
+// 查询用户是否存在
+export async function findSomeOne(param) {
+  return request(`/user/findUserName`, {
+    method: 'POST',
+    params: {
+      userName: param
+    }
+  });
+
 }

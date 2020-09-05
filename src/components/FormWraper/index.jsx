@@ -7,27 +7,27 @@ import LoginItem from './LoginItem';
 import LoginSubmit from './LoginSubmit';
 import styles from './index.less';
 
-const Login = props => {
-  const { className } = props;
+const Login = (props) => {
+  const { className, initialValue } = props;
   const [tabs, setTabs] = useState([]);
   const [active, setActive] = useState({});
   const [type, setType] = useMergeValue('', {
     value: props.activeKey,
     onChange: props.onTabChange,
   });
-  
+
   return (
     <LoginContext.Provider
       value={{
         tabUtil: {
-          addTab: id => {
+          addTab: (id) => {
             setTabs([...tabs, id]);
           },
-          removeTab: id => {
-            setTabs(tabs.filter(currentId => currentId !== id));
+          removeTab: (id) => {
+            setTabs(tabs.filter((currentId) => currentId !== id));
           },
         },
-        updateActive: activeItem => {
+        updateActive: (activeItem) => {
           if (!active) return;
 
           if (active[type]) {
@@ -42,10 +42,11 @@ const Login = props => {
     >
       <div className={classNames(className, styles.login)}>
         <Form
-          form={props.from}
-          onFinish={values => {
+          initialValues={initialValue}
+          form={props.form}
+          onFinish={(values) => {
             if (props.onSubmit) {
-              props.onSubmit(values);
+              props.onSubmit(values, props.form);
             }
           }}
         >

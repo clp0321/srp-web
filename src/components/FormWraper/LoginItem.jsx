@@ -9,7 +9,7 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
+const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules, status = "", help = null }) => {
   const options = {
     rules: rules || customProps.rules,
   };
@@ -20,6 +20,14 @@ const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules })
 
   if (defaultValue) {
     options.initialValue = defaultValue;
+  }
+
+  if (status) {
+    options.validateStatus = status;
+  }
+
+  if (help) {
+    options.help = help;
   }
 
   return options;
@@ -49,7 +57,7 @@ const LoginItem = (props) => {
       return;
     }
 
-    message.success('获取验证码成功！验证码为：1234');
+    message.info('验证码为：1234');
     setTiming(true);
   }, []);
   useEffect(() => {
@@ -125,7 +133,7 @@ const LoginItem = (props) => {
   }
 
   return (
-    <FormItem name={name} {...options}>
+    <FormItem name={name} {...options} >
       <Input {...customProps} {...otherProps} />
     </FormItem>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Select, Divider, Popconfirm, message, Form } from 'antd';
+import { Button, Select, Divider, Popconfirm, message, Form, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import Protable from '@ant-design/pro-table';
@@ -21,17 +21,19 @@ const Selects = ({ name, initialValue }) => (
   </FormItem>
 );
 
-const hide = (msg) => {
-  return message.loading(msg);
-};
+// const hide = (msg) => {
+//   return message.loading(msg);
+// };
 
 // 新增用户
 const handleAdd = async (field) => {
-  hide('正在添加');
+  const hide = message.loading('正在添加');
   try {
-    const resp = await userAdd({ ...field });
-    console.log(resp);
+    const status = await userAdd({ ...field });
+    hide();
+    return status;
   } catch (err) {
+    hide();
     message.error('添加失败请重试');
     return false;
   }
@@ -39,32 +41,74 @@ const handleAdd = async (field) => {
 
 // 更新用户
 const handleUpdate = async (field) => {
-  hide('正在更新');
+  const hide = message.loading('正在修改');
+  const updates = await updateUser({ ...field });
+  hide();
+  if (updates.data > 0) {
+    return true;
+  } else {
+    message.error('修改失败，请重试');
+    return false;
+  }
 };
 
 // 删除用户
-const handleDelete = async (selectedRows) => {
-  hide('正在刪除');
-  if (!selectedRows) return true;
-  const resp = await deleteUser(selectedRows);
-  console.log(resp);
+const handleDelete = async (selectedRowsState, record) => {
+  const hide = message.loading('正在删除');
+  if (!record) return true;
+  const resp = await deleteUser(record.id);
+  hide();
+  if (resp.data > 0) {
+    return true;
+  } else {
+    message.error('删除失败，请重试');
+    return false;
+  }
 };
 
 const UserManage = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
+  const [formTitle, setFormTitle] = useState('');
   const [selectedRowsState, setSelectedRows] = useState([]);
   const [updateVals, setUpdateValues] = useState({
+    id: '',
     userName: '',
     addressName: '',
     role: '',
     certId: '',
     status: '',
+    password: '',
     phone: '',
     address: '',
     userHash: '',
   });
   const actionRef = useRef();
   const columns = [
+    {
+      title: 'id',
+      dataIndex: 'id',
+      hideInTable: true,
+      hideInForm: formTitle == '新增用户' ? true : false,
+      formItemProps: {
+        initialValue: updateVals.id,
+        children: <Input disabled />
+      },
+    },
+    {
+      title: '用户姓名',
+      dataIndex: 'addressName',
+      formItemProps: {
+        placeholder: '请输入用户真实姓名',
+        rules: [
+          {
+            required: true,
+            message: '用户姓名为必填项',
+          },
+        ],
+        children: formTitle == '新增用户' ? null : <Input disabled />,
+        initialValue: updateVals.addressName,
+      },
+    },
     {
       title: '用户名',
       dataIndex: 'userName',
@@ -80,18 +124,19 @@ const UserManage = () => {
       },
     },
     {
-      title: '用户姓名',
-      dataIndex: 'addressName',
+      title: '密码',
+      dataIndex: 'password',
       formItemProps: {
-        placeholder: '请输入用户真实姓名',
+        placeholder: '请输入密码',
         rules: [
           {
             required: true,
-            message: '用户姓名为必填项',
+            message: '用户密码为必填项',
           },
         ],
-        initialValue: updateVals.addressName,
+        initialValue: updateVals.password,
       },
+      render: () => <span>****</span>,
     },
     {
       title: '用户角色',
@@ -106,7 +151,6 @@ const UserManage = () => {
         children: <Selects name="role" initialValue={updateVals.role} />,
       },
       render: (text, record) => {
-        console.log('TEXT', text);
         const { role } = record;
         let returnText;
         switch (role) {
@@ -138,13 +182,10 @@ const UserManage = () => {
           },
           {
             pattern: /^(\d{18,18}|\d{15,15}|\d{17,17}X)$/,
-            message: '身份证信息不正确'
-          },
-          {
-            pattern: /^1\d{10}$/,
-            message: '手机号输入不正确',
+            message: '身份证信息不正确',
           },
         ],
+        children: formTitle == '新增用户' ? null : <Input disabled />,
         initialValue: updateVals.certId,
       },
     },
@@ -154,7 +195,7 @@ const UserManage = () => {
       hideInForm: true,
     },
     {
-      title: '电话',
+      title: '手机号',
       dataIndex: 'phone',
       formItemProps: {
         placeholder: '请输入电话',
@@ -162,6 +203,10 @@ const UserManage = () => {
           {
             required: true,
             message: '电话为必填项',
+          },
+          {
+            pattern: /^1\d{10}$/,
+            message: '手机号输入不正确',
           },
         ],
         initialValue: updateVals.phone,
@@ -194,7 +239,10 @@ const UserManage = () => {
         <>
           <a
             onClick={() => {
+              record.password = '****';
+              console.log(record)
               setUpdateValues(record);
+              setFormTitle('更新用户');
               handleModalVisible(true);
             }}
           >
@@ -203,7 +251,13 @@ const UserManage = () => {
           <Divider type="vertical" />
           <Popconfirm
             title="确认删除该用户？"
-            onConfirm={confirm}
+            onConfirm={async () => {
+              const resp = await handleDelete(selectedRowsState, record);
+              if (resp) {
+                message.success('删除成功');
+                actionRef.current?.reloadAndRest();
+              }
+            }}
             onCancel={() => {}}
             okText="确认"
             cancelText="取消"
@@ -214,9 +268,7 @@ const UserManage = () => {
       ),
     },
   ];
-  const confirm = () => {
-    message.success('删除成功');
-  };
+
   return (
     <PageContainer>
       <Protable
@@ -225,13 +277,14 @@ const UserManage = () => {
         actionRef={actionRef}
         columns={columns}
         search={false}
-        rowKey="userName"
+        rowKey="id"
         request={(params, sorter, filter) => getAllUser({ ...params, sorter, filter })}
         toolBarRender={() => [
           <Button
             type="primary"
             onClick={() => {
               setUpdateValues({});
+              setFormTitle('新增用户');
               handleModalVisible(true);
             }}
           >
@@ -271,18 +324,28 @@ const UserManage = () => {
         </FooterToolbar>
       )}
       <CreateForm
-        title="新增用户"
+        title={formTitle}
         onCancel={() => handleModalVisible(false)}
         modalVisible={createModalVisible}
       >
         <Protable
           className={style.select}
           type="form"
-          rowKey="userName"
+          rowKey="id"
           columns={columns}
-          rowKey="createForm"
           onSubmit={async (value) => {
-            await handleAdd(value);
+            let status;
+            if (formTitle === '更新用户') {
+              status = await handleUpdate(value);
+            } else {
+              status = await handleAdd(value);
+            }
+            if (status) {
+              handleModalVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }
           }}
         />
       </CreateForm>

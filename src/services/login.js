@@ -30,15 +30,17 @@ export async function userAdd(data) {
 }
 
 // 删除用户
-export async function deleteUser(params) {
+export async function deleteUser(id) {
   return request('/user/deleteUser', {
     method: 'DELETE',
-    data: params,
+    params: {
+      id
+    },
   });
 }
 
 // 修改用户
-export async function updateUser(params) {
+export async function updateUser(data) {
   return request('/user/updateUser', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

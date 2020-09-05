@@ -46,17 +46,7 @@ const BasicLayout = (props) => {
       pathname: '/',
     },
   } = props;
-  /**
-   * constructor
-   */
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
-  }, []);
   /**
    * init variables
    */

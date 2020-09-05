@@ -15,8 +15,12 @@ const Model = {
     *login({ payload }, { call, put }) {
       const response = yield call(userLogin, payload);
       const { data } = response;
-      console.log(data);
       if (data) {
+        // 将返回登入用户信息存入store中
+        yield put({
+          type: 'user/saveCurrentUser',
+          payload: data
+        })
         yield put({
           type: 'changeLoginStatus',
           payload: { currentAuthority: data.userName, status: 'ok' },
@@ -49,7 +53,6 @@ const Model = {
     // 用户注册
     *register({ payload }, { call, put }) {
       const response = yield call(userAdd, payload);
-      console.log(response)
       if (response && response.msg === 'SUCCESS') {
         yield put({
           type: 'changeRegisterStatus',

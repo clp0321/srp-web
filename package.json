@@ -50,6 +50,7 @@
     "@ant-design/pro-table": "^2.5.3",
     "antd": "^4.5.3",
     "axios": "^0.20.0",
+    "bizcharts": "^4.0.14",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",

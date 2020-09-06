@@ -1,0 +1,31 @@
+.contain {
+  .contain_item {
+    min-height: 194px;
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    span {
+      font-weight: bold;
+    }
+    dt,
+    dd {
+      display: inline-block;
+    }
+    dl:nth-child(3) {
+      margin-top: 20px;
+    }
+    dt {
+      width: 60px;
+    }
+    dd {
+      margin-left: 60px;
+    }
+  }
+  :global {
+    .ant-divider-vertical {
+      height: 1.2em;
+      margin: 0 5px;
+      border-left: 3px solid #507bea;
+    }
+  }
+}

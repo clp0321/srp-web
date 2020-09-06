@@ -8,13 +8,13 @@ export default () => (
     <Row gutter={24}>
       <Col span={6}>
         {/* 账户资产 */}
-        <Card hoverable>
+        <Card hoverable bodyStyle={{ minHeight: 240 }}>
           <Accout />
         </Card>
       </Col>
       <Col span={10}>
         {/* 工作审批 */}
-        <Card hoverable>
+        <Card hoverable bodyStyle={{ minHeight: 240 }}>
           <Audit />
         </Card>
       </Col>

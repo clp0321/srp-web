@@ -1,0 +1,35 @@
+.audit {
+  display: flex;
+  :global {
+    .ant-card-body {
+      padding: 24px 0;
+    }
+  }
+  .card_gongdan {
+    width: 50%;
+    margin-right: 24px;
+  }
+  .gondan {
+    display: flex;
+    margin-right: 5px;
+    justify-content: space-around;
+    ul {
+        text-align: center;
+        font-weight: bold;
+        padding-left: 0;
+        height: 70px;
+        border-right: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 0 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    ul:last-child {
+      border-style: none;
+    }
+  }
+  .card_audit {
+    width: 50%;
+  }
+
+}

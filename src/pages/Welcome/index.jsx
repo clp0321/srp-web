@@ -1,26 +1,34 @@
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Row, Col } from 'antd';
-import { TodoList, Accout, Audit, InfoBar } from './component/index';
+import { TodoList, Accout, Audit, InfoBar, ModuleEntry } from './component/index';
 
 export default () => (
   <PageContainer>
     <Row gutter={24}>
-      <Col span={6}>
-        {/* 账户资产 */}
-        <Card hoverable bodyStyle={{ minHeight: 240 }}>
-          <Accout />
-        </Card>
-      </Col>
-      <Col span={10}>
-        {/* 工作审批 */}
-        <Card hoverable bodyStyle={{ minHeight: 240 }}>
-          <Audit />
+      <Col span={16}>
+        <Row gutter={24}>
+          <Col span={9}>
+            {/* 账户资产 */}
+            <Card hoverable bodyStyle={{ height: 245 }}>
+              <Accout />
+            </Card>
+          </Col>
+          <Col span={15}>
+            {/* 工作审批 */}
+            <Card hoverable bodyStyle={{ height: 245 }}>
+              <Audit />
+            </Card>
+          </Col>
+        </Row>
+        {/* 快速导航 */}
+        <Card style={{ marginTop: 24 }} hoverable>
+          <ModuleEntry />
         </Card>
       </Col>
       {/* 信息通知 */}
       <Col span={8}>
-        <Card hoverable>
+        <Card hoverable bodyStyle={{ height: 392 }}>
           <InfoBar />
         </Card>
       </Col>

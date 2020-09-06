@@ -21,7 +21,7 @@ const mockData = [
 const InfoBar = () => {
   return (
     <div className={style.infobar}>
-      <Carousel className={style.carousel}>
+      <Carousel className={style.carousel} autoplay>
         <div className={style.lunbo1} />
         <div className={style.lunbo2} />
         <div className={style.lunbo3} />

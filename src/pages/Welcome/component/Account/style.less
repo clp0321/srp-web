@@ -1,0 +1,42 @@
+.account {
+  position: relative;
+  :global {
+    .ant-statistic {
+      display: inline-block;
+    }
+    .ant-divider-horizontal {
+      margin: 20px 0;
+    }
+  }
+  .guarante {
+    border: 1px solid #3dc983;
+    height: 30px;
+    width: 100px;
+    text-align: center;
+    line-height: 30px;
+    position: absolute;
+    color: #3dc983;
+    top: 0px;
+    right: 0px;
+    top: 10;
+    border-radius: 30px;
+    img {
+      margin-top: -5px;
+    }
+  }
+  .income {
+    margin-top: 20px;
+    :global {
+      .ant-badge:nth-child(2) {
+        margin-left: 40px;
+      }
+    }
+  }
+  p span {
+    vertical-align: middle;
+    margin-left: 10px;
+    .total {
+      font-weight: bold;
+    }
+  }
+}

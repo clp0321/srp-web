@@ -80,9 +80,9 @@ const data = [
 
 const InnerItem = ({ data }) => {
   const { children } = data;
-  const dlList = children.map((item) => {
+  const dlList = children.map((item, index) => {
     return (
-      <dl>
+      <dl key={index}>
         <dt>{item.title}</dt>
         <dd>{item.con}</dd>
       </dl>
@@ -96,8 +96,8 @@ const InnerItem = ({ data }) => {
   );
 };
 
-const Contains = data.map((item) => {
-  return <InnerItem data={item} />;
+const Contains = data.map((item, index) => {
+  return <InnerItem key={index} data={item} />;
 });
 
 const TodoList = () => {

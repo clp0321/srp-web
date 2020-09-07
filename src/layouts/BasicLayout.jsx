@@ -35,7 +35,6 @@ const menuDataRender = (menuList) =>
 
 // 页面底部
 
-
 const BasicLayout = (props) => {
   const {
     dispatch,
@@ -47,9 +46,14 @@ const BasicLayout = (props) => {
     },
   } = props;
 
-  /**
-   * init variables
-   */
+  
+  useEffect(()=> {
+    if (dispatch) {
+      dispatch({
+        type: 'user/fetchCurrent',
+      });
+    }
+  })
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {

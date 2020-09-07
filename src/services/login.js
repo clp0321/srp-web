@@ -61,5 +61,9 @@ export async function findSomeOne(param) {
       userName: param
     }
   });
+}
 
+// 获取登陆用户信息
+export async function getCurrentUser(param) {
+  return request(`/user/${param}`);
 }

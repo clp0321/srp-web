@@ -61,12 +61,12 @@ const Contain = ({ num, title }) => (
   </ul>
 );
 
-const WorkOrderList = workMock.map((item) => {
-  return <Contain num={item.num} title={item.title} />;
+const WorkOrderList = workMock.map((item, index) => {
+  return <Contain key={index} num={item.num} title={item.title} />;
 });
 
-const AuditList = auditMock.map((item) => {
-  return <Contain num={item.num} title={item.title} />;
+const AuditList = auditMock.map((item, index) => {
+  return <Contain key={index} num={item.num} title={item.title} />;
 });
 
 const Audit = () => {

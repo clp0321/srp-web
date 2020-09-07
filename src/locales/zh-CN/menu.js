@@ -56,7 +56,7 @@ export default {
   'menu.property.manage.property.offchain': '链下房源',
 
 
-  'menu.equipment.manage': '设别',
+  'menu.equipment.manage': '设备',
   'menu.order.manage': '订单',
   'menu.contract.manage': '合同',
   'menu.user.manage': '用户',

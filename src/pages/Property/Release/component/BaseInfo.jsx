@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Cascader, Input, Select, Radio, InputNumber } from 'antd';
+import { Form, Cascader, Input, Select, Radio, InputNumber, Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons'
 import style from './style.less';
 
 const { Item } = Form;
@@ -41,6 +42,11 @@ const mockData = [
   },
 ];
 
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 },
+};
+
 const BaseInfo = () => {
   const [struct, setStruct] = useState(0);
   const form = Form.useForm();
@@ -48,10 +54,15 @@ const BaseInfo = () => {
   const handleMethod = (e) => {
     setStruct(e.target.value);
   };
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+
+  const normFile = e => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
+
   return (
     <div className={style.base}>
       <Form {...formItemLayout}>
@@ -124,6 +135,17 @@ const BaseInfo = () => {
             <Option value={4}>四室以上</Option>
           </Select>
         </Item>
+        <Item label="上传图片">
+        <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+          <Upload.Dragger name="files" action="/upload.do">
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">点击或拖拽图片至此处上传</p>
+            <p className="ant-upload-hint">支持单文件或多文件上传</p>
+          </Upload.Dragger>
+        </Form.Item>
+      </Item>
       </Form>
     </div>
   );

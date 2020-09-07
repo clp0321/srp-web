@@ -67,6 +67,18 @@ const Configure = () => {
           <InputNumber  placeholder="请输入租金" />
         </Item>
         <Item
+          name="设备ID"
+          label="设备"
+          rules={[
+            {
+              required: true,
+              message: '请输入设备ID',
+            },
+          ]}
+        >
+          <Input  placeholder="请输入设备ID" />
+        </Item>
+        <Item
           name="phone"
           label="联系方式"
           rules={[

@@ -98,6 +98,10 @@ export default defineConfig({
               path: '/property',
               routes: [
                 {
+                  path: '/property',
+                  redirect: '/property/release',
+                },
+                {
                   path: '/property/release',
                   name: 'property.release',
                   icon: 'smile',

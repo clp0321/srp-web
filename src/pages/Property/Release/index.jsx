@@ -18,7 +18,7 @@ const steps = [
     content: <Configurate />,
   },
   {
-    title: '房源生成模板',
+    title: '信息完成',
     content: <Template />,
   },
 ];
@@ -55,14 +55,9 @@ class Release extends Component {
           </Steps>
           <div className={style.content}>{steps[current].content}</div>
           <div className={style.action}>
-            {current > 0 && (
+            {current > 0 && current < steps.length - 1 && (
               <Button style={{ margin: '0 8px' }} onClick={() => this.prev()}>
                 上一步
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                完成
               </Button>
             )}
             {current < steps.length - 1 && (

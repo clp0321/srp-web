@@ -9,12 +9,12 @@ const Configure = () => {
   const [method, setMethod] = useState(0);
   const [payway, setPayway] = useState(0);
   const form = Form.useForm();
-  const handleMethod = e => {
+  const handleMethod = (e) => {
     setMethod(e.target.value);
   };
-  const handlePayWay = value => {
-    setPayway(value)
-  }
+  const handlePayWay = (value) => {
+    setPayway(value);
+  };
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
@@ -38,6 +38,18 @@ const Configure = () => {
           </Radio.Group>
         </Item>
         <Item
+          name="price"
+          label="租金(¥)"
+          rules={[
+            {
+              required: true,
+              message: '请输入租金',
+            },
+          ]}
+        >
+          <InputNumber placeholder="请输入租金" />
+        </Item>
+        <Item
           name="payway"
           label="支付方式"
           rules={[
@@ -55,18 +67,6 @@ const Configure = () => {
           </Select>
         </Item>
         <Item
-          name="price"
-          label="租金(¥)"
-          rules={[
-            {
-              required: true,
-              message: '请输入租金',
-            },
-          ]}
-        >
-          <InputNumber  placeholder="请输入租金" />
-        </Item>
-        <Item
           name="设备ID"
           label="设备"
           rules={[
@@ -76,7 +76,7 @@ const Configure = () => {
             },
           ]}
         >
-          <Input  placeholder="请输入设备ID" />
+          <Input placeholder="请输入设备ID" />
         </Item>
         <Item
           name="phone"
@@ -90,11 +90,8 @@ const Configure = () => {
         >
           <Input placeholder="请输入联系方式" />
         </Item>
-        <Item
-          name="description"
-          label="其他信息"
-        >
-          <Input.TextArea  placeholder="其他备注信息" />
+        <Item name="description" label="其他信息">
+          <Input.TextArea placeholder="其他备注信息" />
         </Item>
       </Form>
     </div>

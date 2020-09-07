@@ -50,9 +50,13 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
 
-  'menu.property.manage': '房源管理',
-  'menu.equipment.manage': '设别管理',
-  'menu.order.manage': '订单管理',
-  'menu.contract.manage': '合同管理',
-  'menu.user.manage': '用户管理'
+  'menu.property.manage': '房源',
+  'menu.property.manage.property.release': '发布房源',
+  'menu.property.manage.property.list': '房源信息',
+
+  'menu.equipment.manage': '设别',
+  'menu.order.manage': '订单',
+  'menu.contract.manage': '合同',
+  'menu.user.manage': '用户',
+  
 };

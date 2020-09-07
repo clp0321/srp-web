@@ -28,12 +28,12 @@ export default defineConfig({
     {
       path: '/srp/welcome',
       name: 'welcome',
-      component: './Portal/Welcome'
+      component: './Portal/Welcome',
     },
     {
-     path: '/srp/rent',
-     name: 'rent',
-     component: './Portal/Rent'
+      path: '/srp/rent',
+      name: 'rent',
+      component: './Portal/Rent',
     },
     {
       path: '/client',
@@ -47,8 +47,8 @@ export default defineConfig({
         {
           name: 'register',
           pathL: '/client/register',
-          component: './Entry/Register'
-        }
+          component: './Entry/Register',
+        },
       ],
     },
     {
@@ -96,32 +96,44 @@ export default defineConfig({
               name: 'property.manage',
               icon: 'bank',
               path: '/property',
-              component: './PropertyManage',
+              routes: [
+                {
+                  path: '/property/release',
+                  name: 'property.release',
+                  icon: 'smile',
+                  component: './Property/Release',
+                },
+                {
+                  name: 'property.list',
+                  path: '/property/manage',
+                  icon: 'smile',
+                  component: './Property/Manage',
+                },
+              ],
             },
             {
               name: 'equipment.manage',
               icon: 'database',
               path: '/equipment',
-              component: './EquipmentManage',
+              component: './Equipment',
             },
             {
               name: 'order.manage',
               icon: 'account-book',
               path: '/order',
-              component: './OrderManage',
+              component: './Order',
             },
-
             {
               name: 'contract.manage',
               icon: 'file-text',
               path: '/contract',
-              component: './ContractManage'
+              component: './Contract',
             },
             {
               name: 'user.manage',
               icon: 'user',
               path: '/manage',
-              component: './UserManage'
+              component: './User',
             },
             {
               component: './404',

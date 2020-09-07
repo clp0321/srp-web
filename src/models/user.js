@@ -17,19 +17,14 @@ const UserModel = {
     },
 
     *fetchCurrent(_, { call, put }) {
-      const resp = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: resp,
-      });
-      // const authority = getAuthority();
-      // if (authority) {
-      //   const resp = yield call(getCurrentUser);
-      //   yield put({
-      //     type: 'saveCurrentUser',
-      //     payload: resp,
-      //   });
-      // }
+      const authority = getAuthority();
+      if (authority[0]) {
+        const resp = yield call(getCurrentUser, authority[0]);
+        yield put({
+          type: 'saveCurrentUser',
+          payload: resp.data,
+        });
+      }
     },
   },
   reducers: {

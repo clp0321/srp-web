@@ -40,7 +40,7 @@ class AvatarDropdown extends React.Component {
             个人中心
           </Menu.Item>
         )}
-        {menu && (
+        {menu && ( 
           <Menu.Item key="settings">
             <SettingOutlined />
             个人设置

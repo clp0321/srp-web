@@ -19,7 +19,7 @@ const Account = () => {
       </div>
       <div className={style.income}>
         <Badge status="success" /> 今日收支 ￥0.00
-        <Badge status="processing" /> 昨日收支 ￥0.00
+        <Badge color="#108ee9" /> 昨日收支 ￥0.00
       </div>
       <Divider className={style.divider} />
       <p>

@@ -21,10 +21,6 @@ const Selects = ({ name, initialValue }) => (
   </FormItem>
 );
 
-// const hide = (msg) => {
-//   return message.loading(msg);
-// };
-
 // 新增用户
 const handleAdd = async (field) => {
   const hide = message.loading('正在添加');
@@ -101,7 +97,7 @@ const UserManage = () => {
         placeholder: '请输入用户真实姓名',
         rules: [
           {
-            required: true,
+            required: formTitle == '新增用户' ? true : false,
             message: '用户姓名为必填项',
           },
         ],
@@ -177,7 +173,7 @@ const UserManage = () => {
         placeholder: '请输入身份证号',
         rules: [
           {
-            required: true,
+            required: formTitle == '新增用户' ? true : false,
             message: '身份证号为必填项',
           },
           {

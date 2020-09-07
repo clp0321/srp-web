@@ -1,4 +1,4 @@
-import request from '@util/requeset';
+import request from '@/utils/request';
 
 // 获取所有房源信息
 export async function getProperty() {

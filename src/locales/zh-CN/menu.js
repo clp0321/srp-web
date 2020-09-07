@@ -52,7 +52,9 @@ export default {
 
   'menu.property.manage': '房源',
   'menu.property.manage.property.release': '发布房源',
-  'menu.property.manage.property.list': '房源信息',
+  'menu.property.manage.property.onchain': '链上房源',
+  'menu.property.manage.property.offchain': '链下房源',
+
 
   'menu.equipment.manage': '设别',
   'menu.order.manage': '订单',

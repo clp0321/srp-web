@@ -55,10 +55,11 @@ export default {
   'menu.property.manage.property.onchain': '链上房源',
   'menu.property.manage.property.offchain': '链下房源',
 
-
   'menu.equipment.manage': '设备',
+  'menu.equipment.manage.water_meter': '智能水电表',
+  'menu.equipment.manage.lock': '智能门锁',
+
   'menu.order.manage': '订单',
   'menu.contract.manage': '合同',
   'menu.user.manage': '用户',
-  
 };

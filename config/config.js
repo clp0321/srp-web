@@ -122,7 +122,18 @@ export default defineConfig({
               name: 'equipment.manage',
               icon: 'database',
               path: '/equipment',
-              component: './Equipment',
+              routes: [{
+                path: '/equipment',
+                redirect: '/equipment/water_meter'
+              }, {
+                name: 'water_meter',
+                path: '/equipment/water_meter',
+                component: './Equipment/WaterMeter'
+              }, {
+                name: 'lock',
+                path: '/equipment/lock',
+                component: './Equipment/Lock'
+              }]
             },
             {
               name: 'order.manage',

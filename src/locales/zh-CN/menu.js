@@ -51,7 +51,7 @@ export default {
 
   'menu.monitoring': '监控页',
 
-  'menu.property': '房源',
+  'menu.property': '房产',
   'menu.property.property.release': '发布房源',
   'menu.property.property.onchain': '链上房源',
   'menu.property.property.offchain': '链下房源',

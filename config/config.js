@@ -65,6 +65,12 @@ export default defineConfig({
               redirect: '/welcome',
             },
             {
+              path: '/monitor',
+              name: 'monitoring',
+              icon: 'dashboard',
+              component: './Dashboard'
+            },
+            {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',
@@ -86,14 +92,8 @@ export default defineConfig({
                 },
               ],
             },
-            // {
-            //   name: 'list.table-list',
-            //   icon: 'table',
-            //   path: '/list',
-            //   component: './ListTableList',
-            // },
             {
-              name: 'property.manage',
+              name: 'property',
               icon: 'bank',
               path: '/property',
               routes: [
@@ -119,7 +119,7 @@ export default defineConfig({
               ],
             },
             {
-              name: 'equipment.manage',
+              name: 'equipment',
               icon: 'database',
               path: '/equipment',
               routes: [
@@ -140,13 +140,29 @@ export default defineConfig({
               ],
             },
             {
-              name: 'order.manage',
+              name: 'order',
               icon: 'account-book',
               path: '/order',
-              component: './Order',
+              // component: './Order',
+              routes: [
+                {
+                  path: '/order',
+                  redirect: '/order/statistics'
+                },
+                {
+                  name: 'statitics',
+                  path: '/order/statistics',
+                  component: './Order/Statistics'
+                },
+                {
+                  name: 'manage',
+                  path: '/order/manage',
+                  component: './Order/Manage'
+                }
+              ]
             },
             {
-              name: 'contract.manage',
+              name: 'contract',
               icon: 'file-text',
               path: '/contract',
               component: './Contract',

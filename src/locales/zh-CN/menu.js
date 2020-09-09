@@ -7,7 +7,6 @@ export default {
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register.result': '注册结果',
-  'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': '分析页',
   'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',
@@ -50,18 +49,23 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
 
-  'menu.property.manage': '房源',
-  'menu.property.manage.property.release': '发布房源',
-  'menu.property.manage.property.onchain': '链上房源',
-  'menu.property.manage.property.offchain': '链下房源',
+  'menu.monitoring': '监控页',
 
-  'menu.equipment.manage': '设备',
-  'menu.equipment.manage.water_meter': '智能水电表',
-  'menu.equipment.manage.lock': '智能门锁',
+  'menu.property': '房源',
+  'menu.property.property.release': '发布房源',
+  'menu.property.property.onchain': '链上房源',
+  'menu.property.property.offchain': '链下房源',
+
+  'menu.equipment': '设备',
+  'menu.equipment.water_meter': '智能水电表',
+  'menu.equipment.lock': '智能门锁',
 
   'menu.user.center': '账户',
 
-  'menu.order.manage': '订单',
-  'menu.contract.manage': '合同',
+  'menu.order': '订单',
+  'menu.order.statitics': '订单统计',
+  'menu.order.manage': '订单管理',
+
+  'menu.contract': '合同',
   'menu.user.manage': '用户',
 };

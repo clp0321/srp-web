@@ -59,6 +59,8 @@ export default {
   'menu.equipment.manage.water_meter': '智能水电表',
   'menu.equipment.manage.lock': '智能门锁',
 
+  'menu.user.center': '账户',
+
   'menu.order.manage': '订单',
   'menu.contract.manage': '合同',
   'menu.user.manage': '用户',

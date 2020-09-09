@@ -86,12 +86,12 @@ export default defineConfig({
                 },
               ],
             },
-            {
-              name: 'list.table-list',
-              icon: 'table',
-              path: '/list',
-              component: './ListTableList',
-            },
+            // {
+            //   name: 'list.table-list',
+            //   icon: 'table',
+            //   path: '/list',
+            //   component: './ListTableList',
+            // },
             {
               name: 'property.manage',
               icon: 'bank',
@@ -156,6 +156,14 @@ export default defineConfig({
               icon: 'user',
               path: '/manage',
               component: './User',
+            },
+            {
+              name: 'user.center',
+              icon: 'smile',
+              path: '/account',
+              component: './Center'
+
+              
             },
             {
               component: './404',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs, Card, Select } from 'antd';
-import { Alert, Authorize, BaseLock, Record } from './component';
+import { Authorize, BaseLock, Record } from './component';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -35,7 +35,7 @@ class EquipmentManage extends Component {
       <PageContainer>
         <Card>
           <Tabs
-            defaultActiveKey="2"
+            defaultActiveKey={currentKey}
             onChange={this.handleChange}
             size="large"
             tabBarExtraContent={<PropertySelect />}
@@ -48,9 +48,6 @@ class EquipmentManage extends Component {
             </TabPane>
             <TabPane tab="开锁记录" key="3">
               <Record />
-            </TabPane>
-            <TabPane tab="报警记录" key="4">
-              <Alert />
             </TabPane>
           </Tabs>
         </Card>

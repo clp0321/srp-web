@@ -31,18 +31,29 @@ const Record = () => {
   ];
 
   return (
-    <div>
-      <DatePicker showTime onChange={() => {}} onOk={() => {}} />
-      <Select>
-        <Option value={1}>永久密码</Option>
-        <Option value={2}>临时密码</Option>
-        <Option value={3}>门限卡</Option>
-        <Option value={4}>指纹</Option>
-      </Select>
-      <Input.Search prefix={<SearchOutlined />} enterButton="搜索" placeholder="请输入房间名" />
+    <>
+      <div className={[style.search_opt, 'clearfix'].join(' ')}>
+        <div className={style.search_opt_l}>
+          <DatePicker style={{ width: 300 }} showTime onChange={() => {}} onOk={() => {}} />
+          <Select style={{ width: 200, marginLeft: 10 }} defaultValue={1}>
+            <Option value={1}>永久密码</Option>
+            <Option value={2}>临时密码</Option>
+            <Option value={3}>门限卡</Option>
+            <Option value={4}>指纹</Option>
+          </Select>
+        </div>
+        <div className={style.search_opt_r}>
+          <Input.Search
+            style={{ width: 350, marginLeft: 10 }}
+            prefix={<SearchOutlined />}
+            enterButton="搜索"
+            placeholder="请输入房间名"
+          />
+        </div>
+      </div>
       <Divider className={style.divider} />
       <Protable search={false} columns={columns} />
-    </div>
+    </>
   );
 };
 export default Record;

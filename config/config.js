@@ -174,12 +174,7 @@ export default defineConfig({
               component: './User',
             },
             {
-              name: 'user.center',
-              icon: 'smile',
-              path: '/account',
               component: './Center'
-
-              
             },
             {
               component: './404',

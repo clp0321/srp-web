@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card, Select, DatePicker, Typography, Button, Table } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import moment from 'moment';
-import Chart from './component/StatisticChart';
 import style from './style.less';
-import './next.less';
 
 const { Option } = Select;
 const { Paragraph } = Typography;
@@ -63,9 +61,14 @@ const Statistics = () => {
     },
     {
       key: 'trans',
-      name: '总交易',
+      name: '总订单数',
       num: '0.00',
     },
+    {
+      key: 'block',
+      name: '链上存证数',
+      num: '0.00',
+    }
   ];
 
   const StatisticItem = ({ data }) => (
@@ -83,12 +86,17 @@ const Statistics = () => {
   return (
     <PageContainer>
       <Card style={{ marginBottom: 24 }}>
-        <Select style={{ width: 150, marginRight: 10 }} defaultValue={1}>
+        <DatePicker
+          onChange={onChange}
+          picker="year"
+          defaultValue={moment(new Date(), 'YYYY')}
+          style={{ marginRight: 10 }}
+        />
+        <Select style={{ width: 150 }} defaultValue={1}>
           <Option value={1}>全部房产</Option>
           <Option value={2}>房产1</Option>
           <Option value={3}>房产2</Option>
         </Select>
-        <DatePicker onChange={onChange} picker="year" defaultValue={moment(new Date(), 'YYYY')} />
         <Button type="ghost" style={{ float: 'right' }}>
           导出报表
         </Button>
@@ -98,15 +106,10 @@ const Statistics = () => {
       </Card>
       <Card bodyStyle={{ display: 'flex' }}>
         <Card title="收支统计表" style={{ width: '50%' }} className={style.table_card}>
-          <Table
-            rowKey="date"
-            columns={columns}
-            dataSource={dataMock}
-            pagination={false}
-          />
+          <Table rowKey="date" columns={columns} dataSource={dataMock} pagination={false} />
         </Card>
         <Card style={{ width: '50%', position: 'relative', marginLeft: 20 }} title="收支统计图">
-          <Chart className="bizcharts" />
+
         </Card>
       </Card>
     </PageContainer>

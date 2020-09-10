@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, DatePicker, Input, Radio, Button, Badge, Modal } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import OrderDetail from './component/OrderDetail';
 import style from './style.less';
@@ -67,7 +68,7 @@ const OrderManage = () => {
   ];
   const options = [
     { label: '未完成', value: 'unfinished' },
-    { label: '完成', value: 'finished' },
+    { label: '已完成', value: 'finished' },
   ];
   // 订单扩展内容
   const expandedRowRender = () => {
@@ -105,6 +106,10 @@ const OrderManage = () => {
   return (
     <PageContainer>
       <Card className={style.searchOption}>
+        <Radio.Group defaultValue={1}>
+          <Radio value={1}>已上链</Radio>
+          <Radio value={2}>未上链</Radio>
+        </Radio.Group>
         <Radio.Group
           options={options}
           onChange={(e) => setStatus(e.target.value)}
@@ -113,11 +118,11 @@ const OrderManage = () => {
           style={{ marginRight: 10 }}
           buttonStyle="solid"
         />
-        <RangePicker placeholder={['查询开始时间', '查询结束时间']} />
+        <RangePicker placeholder={['查询开始时间', '查询结束时间']}  />
         <Input placeholder="房东姓名" />
         <Input placeholder="代理服务商姓名" />
         <Input placeholder="租客姓名" />
-        <Button type="danger">重置</Button>
+        <Button type="danger" icon={<ReloadOutlined />}>重置</Button>
       </Card>
       <Card>
         <Table

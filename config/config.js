@@ -68,7 +68,7 @@ export default defineConfig({
               path: '/monitor',
               name: 'monitoring',
               icon: 'dashboard',
-              component: './Dashboard'
+              component: './Dashboard',
             },
             {
               path: '/welcome',
@@ -107,14 +107,9 @@ export default defineConfig({
                   component: './Property/Release',
                 },
                 {
-                  name: 'property.onchain',
-                  path: '/property/onchain',
-                  component: './Property/Onchain',
-                },
-                {
-                  name: 'property.offchain',
-                  path: '/property/offchain',
-                  component: './Property/Offchain',
+                  name: 'property.manage',
+                  path: '/property/manage',
+                  component: './Property/Manage',
                 },
               ],
             },
@@ -147,19 +142,19 @@ export default defineConfig({
               routes: [
                 {
                   path: '/order',
-                  redirect: '/order/statistics'
+                  redirect: '/order/statistics',
                 },
                 {
                   name: 'statitics',
                   path: '/order/statistics',
-                  component: './Order/Statistics'
+                  component: './Order/Statistics',
                 },
                 {
                   name: 'manage',
                   path: '/order/manage',
-                  component: './Order/Manage'
-                }
-              ]
+                  component: './Order/Manage',
+                },
+              ],
             },
             {
               name: 'contract',
@@ -174,7 +169,7 @@ export default defineConfig({
               component: './User',
             },
             {
-              component: './Center'
+              component: './Center',
             },
             {
               component: './404',

@@ -52,9 +52,8 @@ export default {
   'menu.monitoring': '监控页',
 
   'menu.property': '房产',
-  'menu.property.property.release': '发布房源',
-  'menu.property.property.onchain': '链上房源',
-  'menu.property.property.offchain': '链下房源',
+  'menu.property.property.release': '房源发布',
+  'menu.property.property.manage': '房产管理',
 
   'menu.equipment': '设备',
   'menu.equipment.water_meter': '智能水电表',

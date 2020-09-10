@@ -66,5 +66,8 @@ export default {
   'menu.order.manage': '订单管理',
 
   'menu.contract': '合同',
+  'menu.contract.create': '合同生成',
+  'menu.contract.manage': '合同管理',
+
   'menu.user.manage': '用户',
 };

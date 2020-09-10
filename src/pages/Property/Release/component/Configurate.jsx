@@ -67,16 +67,16 @@ const Configure = () => {
           </Select>
         </Item>
         <Item
-          name="设备ID"
-          label="设备"
+          name="divice"
+          label="门锁"
           rules={[
             {
               required: true,
-              message: '请输入设备ID',
+              message: '请输入智能门锁ID',
             },
           ]}
         >
-          <Input placeholder="请输入设备ID" />
+          <Input placeholder="请输入智能门锁ID" />
         </Item>
         <Item
           name="phone"

@@ -66,8 +66,6 @@ export default defineConfig({
             },
             {
               path: '/monitor',
-              name: 'monitoring',
-              icon: 'dashboard',
               component: './Dashboard',
             },
             {
@@ -138,7 +136,6 @@ export default defineConfig({
               name: 'order',
               icon: 'account-book',
               path: '/order',
-              // component: './Order',
               routes: [
                 {
                   path: '/order',
@@ -160,7 +157,18 @@ export default defineConfig({
               name: 'contract',
               icon: 'file-text',
               path: '/contract',
-              component: './Contract',
+              routes: [{
+                path: '/contract',
+                redirect: '/contract/create'
+              }, {
+                name: 'create',
+                path: '/contract/create',
+                component: './contract/Create',
+              }, {
+                name: 'manage',
+                path: '/contract/manage',
+                component: './contract/manage',
+              }],
             },
             {
               name: 'user.manage',

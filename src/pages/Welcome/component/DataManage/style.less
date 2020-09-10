@@ -1,17 +1,14 @@
 .contain {
-  ul {
-    padding-left: 0px;
-    li {
-      display: inline-block;
-      width: 50%;
-      height: 220px;
-    }
-    li:nth-child(-n+2) {
-      border-bottom: 1px solid #e6e7eb;
-    }
-    li:nth-child(2n) {
-      border-left: 1px solid #e6e7eb;
-    }
+  & > div {
+    display: inline-block;
+    width: 50%;
+    height: 220px;
+  }
+  & > div:nth-child(-n + 2) {
+    border-bottom: 1px solid #e6e7eb;
+  }
+  & > div:nth-child(2n) {
+    border-left: 1px solid #e6e7eb;
   }
 }
 .padding {

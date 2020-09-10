@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Card, Select, DatePicker, Typography, Button, Table } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import moment from 'moment';
+import CountUp from 'react-countup';
+import ChartStatistic from './component/ChartStatistic';
 import style from './style.less';
 
 const { Option } = Select;
@@ -18,6 +20,7 @@ for (let i = 0; i < 12; i++) {
 }
 
 const Statistics = () => {
+  // 表格数据
   const columns = [
     {
       title: '日期',
@@ -43,43 +46,69 @@ const Statistics = () => {
 
   const onChange = () => {};
 
+  // 图表数据
   const statisticMock = [
     {
       name: '总收入',
       key: 'income',
-      num: '0.00',
+      num: 2298,
     },
     {
       key: 'spend',
       name: '总支出',
-      num: '0.00',
+      num: 485,
     },
     {
       key: 'profit',
       name: '总利润',
-      num: '0.00',
+      num: 1814,
+    },
+    {
+      key: 'renewal',
+      name: '续租率',
+      num: 12,
+    },
+    {
+      key: 'checkin',
+      name: '入住情况',
+      num: 85,
     },
     {
       key: 'trans',
       name: '总订单数',
-      num: '0.00',
+      num: 154,
     },
     {
       key: 'block',
       name: '链上存证数',
-      num: '0.00',
-    }
+      num: 117,
+    },
   ];
 
-  const StatisticItem = ({ data }) => (
-    <div className={style.statistic_item} key={data.key}>
-      <Paragraph strong>{data.name}：</Paragraph>
-      <Paragraph className={[style.cash, style[data.key]].join(' ')}>
-        {data.num}
-        {data.name === '总交易' ? '笔' : '元'}
-      </Paragraph>
-    </div>
-  );
+  const StatisticItem = ({ data }) => {
+    let name;
+    switch (data.key) {
+      case 'renewal':
+      case 'checkin':
+        name = '%';
+        break;
+      case 'block':
+      case 'trans':
+        name = '笔';
+        break;
+      default:
+        name = '元';
+    }
+    return (
+      <div className={style.statistic_item} key={data.key}>
+        <Paragraph strong>{data.name}：</Paragraph>
+        <Paragraph className={[style.cash, style[data.key]].join(' ')}>
+          <CountUp end={data.num} />
+          {name}
+        </Paragraph>
+      </div>
+    );
+  };
 
   const list = statisticMock.map((item, index) => <StatisticItem key={index} data={item} />);
 
@@ -108,8 +137,8 @@ const Statistics = () => {
         <Card title="收支统计表" style={{ width: '50%' }} className={style.table_card}>
           <Table rowKey="date" columns={columns} dataSource={dataMock} pagination={false} />
         </Card>
-        <Card style={{ width: '50%', position: 'relative', marginLeft: 20 }} title="收支统计图">
-
+        <Card style={{ width: '50%', position: 'relative', marginLeft: 20 }} title="订单统计图">
+          <ChartStatistic />
         </Card>
       </Card>
     </PageContainer>

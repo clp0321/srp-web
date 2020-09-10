@@ -18,7 +18,7 @@ const mockData1 = [
   },
 ];
 
-const MockData2 = {
+const mockData2 = {
   title: '收支情况',
   data: [
     { month: '4月', value: 0.2 },
@@ -53,12 +53,12 @@ const DashItem = ({ item }) => {
   );
 };
 
-const ColumarItem = ({ item }) => {
+const ColumarItem = ({ item, name }) => {
   const { title, data } = item;
   return (
     <div className={[style.dash_con, style.padding].join(' ')}>
       <div className={style.dash_desc}>{title}</div>
-      <Columnar data={data} />
+      <Columnar data={data} name={name} />
     </div>
   );
 };
@@ -66,20 +66,18 @@ const ColumarItem = ({ item }) => {
 const DataManage = () => {
   return (
     <div className={style.contain}>
-      <ul>
-        <li>
-          <DashItem item={mockData1[0]} />
-        </li>
-        <li>
-          <DashItem item={mockData1[1]} />
-        </li>
-        <li>
-          <ColumarItem item={MockData2} />
-        </li>
-        <li>
-          <ColumarItem item={mockData3} />
-        </li>
-      </ul>
+      <div>
+        <DashItem item={mockData1[0]} />
+      </div>
+      <div>
+        <DashItem item={mockData1[1]} />
+      </div>
+      <div>
+        <ColumarItem item={mockData2} name="收支" />
+      </div>
+      <div>
+        <ColumarItem item={mockData3} name="入住" />
+      </div>
     </div>
   );
 };

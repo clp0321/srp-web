@@ -8,7 +8,7 @@ const data = [
   { month: '8月', value: 48 },
 ];
 
-const Columnar = ({ data }) => {
+const Columnar = ({ name }) => {
   return (
     <Chart
       height={200}
@@ -17,6 +17,17 @@ const Columnar = ({ data }) => {
       padding={[30, 30, 30, 50]}
     >
       <Interval position="month*value" />
+      <Tooltip>
+        {(months, values) => {
+          const { data } = values[0];
+          return (
+            <div style={{ padding: 10, fontSize: 14 }}>
+              {months}
+              {name}：{data.value}
+            </div>
+          );
+        }}
+      </Tooltip>
     </Chart>
   );
 };

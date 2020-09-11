@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import {
-  Divider,
   Typography,
   Select,
   Form,
@@ -10,20 +9,14 @@ import {
   DatePicker,
   InputNumber,
   Button,
-  Modal,
   Popconfirm,
 } from 'antd';
-import {
-  PlusOutlined,
-  ExclamationCircleOutlined,
-  CheckOutlined,
-  MinusOutlined,
-} from '@ant-design/icons';
-import style from './style.less';
+import { PlusOutlined } from '@ant-design/icons';
+import BaseInfo from '@/components/BaseInfo';
+import style from '../../style.less';
 
 const { Option } = Select;
-const { Text, Title } = Typography;
-const { confirm } = Modal;
+const { Title } = Typography;
 const { Item } = Form;
 
 const optionBySelect = {
@@ -53,14 +46,6 @@ const optionBySelect = {
 const ContractOnline = ({ opt = 1 }) => {
   const [addCon, setAddCon] = useState([]);
   const [form] = Form.useForm();
-  const BaseInfo = ({ name }) => {
-    return (
-      <div className={style.divider}>
-        <Divider type="vertical" />
-        <Text strong>{name}</Text>
-      </div>
-    );
-  };
 
   const NewFormItem = ({ data }) => {
     return (
@@ -82,7 +67,7 @@ const ContractOnline = ({ opt = 1 }) => {
     const arr = JSON.parse(JSON.stringify(addCon));
     arr.push(optionBySelect[key]);
     setAddCon(arr);
-    form.resetFields(['item'])
+    form.resetFields(['item']);
   };
 
   const keyList = []; // 判断是否已选择
@@ -102,9 +87,9 @@ const ContractOnline = ({ opt = 1 }) => {
   }
 
   return (
-    <div className={style.contain}>
+    <div className={style.containing}>
       <Title level={4} style={{ textAlign: 'center' }}>
-        {opt === 1 ? '房东与租客合同' : '房东与代理合同'}
+        租客合同
       </Title>
       <BaseInfo name="基本信息" />
       <Form className={style.form} form={form}>
@@ -114,7 +99,7 @@ const ContractOnline = ({ opt = 1 }) => {
             name="code"
             rules={[{ required: true, message: '请输入订单编号' }]}
           >
-            <Input />
+            <Input placeholder="输入订单编号" />
           </Item>
           <Row gutter={24}>
             <Col span={8}>
@@ -123,7 +108,7 @@ const ContractOnline = ({ opt = 1 }) => {
                 name="Lessor"
                 rules={[{ required: true, message: '请输入出租方信息' }]}
               >
-                <Input />
+                <Input placeholder="输入出租方" />
               </Item>
             </Col>
             <Col span={8}>
@@ -132,16 +117,15 @@ const ContractOnline = ({ opt = 1 }) => {
                 name="Lessee"
                 rules={[{ required: true, message: '请输入承租方信息' }]}
               >
-                <Input />
+                <Input placeholder="输入承租方" />
               </Item>
             </Col>
             <Col span={8}>
               <Item
                 label="代理"
                 name="agency"
-                rules={[{ required: true, message: '请输入代理服务商' }]}
               >
-                <Input />
+                <Input placeholder="输入代理" />
               </Item>
             </Col>
           </Row>
@@ -158,7 +142,7 @@ const ContractOnline = ({ opt = 1 }) => {
             </Col>
           </Row>{' '}
           <Item label="备注信息" name="info">
-            <Input.TextArea />
+            <Input.TextArea rows={3} placeholder="输入备注信息" />
           </Item>
         </div>
         <BaseInfo name="费用详情" />
@@ -166,12 +150,12 @@ const ContractOnline = ({ opt = 1 }) => {
           <Row gutter={24}>
             <Col span={12}>
               <Item label="押金" name="deposit" rules={[{ required: true, message: '请输入押金' }]}>
-                <InputNumber min={1} />
+                <InputNumber min={1} placeholder="输入押金" />
               </Item>
             </Col>
             <Col span={12}>
               <Item label="租金" name="rent" rules={[{ required: true, message: '请输入租金' }]}>
-                <InputNumber min={1} />
+                <InputNumber min={1} placeholder="输入租金" />
               </Item>
             </Col>
           </Row>
@@ -180,9 +164,9 @@ const ContractOnline = ({ opt = 1 }) => {
               <Item
                 label="滞纳金"
                 name="late_fee"
-                rules={[{ required: true, message: '请输入租金' }]}
+                rules={[{ required: true, message: '请输入滞纳金' }]}
               >
-                <InputNumber min={1} />
+                <InputNumber min={1} placeholder="输入滞纳金"  />
               </Item>
             </Col>
             <Col span={12}>
@@ -191,7 +175,7 @@ const ContractOnline = ({ opt = 1 }) => {
                 name="grace"
                 rules={[{ required: true, message: '请输入宽限期' }]}
               >
-                <InputNumber min={1} rules={[{ required: true }]} />
+                <InputNumber min={1} placeholder="输入宽限期"  />
               </Item>
             </Col>
             {addField}
@@ -199,9 +183,18 @@ const ContractOnline = ({ opt = 1 }) => {
           <div style={{ textAlign: 'center' }}>
             <div className={style.addItem}>
               <Item name="item">
-                <Select inputValue="" placeholder="请输入其他收费项目" style={{ width: 300, marginRight: 10 }} allowClear>
+                <Select
+                  inputValue=""
+                  placeholder="请输入其他收费项目"
+                  style={{ width: 300, marginRight: 10 }}
+                  allowClear
+                >
                   {filterOpt.map((item, index) => {
-                    return <Option key={index} value={item.value}>{item.data}</Option>;
+                    return (
+                      <Option key={index} value={item.value}>
+                        {item.data}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Item>

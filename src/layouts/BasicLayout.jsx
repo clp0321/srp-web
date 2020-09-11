@@ -47,13 +47,13 @@ const BasicLayout = (props) => {
   } = props;
 
   
-  useEffect(()=> {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
-  })
+  // useEffect(()=> {
+  //   if (dispatch) {
+  //     dispatch({
+  //       type: 'user/fetchCurrent',
+  //     });
+  //   }
+  // })
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {

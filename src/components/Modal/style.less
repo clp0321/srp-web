@@ -27,6 +27,11 @@
     .header {
       padding: 20px;
       background: #ef6500;
+      & span {
+        font-weight: bold;
+        color: white;
+        font-size: 16px;
+      }
       .confirm_btn {
         margin-top: 5px;
         float: right;
@@ -77,7 +82,7 @@
     visibility: visible;
     top: 100%;
     transform: translate(-50%, 0);
-    animation: contentSlipToBottom 200ms;
+    animation: contentSlipToBottom 500ms;
   }
 
   @keyframes contentSlipToUp {
@@ -94,10 +99,10 @@
       top: 50%;
     }
     0% {
-      top: 25%;
+      top: 75%;
     }
     100% {
-      top: 0%;
+      top: 100%;
     }
   }
 

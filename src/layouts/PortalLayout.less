@@ -1,0 +1,71 @@
+.layout_contain {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .header {
+    position: absolute;
+    top: 0px;
+    height: 35px;
+    width: 100%;
+    line-height: 35px;
+    border-bottom: 1px solid #dddddd;
+    .header_w {
+      width: 1190px;
+      margin: 0 auto;
+      .header_l {
+        display: inline-block;
+      }
+      .header_home h3 {
+        padding-left: 25px;
+      }
+      .header_home {
+        width: 100px;
+        float: left;
+        margin-left: 10px;
+        background: url('../assets/images/home.png') no-repeat left center;
+        background-size: 15px;
+      }
+      .h_r_icon {
+        height: 20px;
+        width: 20px;
+        float: right;
+        background: url('../assets/images/user.png') no-repeat 50% / contain;
+        margin-top: 8px;
+      }
+      .header_r {
+        float: right;
+      }
+      .h_r_link {
+        display: inline-block;
+        line-height: 35px;
+      }
+      .header_r .gap {
+        margin: 0 2px;
+      }
+    }
+    a {
+      color: #666;
+      text-decoration: none;
+    } /*去掉超链接的下划线*/
+    a:hover {
+      color: #ff552e;
+    }
+    font: 12px/150% Arial, Verdana, '\5b8b\4f53';
+    color: #666;
+    background: #fff;
+  }
+
+  .con {
+    position: relative;
+    top: 35px;
+    bottom: 60px;
+  }
+  .footer {
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid #dddddd;
+    text-align: center;
+  }
+}

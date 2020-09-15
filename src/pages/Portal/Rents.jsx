@@ -1,15 +1,33 @@
 import { Component } from 'react';
 import { Link } from 'umi';
+import Modal from '@/components/Modal';
+import { Tabs } from 'antd';
+import style from './style.less';
 import room1 from '@/assets/images/room1.jpg';
 import room2 from '@/assets/images/room2.jpg';
 import room3 from '@/assets/images/room3.jpg';
 import room4 from '@/assets/images/room4.jpg';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
-import style from './style.less';
+
+const { TabPane } = Tabs
 
 class Rent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+  }
+
+  handleRelease = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
   render() {
+    const { visible } = this.state;
     return (
       <>
         {/* 页面头部*/}
@@ -68,7 +86,9 @@ class Rent extends Component {
                 <a href="#">田贝</a>
               </li>
             </ul>
-            <button className={style.realase}>发布房源</button>
+            <button className={style.realase} onClick={this.handleRelease}>
+              发布房源
+            </button>
           </div>
         </div>
         {/* 条件搜搜 */}
@@ -215,20 +235,17 @@ class Rent extends Component {
         </div>
         {/* 内容选择 */}
         <div className={style.list_check}>
-          <ul>
-            <li className={style.checked}>
-              <a href="#">默认排序</a>
-            </li>
-            <li>
-              <a href="#">房屋租金</a>
-            </li>
-            <li>
-              <a href="#">房屋面积</a>
-            </li>
-            <li>
-              <a href="#">上架时间</a>
-            </li>
-          </ul>
+          <Tabs defaultActiveKey="1" onChange={() => {}}>
+            <TabPane tab="Tab 1" key="1">
+              Content of Tab Pane 1
+            </TabPane>
+            <TabPane tab="Tab 2" key="2">
+              Content of Tab Pane 2
+            </TabPane>
+            <TabPane tab="Tab 3" key="3">
+              Content of Tab Pane 3
+            </TabPane>
+          </Tabs>
         </div>
         {/* 查询内容列表 */}
         <div className={[style.con, style.clearfix].join(' ')}>
@@ -343,6 +360,11 @@ class Rent extends Component {
           </p>
           <p>&copy;深圳计算机学会</p>
         </div>
+        <Modal
+          title="发布房源"
+          visible={visible}
+          onCancel={() => this.setState({ visible: false })}
+        />
       </>
     );
   }

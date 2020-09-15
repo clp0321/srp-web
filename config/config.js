@@ -26,14 +26,18 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
-      path: '/srp/welcome',
-      name: 'welcome',
-      component: './Portal/Welcome',
-    },
-    {
-      path: '/srp/rent',
-      name: 'rent',
-      component: './Portal/Rent',
+      path: '/srp',
+      component: '../layouts/PortalLayout',
+      routes: [
+        {
+          path: '/srp/welcome',
+          component: './Portal/Welcome',
+        },
+        {
+          path: '/srp/rent',
+          component: './Portal/Rent',
+        },
+      ],
     },
     {
       path: '/client',
@@ -157,18 +161,22 @@ export default defineConfig({
               name: 'contract',
               icon: 'file-text',
               path: '/contract',
-              routes: [{
-                path: '/contract',
-                redirect: '/contract/create'
-              }, {
-                name: 'create',
-                path: '/contract/create',
-                component: './contract/Create',
-              }, {
-                name: 'manage',
-                path: '/contract/manage',
-                component: './contract/manage',
-              }],
+              routes: [
+                {
+                  path: '/contract',
+                  redirect: '/contract/create',
+                },
+                {
+                  name: 'create',
+                  path: '/contract/create',
+                  component: './contract/Create',
+                },
+                {
+                  name: 'manage',
+                  path: '/contract/manage',
+                  component: './contract/manage',
+                },
+              ],
             },
             {
               name: 'user.manage',

@@ -1,18 +1,19 @@
 import style from './PortalLayout.less';
 import { Link } from 'umi';
 
+// welcome页表头
 const HeaderHome = () => {
   return (
     <>
       <div className={style.header_l}>
+        <div className={style.header_home}>
+          <h3>
+            <Link to="/srp/welcome">首页</Link>
+          </h3>
+        </div>
         <h3>深圳</h3>
-        <span>
-          <a href="#">[切换城市]</a>
-        </span>
-      </div>
-      <div className={style.header_home}>
         <h3>
-          <Link to="/srp/welcome">首页</Link>
+          <a href="#">[切换城市]</a>
         </h3>
       </div>
       <div className={style.header_r}>
@@ -36,7 +37,7 @@ const PortalLayout = (props) => {
           <HeaderHome />
         </div>
       </div>
-      {/* <div className={style.con}>{children}</div> */}
+      <div className={style.con}>{children}</div>
       <div className={style.footer}>
         <p>
           5G物联网区块链共享租赁平台为您提供全网安全有保障的房源信息，让您租房更安心，使用更放心！

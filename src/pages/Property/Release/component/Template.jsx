@@ -6,14 +6,14 @@ import Detail from './Detail';
 import style from './style.less';
 
 const { Paragraph, Text } = Typography;
-const currentUser = getAuthority()[0];
+// const currentUser = getAuthority()[0];
 
 // mock返回数据
 const mockData = [
   {
     id: 1,
     title: '房源发布人',
-    val: currentUser,
+    val: 'daqing',
   },
   {
     id: 2,

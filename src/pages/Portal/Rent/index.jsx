@@ -22,7 +22,7 @@ class Rent extends Component {
   render() {
     const { visible } = this.state;
     return (
-      <>
+      <div className={style.contain}>
         {/* 内容索引 */}
         <Search />
         {/* 条件搜搜 */}
@@ -39,7 +39,7 @@ class Rent extends Component {
           visible={visible}
           onCancel={() => this.setState({ visible: false })}
         />
-      </>
+      </div>
     );
   }
 }

@@ -37,6 +37,10 @@ export default defineConfig({
           path: '/srp/rent',
           component: './Portal/Rent',
         },
+        {
+          path: '/srp/detail',
+          component: './Portal/Detail',
+        }
       ],
     },
     {

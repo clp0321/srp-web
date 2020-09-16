@@ -9,26 +9,6 @@ import style from './style.less';
 const Welcome = () => {
   return (
     <>
-      {/* 页面头部  */}
-      <div className={style.header}>
-        <div className={style.header_w}>
-          <div className={style.header_l}>
-            <h3>深圳</h3>
-            <span>
-              [ <a href="#">切换城市</a> <a href="#">广州</a>
-              <a href="#">东莞</a> <a href="#">珠海</a>
-              <a href="#">汕头</a> ]
-            </span>
-          </div>
-          <div className={style.weather}></div>
-          <div className={style.wyzf}>
-            <h3>
-              <Link to="/srp/rent">我要租房</Link>
-            </h3>
-          </div>
-        </div>
-        <div className={style.header_r}></div>
-      </div>
       {/* banner图 */}
       <div className={style.banner}></div>
       {/* 产品介绍 */}
@@ -80,13 +60,6 @@ const Welcome = () => {
       <div className={style.architecture}>
         <h1>产品架构</h1>
         <img src={imgArchitecture} />
-      </div>
-      {/* 页面底部 */}
-      <div className={style.footer}>
-        <p>
-          5G物联网区块链共享租赁平台为您提供全网安全有保障的房源信息，让您租房更安心，使用更放心！
-        </p>
-        <p>&copy;深圳计算机学会</p>
       </div>
     </>
   );

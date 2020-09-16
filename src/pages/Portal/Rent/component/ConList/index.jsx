@@ -1,5 +1,5 @@
 import style from './style.less';
-import { Tabs } from 'antd';
+import { Tabs, Pagination } from 'antd';
 import room1 from '@/assets/images/room1.jpg';
 import room2 from '@/assets/images/room2.jpg';
 import room3 from '@/assets/images/room3.jpg';
@@ -11,25 +11,20 @@ const { TabPane } = Tabs;
 
 const ConList = () => {
   return (
-    <>
+    <div className={style.list_contain}>
       <div className={style.list_check}>
         <Tabs defaultActiveKey="1" onChange={() => {}}>
-          <TabPane tab="Tab 1" key="1">
-            Content of Tab Pane 1
-          </TabPane>
-          <TabPane tab="Tab 2" key="2">
-            Content of Tab Pane 2
-          </TabPane>
-          <TabPane tab="Tab 3" key="3">
-            Content of Tab Pane 3
-          </TabPane>
+          <TabPane tab="默认排序" key="1"></TabPane>
+          <TabPane tab="房屋租金" key="2"></TabPane>
+          <TabPane tab="房屋面积" key="3"></TabPane>
+          <TabPane tab="上架时间" key="3"></TabPane>
         </Tabs>
       </div>
       <div className={[style.con, style.clearfix].join(' ')}>
         {/* 左侧房源 */}
         <div className={style.house_list}>
           <div className={style.house_list_item}>
-            <img src={room1} width="270" height="180" />
+            <img src={room1} width="270" />
             <div className={style.mid_dec}>
               <h2>合租 | 远洋新干线2期 5室1厅 西南</h2>
               <p>[ 保利悦都 龙华区 - 龙华中心 ] 保利悦都</p>
@@ -45,7 +40,7 @@ const ConList = () => {
             </div>
           </div>
           <div className={style.house_list_item}>
-            <img src={room2} width="270" height="180" />
+            <img src={room2} width="270" />
             <div className={style.mid_dec}>
               <h2>整租 | 保利悦 精装修灵宝入住</h2>
               <p>[ 骏泰金汐府 龙岗 - 龙岗中心城 ]</p>
@@ -60,7 +55,7 @@ const ConList = () => {
             </div>
           </div>
           <div className={style.house_list_item}>
-            <img src={room3} width="270" height="180" />
+            <img src={room3} width="270" />
             <div className={style.mid_dec}>
               <h2>合租 | 怡海花园 4室1厅 北</h2>
               <p>[ 怡海花园 南山 - 后海 ]</p>
@@ -75,7 +70,7 @@ const ConList = () => {
             </div>
           </div>
           <div className={style.house_list_item}>
-            <img src={room4} width="270" height="180" />
+            <img src={room4} width="270" />
             <div className={style.mid_dec}>
               <h2>合租 | 现代城华庭 5室1厅 东南</h2>
               <p>[ 现代城华庭 南山 - 南油 ]</p>
@@ -90,13 +85,7 @@ const ConList = () => {
             </div>
           </div>
           <div className={style.pagination}>
-            <ul>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>...</li>
-              <li>10</li>
-            </ul>
+            <Pagination defaultCurrent={1} total={50} />
           </div>
         </div>
         {/* 右侧内容 */}
@@ -131,7 +120,7 @@ const ConList = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

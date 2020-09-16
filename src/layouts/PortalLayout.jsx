@@ -1,8 +1,8 @@
 import style from './PortalLayout.less';
 import { Link } from 'umi';
 
-// welcome页表头
-const HeaderHome = () => {
+// Rent页表头
+const RentHome = () => {
   return (
     <>
       <div className={style.header_l}>
@@ -28,13 +28,36 @@ const HeaderHome = () => {
   );
 };
 
+// Welcome表头
+const WelcomeHeader = () => {
+  return (
+    <>
+      <div className={style.header_l}>
+        <h3>深圳</h3>
+        <span>
+          [ <a href="#">切换城市</a> <a href="#">广州</a>
+          <a href="#">东莞</a> <a href="#">珠海</a>
+          <a href="#">汕头</a> ]
+        </span>
+      </div>
+      <div className={style.weather}></div>
+      <div className={style.wyzf}>
+        <h3>
+          <Link to="/srp/rent">我要租房</Link>
+        </h3>
+      </div>
+    </>
+  );
+};
+
 const PortalLayout = (props) => {
   const { children } = props;
+  let header = location.pathname === '/srp/welcome' ? <WelcomeHeader /> : <RentHome />
   return (
     <div className={style.layout_contain}>
       <div className={style.header}>
         <div className={style.header_w}>
-          <HeaderHome />
+          {header}
         </div>
       </div>
       <div className={style.con}>{children}</div>

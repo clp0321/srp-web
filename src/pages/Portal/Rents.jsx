@@ -25,7 +25,7 @@ class Rent extends Component {
       visible: true,
     });
   };
-
+  
   render() {
     const { visible } = this.state;
     return (

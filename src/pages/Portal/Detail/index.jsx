@@ -9,6 +9,7 @@ import style from './style.less';
 const { TabPane } = Tabs;
 
 const Detail = () => {
+  const [key, setKey] = useState('1');
   useEffect(() => {
     document.title = '房屋详情';
   });
@@ -25,7 +26,7 @@ const Detail = () => {
         onClick={showImgList}
       />
       <div className={style.top}>
-        <Tabs defaultActiveKey="3" onChange={callback}>
+        <Tabs defaultActiveKey={key} onChange={val => setKey(val)}>
           <TabPane tab="房屋详情" key="1">
             <HouseDetail />
           </TabPane>

@@ -1,9 +1,16 @@
-
-
 import { useState, useEffect } from 'react';
 import { Typography, Tag, Tooltip, Descriptions } from 'antd';
+import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
 
 import style from './style.less';
+
+// mock经纬度
+const lanLat = {
+  lng: 114.039232,
+  lat: 22.674789,
+  title: '保利悦都',
+  text: '深圳市龙华区清龙路与龙观大道交叉路口往南约100米',
+};
 
 const mockTool = [
   {
@@ -106,6 +113,7 @@ const toolList = mockTool.map((item, index) => <TooltipList key={index} data={it
 const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = () => {
+  const { lng, lat, title, text } = lanLat;
   return (
     <>
       <div className={style.house_detail}>
@@ -113,6 +121,7 @@ const HouseDetail = () => {
         <Text>智能设备编码: 873243241</Text>
       </div>
       {toolList}
+      {/* 房屋信息 */}
       <div className={style.desc}>
         <Descriptions
           column={3}
@@ -125,9 +134,10 @@ const HouseDetail = () => {
           <Descriptions.Item label="楼层">底层(共18)</Descriptions.Item>
           <Descriptions.Item label="装修">精装修</Descriptions.Item>
           <Descriptions.Item label="类型">普通住宅</Descriptions.Item>
-          <Descriptions.Item label="小区">南山区 塘朗村</Descriptions.Item>
+          <Descriptions.Item label="小区">龙华区 保利悦都</Descriptions.Item>
         </Descriptions>
       </div>
+      {/* 设施信息 */}
       <div className={style.facility}>
         <Text strong>卧室设施</Text>
         <dl>
@@ -142,25 +152,37 @@ const HouseDetail = () => {
           </dd>
         </dl>
       </div>
-      <div>
+      {/* 地理位置 */}
+      <div className={style.lbs}>
+        <Title level={4}>地理位置</Title>
+        <div>
+          <Map center={{ lng, lat }} zoom="11">
+            <Marker position={{ lng, lat }} />
+            <NavigationControl />
+            <InfoWindow position={{ lng, lat }} title={title}>
+              <Text>{text}</Text>
+            </InfoWindow>
+          </Map>
+        </div>
+      </div>
+      {/* 房屋描述 */}
+      <div className={style.describe}>
         <Title level={4}>房屋描述</Title>
+        <Paragraph>超便宜！业主急租，装修精美，主卧独卫，拎包入住!</Paragraph>
         <Paragraph>
-          超便宜！业主急租，装修精美，主卧独卫，拎包入住!
-          <br />
           房源亮点:南北通透,临近地铁，小区附近有大型超市，菜场，出行购物非常方便！
-          <br />
-          现在租房，还可房租减免活动，欢迎来电咨询！
-          <br />
-          1、附近地铁：3号线南联:1205m
-          <br />
+        </Paragraph>
+        <Paragraph>现在租房，还可房租减免活动，欢迎来电咨询！</Paragraph>
+        <Paragraph> 1、附近地铁：3号线南联:1205m</Paragraph>
+        <Paragraph>
           2、周边公交：盛龙路口:165m;东港酒店:201m;龙园印象:302m;华升学校:339m;盛平天桥:455m
-          <br />
-          3、周围商店：万福来百货:345m;云双百货:625m
-          <br />
+        </Paragraph>
+        <Paragraph>3、周围商店：万福来百货:345m;云双百货:625m </Paragraph>
+        <Paragraph>
           4、餐饮：幸福小家:52m;蝶爱甜品蜜饮:54m;湘味小厨:72m;沙县小吃店:85m;姚记北方饺子馆:100m
-          <br />
+        </Paragraph>
+        <Paragraph>
           6、室内配置：配备品牌家具家电、配套床垫、抱枕、台灯、桌椅、衣柜、空调、洗衣机、冰箱和宽带。
-          <br />
         </Paragraph>
       </div>
     </>

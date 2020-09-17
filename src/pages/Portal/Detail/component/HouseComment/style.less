@@ -1,0 +1,45 @@
+.comment {
+  .com_con {
+    width: 100%;
+    height: 100px;
+    .com_rate {
+      width: 40%;
+      float: left;
+      height: 100px;
+    }
+    .com_expert {
+      width: 60%;
+      height: 100px;
+      display: flex;
+      .point {
+        display: inline-block;
+        position: relative;
+      }
+      .expert {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        .expert_avatar {
+          margin-left: 10px;
+        }
+      }
+      .expert_say {
+        display: inline-block;
+        position: relative;
+        top: 25px;
+        left: 20px;
+      }
+    }
+  }
+
+  .rate {
+    margin-top: 10px;
+  }
+  .pagination {
+    margin: 10px 0;
+    text-align: center;
+  }
+  .user_comment {
+    font-weight: bold;
+  }
+}

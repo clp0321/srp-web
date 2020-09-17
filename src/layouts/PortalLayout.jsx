@@ -1,5 +1,8 @@
-import style from './PortalLayout.less';
 import { Link } from 'umi';
+import { Typography } from 'antd';
+import style from './PortalLayout.less';
+
+const { Text } = Typography;
 
 // Rent页表头
 const RentHome = () => {
@@ -52,20 +55,15 @@ const WelcomeHeader = () => {
 
 const PortalLayout = (props) => {
   const { children } = props;
-  let header = location.pathname === '/srp/welcome' ? <WelcomeHeader /> : <RentHome />
+  let header = location.pathname === '/srp/welcome' ? <WelcomeHeader /> : <RentHome />;
   return (
     <div className={style.layout_contain}>
       <div className={style.header}>
-        <div className={style.header_w}>
-          {header}
-        </div>
+        <div className={style.header_w}>{header}</div>
       </div>
       <div className={style.con}>{children}</div>
       <div className={style.footer}>
-        <p>
-          5G物联网区块链共享租赁平台为您提供全网安全有保障的房源信息，让您租房更安心，使用更放心！
-        </p>
-        <p>&copy;深圳计算机学会</p>
+        <Text>&copy;深圳计算机学会</Text>
       </div>
     </div>
   );

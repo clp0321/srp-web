@@ -1,5 +1,6 @@
 .list_contain {
-  button, img:hover {
+  button,
+  img:hover {
     cursor: pointer;
   }
   .list_check {
@@ -61,7 +62,6 @@
     justify-content: center;
     font-size: 26px;
     font-weight: bold;
-    color: #ef6500;
   }
   .pagination {
     width: 300px;
@@ -90,9 +90,8 @@
   }
   .wycz_btn {
     height: 50px;
-    background: #ef6500;
+    width: 100%;
     color: white;
-    font: 700 20px/50px Arial, Verdana, 'SimSun', '宋体';
     text-align: center;
   }
   .wycz:hover {
@@ -102,24 +101,34 @@
     width: 320px;
     margin: auto;
     color: black;
+    h4 {
+      display: inline-block;
+    }
+    .refesh {
+      float: right;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    :global {
+      .ant-typography {
+        line-height: 38px !important;
+      }
+    }
   }
-  .rmfy h2 {
+  .hot_house {
     margin-bottom: 20px;
   }
-  .hot_house_item {
-    width: 320px;
-    text-align: center;
+  .hot_house .item_out {
     margin-bottom: 20px;
-  }
-  .hot_house_item .item_out {
-    border: 1px solid #e5e5e5;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     height: 100px;
-  }
-
-  .hot_house_item p:last-child {
-    color: #ef6500;
+    :global {
+      .ant-typography {
+        margin-bottom: 0px !important;
+      }
+    }
   }
 }

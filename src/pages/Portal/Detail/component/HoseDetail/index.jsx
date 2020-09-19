@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Typography, Tag, Tooltip, Descriptions } from 'antd';
+import { Typography, Tag, Tooltip, Descriptions, Button } from 'antd';
+import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
 
 import style from './style.less';
@@ -118,7 +119,12 @@ const HouseDetail = () => {
     <>
       <div className={style.house_detail}>
         <Title level={4}>合租 | 远洋新干线2期 5室1厅 西南</Title>
-        <Text>智能设备编码: 873243241</Text>
+        <Paragraph>
+          智能设备编码: 873243241
+          <Button type="primary" className={style.watch_room} icon={<KeyOutlined />}>
+            申请看房
+          </Button>
+        </Paragraph>
       </div>
       {toolList}
       {/* 房屋信息 */}

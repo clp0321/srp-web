@@ -1,3 +1,4 @@
+import { Input } from 'antd';
 import style from './style.less';
 
 const SearchMultiple = () => {
@@ -65,7 +66,7 @@ const SearchMultiple = () => {
                 <a href="#">5500-5500</a>
               </li>
               <li>
-                <input className={style.rent_search} /> - <input className={style.rent_search} /> 元
+                <Input className={style.rent_search} /> - <Input className={style.rent_search} /> 元
               </li>
             </ul>
           </div>

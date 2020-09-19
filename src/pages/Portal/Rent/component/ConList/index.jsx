@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Tabs, Pagination, Button } from 'antd';
+import { Tabs, Pagination, Button, Typography, Tag, Card } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import room1 from '@/assets/images/room1.jpg';
 import room2 from '@/assets/images/room2.jpg';
 import room3 from '@/assets/images/room3.jpg';
@@ -9,6 +10,8 @@ import hotroom2 from '@/assets/images/hotroom2.jpg';
 import style from './style.less';
 
 const { TabPane } = Tabs;
+const { Title, Paragraph, Text } = Typography;
+const TagColor = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 
 // mockData
 const houseList = [
@@ -55,8 +58,8 @@ const ConList = () => {
   const [key, setKey] = useState('1');
   const handleClick = () => {
     // setVisible(false);
-    const w=window.open('about:blank');
-    w.location.href="/srp/detail"
+    const w = window.open('about:blank');
+    w.location.href = '/srp/detail';
   };
   const HouseList = ({ data }) => {
     const { imgUrl, con1, con2, con3, time, btnList, price } = data;
@@ -64,18 +67,22 @@ const ConList = () => {
       <div className={style.house_list_item}>
         <img src={imgUrl} width="270" onClick={handleClick} />
         <div className={style.mid_dec}>
-          <h2>{con1}</h2>
-          <p>{con2}</p>
-          <p>{con3}</p>
-          <p>{time}</p>
-          <p>
-            {btnList.map((item) => {
-              <Button>{item}</Button>;
+          <Title level={4}>{con1}</Title>
+          <Paragraph>{con2}</Paragraph>
+          <Paragraph>{con3}</Paragraph>
+          <Paragraph>{time}</Paragraph>
+          <Paragraph>
+            {btnList.map((item, index) => {
+              return (
+                <Tag key={index} color={TagColor[Math.floor(Math.random() * 4)]}>
+                  {item}
+                </Tag>
+              );
             })}
-          </p>
+          </Paragraph>
         </div>
         <div className={style.price}>
-          <span>{price}</span>元/月
+          <Text>{price}</Text>元/月
         </div>
       </div>
     );
@@ -101,33 +108,28 @@ const ConList = () => {
         </div>
         {/* 右侧内容 */}
         <div className={style.house_recommend}>
-          <div className={style.wycz}>
-            <div className={style.cz_banner}></div>
-            <div className={style.wycz_btn}>我要出租</div>
-          </div>
-          {/* 热门房源 */}
           <div className={style.rmfy}>
-            <h2>热门房源</h2>
-            <div className={style.hot_house}>
-              <div className={style.hot_house_item}>
-                <img src={hotroom1} width="320" height="160" />
-                <div className={style.item_out}>
-                  <h3>合租 | 整租·都市名园·9居室</h3>
-                  <p>76 m² / 3室 2厅 / 高楼层 / 朝向南</p>
-                  <p>4200元/月</p>
-                </div>
+            <Paragraph>
+              <Title level={4}>热门房源</Title>
+              <Text className={style.refesh}>
+                <ReloadOutlined style={{ marginRight: 2 }} />
+                刷新
+              </Text>
+            </Paragraph>
+            <Card cover={<img src={hotroom1} />} hoverable className={style.hot_house}>
+              <div className={style.item_out}>
+                <Paragraph>合租 | 整租·都市名园·9居室</Paragraph>
+                <Paragraph>76 m² / 3室 2厅 / 高楼层 / 朝向南</Paragraph>
+                <Paragraph>4200元/月</Paragraph>
               </div>
-            </div>
-            <div className={style.hot_house}>
-              <div className={style.hot_house_item}>
-                <img src={hotroom2} width="320" height="160" />
-                <div className={style.item_out}>
-                  <h3>整租 | 整租·雕塑家园 3室2厅 复式 南/北</h3>
-                  <p>72 m² / 3室 2厅 / 高楼层 / 朝向南北</p>
-                  <p>7200元/月</p>
-                </div>
+            </Card>
+            <Card cover={<img src={hotroom2} />} hoverable className={style.hot_house}>
+              <div className={style.item_out}>
+                <Paragraph>整租 | 整租·雕塑家园 3室2厅 复式 南/北</Paragraph>
+                <Paragraph>72 m² / 3室 2厅 / 高楼层 / 朝向南北</Paragraph>
+                <Paragraph>7200元/月</Paragraph>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>

@@ -1,13 +1,22 @@
+import { Input, Button, Typography } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import style from './style.less';
-const Search = () => {
+
+const { Search } = Input;
+
+const SearchBar = () => {
   return (
     <div className={style.search}>
       <div className={style.search_h}>
         <a href="#" className={style.s_logo}>
           <h2>区块链共享租赁</h2>
         </a>
-        <input className={style.search_input} placeholder="请输入区域、商圈或小区名开始找房" />
-        <button className={style.search_btm}>搜索</button>
+        <Search
+          icon={<SearchOutlined />}
+          placeholder="请输入区域、商圈或小区名开始找房"
+          enterButton="查询"
+          className={style.search_btn}
+        />
         <ul className={style.search_opt}>
           <li>热门搜索：</li>
           <li>
@@ -32,12 +41,12 @@ const Search = () => {
             <a href="#">田贝</a>
           </li>
         </ul>
-        <button className={style.realase} onClick={() => {}}>
+        <Button className={style.realase} type="primary">
           发布房源
-        </button>
+        </Button>
       </div>
     </div>
   );
 };
 
-export default Search;
+export default SearchBar;

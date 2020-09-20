@@ -64,7 +64,7 @@ const ConList = () => {
   const HouseList = ({ data }) => {
     const { imgUrl, con1, con2, con3, time, btnList, price } = data;
     return (
-      <div className={style.house_list_item}>
+      <Card hoverable bodyStyle={{ width: 800, display: 'flex' }} className={style.list_card}>
         <img src={imgUrl} width="270" onClick={handleClick} />
         <div className={style.mid_dec}>
           <Title level={4}>{con1}</Title>
@@ -84,7 +84,7 @@ const ConList = () => {
         <div className={style.price}>
           <Text>{price}</Text>元/月
         </div>
-      </div>
+      </Card>
     );
   };
   const house_list = houseList.map((item, index) => <HouseList key={index} data={item} />);
@@ -118,14 +118,14 @@ const ConList = () => {
             </Paragraph>
             <Card cover={<img src={hotroom1} />} hoverable className={style.hot_house}>
               <div className={style.item_out}>
-                <Paragraph>合租 | 整租·都市名园·9居室</Paragraph>
+                <Text strong>合租 | 整租·都市名园·9居室</Text>
                 <Paragraph>76 m² / 3室 2厅 / 高楼层 / 朝向南</Paragraph>
                 <Paragraph>4200元/月</Paragraph>
               </div>
             </Card>
             <Card cover={<img src={hotroom2} />} hoverable className={style.hot_house}>
               <div className={style.item_out}>
-                <Paragraph>整租 | 整租·雕塑家园 3室2厅 复式 南/北</Paragraph>
+                <Text strong>整租 | 整租·雕塑家园 3室2厅 复式 南/北</Text>
                 <Paragraph>72 m² / 3室 2厅 / 高楼层 / 朝向南北</Paragraph>
                 <Paragraph>7200元/月</Paragraph>
               </div>

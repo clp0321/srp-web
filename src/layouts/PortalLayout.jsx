@@ -43,11 +43,8 @@ const WelcomeHeader = () => {
           <a href="#">汕头</a> ]
         </span>
       </div>
-      <div className={style.weather}></div>
       <div className={style.wyzf}>
-        <h3>
-          <Link to="/srp/rent">我要租房</Link>
-        </h3>
+        <Link to="/srp/rent">我要出租</Link> | <Link to="/srp/rent">我要租房</Link>
       </div>
     </>
   );

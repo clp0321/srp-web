@@ -2,6 +2,7 @@ import { Input, Button, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import style from './style.less';
 
+const { Title } = Typography;
 const { Search } = Input;
 
 const SearchBar = () => {
@@ -9,7 +10,7 @@ const SearchBar = () => {
     <div className={style.search}>
       <div className={style.search_h}>
         <a href="#" className={style.s_logo}>
-          <h2>区块链共享租赁</h2>
+          <Title level={4}>区块链共享租赁</Title>
         </a>
         <Search
           icon={<SearchOutlined />}

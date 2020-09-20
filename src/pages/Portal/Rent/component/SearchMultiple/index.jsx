@@ -1,14 +1,16 @@
-import { Input } from 'antd';
+import { Input, Typography } from 'antd';
 import style from './style.less';
+
+const { Text } = Typography;
 
 const SearchMultiple = () => {
   return (
     <div className={style.opt_filter}>
-      <h5>共享租赁 深圳租房</h5>
+      <Text strong>共享租赁 / 深圳租房</Text>
       <div className={style.filter_con}>
         <div className={style.con_header}>
           <div className={style.position}>
-            <b>位置：</b>
+            <Text strong>位置：</Text>
           </div>
           <div className={style.area}>
             <a href="#" className={style.select}>
@@ -42,7 +44,7 @@ const SearchMultiple = () => {
           <div className={style.options}>
             <ul className={[style.otption_ul, style.top].join(' ')}>
               <li>
-                <b>租金：</b>
+                <Text strong>租金：</Text>
               </li>
               <li>
                 <a href="#">全部</a>
@@ -73,7 +75,7 @@ const SearchMultiple = () => {
           <div className={style.options}>
             <ul className={style.otption_ul}>
               <li>
-                <b>户型：</b>
+                <Text strong>户型：</Text>
               </li>
               <li>
                 <a href="#">全部</a>
@@ -101,7 +103,7 @@ const SearchMultiple = () => {
           <div className={style.options}>
             <ul className={style.otption_ul}>
               <li>
-                <b>面积：</b>
+                <Text strong>面积：</Text>
               </li>
               <li>
                 <a href="#">全部</a>
@@ -126,7 +128,7 @@ const SearchMultiple = () => {
           <div className={style.options}>
             <ul className={style.otption_ul}>
               <li>
-                <b>结构：</b>
+                <Text strong>结构：</Text>
               </li>
               <li>
                 <a href="#">混合</a>

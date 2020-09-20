@@ -12,7 +12,16 @@
 }
 .search_h {
   height: 32px;
+  display: flex;
+  justify-content: space-between;
   line-height: 30px;
+  .search_l {
+    display: inline-block;
+    margin-right: 50px;
+    span {
+      vertical-align: middle;
+    }
+  }
   .search_btn {
     width: 400px;
     span {
@@ -37,6 +46,9 @@
   float: left;
   height: 30px;
   padding: 0 10px;
+}
+ul {
+  padding-left: 0;
 }
 .search_opt {
   margin-left: 15px;

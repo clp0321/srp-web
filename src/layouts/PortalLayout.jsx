@@ -1,8 +1,9 @@
 import { Link } from 'umi';
 import { Typography } from 'antd';
 import style from './PortalLayout.less';
+import logUrl from '@/assets/images/easy-rent.png';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 // Rent页表头
 const RentHome = () => {
@@ -34,19 +35,11 @@ const RentHome = () => {
 // Welcome表头
 const WelcomeHeader = () => {
   return (
-    <>
-      <div className={style.header_l}>
-        <h3>深圳</h3>
-        <span>
-          [ <a href="#">切换城市</a> <a href="#">广州</a>
-          <a href="#">东莞</a> <a href="#">珠海</a>
-          <a href="#">汕头</a> ]
-        </span>
-      </div>
-      <div className={style.wyzf}>
-        <Link to="/srp/rent">我要出租</Link> | <Link to="/srp/rent">我要租房</Link>
-      </div>
-    </>
+    <div className={style.logo}>
+      <img src={logUrl} />
+      <Text strong>屹租链</Text>
+      <Text strong>信息溯源</Text>
+    </div>
   );
 };
 
@@ -60,7 +53,7 @@ const PortalLayout = (props) => {
       </div>
       <div className={style.con}>{children}</div>
       <div className={style.footer}>
-        <Text>&copy;深圳计算机学会</Text>
+        <Text strong>&copy;深圳计算机学会</Text>
       </div>
     </div>
   );

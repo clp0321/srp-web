@@ -53,7 +53,7 @@ const PortalLayout = (props) => {
       </div>
       <div className={style.con}>{children}</div>
       <div className={style.footer}>
-        <Text strong>&copy;深圳计算机学会</Text>
+        <Text strong>&copy;深圳市计算机学会</Text>
       </div>
     </div>
   );

@@ -30,6 +30,10 @@ export default defineConfig({
       component: '../layouts/PortalLayout',
       routes: [
         {
+          path: '/srp',
+          redirect: '/srp/welcome',
+        },
+        {
           path: '/srp/welcome',
           component: './Portal/Welcome',
         },
@@ -40,7 +44,16 @@ export default defineConfig({
         {
           path: '/srp/detail',
           component: './Portal/Detail',
-        }
+        }, {
+          path: '/srp/release',
+          component: './Portal/Release'
+        }, {
+          path: '/srp/blockmessage',
+          component: './Portal/BLockMessage'
+        },
+        {
+          component: './404',
+        },
       ],
     },
     {

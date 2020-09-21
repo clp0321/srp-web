@@ -6,11 +6,16 @@ const NoFoundPage = () => (
   <Result
     status="404"
     title="404"
-    subTitle="Sorry, the page you visited does not exist."
+    subTitle="抱歉！访问页面不存在~"
     extra={
-      <Button type="primary" onClick={() => history.push('/')}>
-        Back Home
-      </Button>
+      <>
+        <Button type="primary" onClick={() => history.push('/srp')}>
+          返回门户网页
+        </Button>
+        <Button type="danger" onClick={() => history.push('/')}>
+          返回系统主页
+        </Button>
+      </>
     }
   />
 );

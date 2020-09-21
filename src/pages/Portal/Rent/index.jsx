@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import Modal from '@/components/Modal';
 import style from './style.less';
 
 
@@ -34,11 +33,6 @@ class Rent extends Component {
         {/* 内容选择 */}
         <ConList />
         {/* 页面底部 */}
-        <Modal
-          title="发布房源"
-          visible={visible}
-          onCancel={() => this.setState({ visible: false })}
-        />
       </div>
     );
   }

@@ -39,6 +39,7 @@ const WelcomeHeader = () => {
       <img src={logUrl} />
       <Text strong>屹租链</Text>
       <Text strong>信息溯源</Text>
+      
     </div>
   );
 };

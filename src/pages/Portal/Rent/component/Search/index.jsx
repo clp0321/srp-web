@@ -1,18 +1,27 @@
 import { useState } from 'react';
 import { Input, Button, Typography, Modal } from 'antd';
-import FormModal from '../FormModal';
-import { Link } from 'umi';
+import { Link, history } from 'umi';
 import { SearchOutlined } from '@ant-design/icons';
 import style from './style.less';
 import logoUrl from '@/assets/images/easy-rent.png';
 
 const { Text } = Typography;
 const { Search } = Input;
+const { confirm } = Modal;
 
 const SearchBar = () => {
   const [visible, setVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
   
+  const showModal = () => {
+    // 判断当前用户的登陆身份
+    confirm({
+      title: <span><Text strong>大清</Text>，是否发布房源？</span>,
+      onOk: () => history.push('/srp/release'),
+      okCancel: () => {}
+    })
+  }
+
   return (
     <div className={style.search}>
       <div className={style.search_h}>
@@ -56,39 +65,17 @@ const SearchBar = () => {
             </li>
           </ul>
         </div>
-        <Button className={style.realase} type="primary" onClick={() => setVisible(true)}>
+        <Button className={style.realase} type="primary" onClick={showModal}>
           发布房源
         </Button>
-        <Modal
+        {/* <Modal
           title="房源发布"
           visible={visible}
           onOk={() => setVisible(false)}
           onCancel={() => setVisible(false)}
         >
          
-        </Modal>
-
-        <FormModal
-          // onSubmit={async value => {
-          //   const success = await handleUpdate(value);
-
-          //   if (success) {
-          //     handleUpdateModalVisible(false);
-          //     setStepFormValues({});
-
-          //     if (actionRef.current) {
-          //       actionRef.current.reload();
-          //     }
-          //   }
-          // }}
-          onCancel={() => {
-            setVisible(false);
-            // setStepFormValues({});
-          }}
-          updateModalVisible={visible}
-          values={stepFormValues}
-        />
-      ) 
+        </Modal> */}
       </div>
     </div>
   );

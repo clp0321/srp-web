@@ -37,9 +37,8 @@ const WelcomeHeader = () => {
   return (
     <div className={style.logo}>
       <img src={logUrl} />
-      <Text strong>屹租链</Text>
-      <Text strong>信息溯源</Text>
-      
+      <Text strong><Link to="/srp/welcome">屹租链</Link></Text>
+      <Text strong><Link to="/srp/blockmessage">信息溯源</Link></Text>
     </div>
   );
 };

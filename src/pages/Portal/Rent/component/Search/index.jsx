@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input, Button, Typography, Modal } from 'antd';
-import { Link, history } from 'umi';
+import { Link, history, connect } from 'umi';
 import { SearchOutlined } from '@ant-design/icons';
 import style from './style.less';
 import logoUrl from '@/assets/images/easy-rent.png';
@@ -9,18 +9,23 @@ const { Text } = Typography;
 const { Search } = Input;
 const { confirm } = Modal;
 
-const SearchBar = () => {
+const SearchBar = ({ currentUser }) => {
   const [visible, setVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
-  
+  const { role, userName } = currentUser;
+
   const showModal = () => {
     // 判断当前用户的登陆身份
     confirm({
-      title: <span><Text strong>大清</Text>，是否发布房源？</span>,
+      title: (
+        <span>
+          <Text strong>{userName}</Text>，是否发布房源？
+        </span>
+      ),
       onOk: () => history.push('/srp/release'),
-      okCancel: () => {}
-    })
-  }
+      okCancel: () => {},
+    });
+  };
 
   return (
     <div className={style.search}>
@@ -29,7 +34,7 @@ const SearchBar = () => {
           <Link to="/srp/welcome">
             <img src={logoUrl} height={30} />
             <Text strong style={{ fontSize: 18 }}>
-              区块链共享租赁
+              区块链共享房屋租赁平台
             </Text>
           </Link>
         </div>
@@ -65,9 +70,11 @@ const SearchBar = () => {
             </li>
           </ul>
         </div>
-        <Button className={style.realase} type="primary" onClick={showModal}>
-          发布房源
-        </Button>
+        {role === 1 ? (
+          <Button className={style.realase} type="primary" onClick={showModal}>
+            发布房源
+          </Button>
+        ) : null}
         {/* <Modal
           title="房源发布"
           visible={visible}
@@ -81,4 +88,6 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(SearchBar);

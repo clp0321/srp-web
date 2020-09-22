@@ -2,6 +2,11 @@
   width: 1190px;
   margin: auto;
   margin-top: 20px;
+  .margin {
+    display: inline-block;
+    width: 200px;
+    margin-right: 8px;
+  }
   .alert {
     margin-bottom: 20px;
   }
@@ -44,5 +49,20 @@
   .btn_list {
     text-align: center;
     margin-bottom: 20px;
+  }
+  .add_require {
+    :global {
+      .ant-form-item-label {
+        & ::before {
+          display: inline-block;
+          margin-right: 4px;
+          color: #ff4d4f;
+          font-size: 14px;
+          font-family: SimSun, sans-serif;
+          line-height: 1;
+          content: '*';
+        }
+      }
+    }
   }
 }

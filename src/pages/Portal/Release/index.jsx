@@ -3,12 +3,9 @@ import {
   Form,
   Select,
   InputNumber,
-  Switch,
   Radio,
-  Slider,
   Button,
   Upload,
-  Rate,
   Checkbox,
   Row,
   Col,
@@ -18,16 +15,11 @@ import {
   Alert,
   Timeline,
   Affix,
-  Cascader,
   DatePicker,
   Space,
 } from 'antd';
-import {
-  UploadOutlined,
-  InboxOutlined,
-  SoundOutlined,
-  ClockCircleOutlined,
-} from '@ant-design/icons';
+import { InboxOutlined, SoundOutlined } from '@ant-design/icons';
+import { connect } from 'umi';
 import style from './style.less';
 
 const { Option } = Select;
@@ -134,6 +126,18 @@ const configuration = [
 
 const { Item } = Form;
 
+// 正则数字
+const numberRegex = {
+  pattern: /^\+?[1-9][0-9]*$/,
+  message: '请输入不小于0的正整数',
+};
+
+// 房屋面积正则
+const sizeRegex = {
+  pattern: /^([1-9][0-9]*)+(.[0-9]{1,2})?$/,
+  message: '请输入最多两位小数的数字',
+};
+
 const normFile = (e) => {
   console.log('Upload event:', e);
   if (Array.isArray(e)) {
@@ -167,76 +171,103 @@ const rentList = RentInfoList.map((item, index) => {
 
 // baseInfo 基础信息
 const BaseInfo = () => {
+  const baseLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 7 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 17 },
+    },
+  };
   return (
     <>
       <TitleCon title="基础信息" />
-      <Item
-        name="area"
-        label="所在区域"
-        rules={[
-          {
-            required: true,
-            message: '请选择所在区域',
-          },
-        ]}
-      >
-        <Cascader options={mockData} onChange={() => {}} placeholder="请选择所在区域" />
-      </Item>
-      <Item
-        label="房屋类型"
-        rules={[
-          {
-            required: true,
-            message: '请填写房屋类型',
-          },
-        ]}
-        style={{ display: 'flex' }}
-      >
+      <Row>
+        <Col>
+          <Item
+            name="area"
+            label="所在区域"
+            {...baseLayout}
+            rules={[
+              {
+                required: true,
+                message: '请输入所在区域',
+              },
+            ]}
+          >
+            <Input placeholder="输入所在区域" style={{ width: 200 }} />
+          </Item>
+        </Col>
+        <Col>
+          <Item
+            label="设备编号"
+            name="equipment"
+            {...baseLayout}
+            rules={[
+              {
+                required: true,
+                message: '请输入设备编号',
+              },
+            ]}
+            style={{ marginLeft: 8 }}
+          >
+            <Input style={{ display: 'inline-block', width: 200 }} placeholder="输入设备编号" />
+          </Item>
+        </Col>
+        <Col>
+          <Item
+            {...baseLayout}
+            name="direction"
+            label="房屋朝向"
+            rules={[
+              {
+                required: true,
+                message: '请选择房屋朝向',
+              },
+            ]}
+            style={{ marginLeft: 8 }}
+          >
+            <Select placeholder="选择房屋朝向" style={{ display: 'inline-block', width: 200 }}>
+              <Option value={0}>东</Option>
+              <Option value={1}>南</Option>
+              <Option value={2}>西</Option>
+              <Option value={3}>北</Option>
+            </Select>
+          </Item>
+        </Col>
+      </Row>
+      <Item label="房屋类型" style={{ display: 'flex' }} className={style.add_require}>
         <Item
           name="room"
-          rules={[{ required: true, message: '' }]}
-          style={{ display: 'inline-block', width: 200, margin: 0 }}
+          rules={[{ required: true, message: '请输入室', ...numberRegex }]}
+          style={{ display: 'inline-block', width: 200, marginRight: 8 }}
+          className={style.margin}
         >
-          <Input addonAfter="室" />
+          <Input addonAfter="室" placeholder="输入室" />
         </Item>
         <Item
           name="hall"
-          rules={[{ required: true, message: '' }]}
-          style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
+          rules={[{ required: true, message: '请输入厅', ...numberRegex }]}
+          className={style.margin}
         >
-          <Input addonAfter="厅" />
+          <Input addonAfter="厅" placeholder="输入厅" />
         </Item>
         <Item
           name="guard"
-          rules={[{ required: true, message: '' }]}
-          style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
+          rules={[{ required: true, message: '请输入卫', ...numberRegex }]}
+          className={style.margin}
         >
-          <Input addonAfter="卫" />
+          <Input addonAfter="卫" placeholder="输入卫" />
         </Item>
         <Item
           name="size"
-          rules={[{ required: true, message: '' }]}
-          style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
+          rules={[{ required: true, message: '请输入面积', ...sizeRegex }]}
+          className={style.margin}
         >
-          <Input addonAfter="㎡" addonBefore="共" />
+          <Input addonAfter="㎡" addonBefore="共" placeholder="输入面积" />
         </Item>
-      </Item>
-      <Item
-        name="direction"
-        label="房屋朝向"
-        rules={[
-          {
-            required: true,
-            message: '请选择房屋朝向',
-          },
-        ]}
-      >
-        <Select placeholder="请选择朝向">
-          <Option value={0}>东</Option>
-          <Option value={1}>南</Option>
-          <Option value={2}>西</Option>
-          <Option value={3}>北</Option>
-        </Select>
       </Item>
     </>
   );
@@ -246,27 +277,21 @@ const RentInfo = () => {
   return (
     <>
       <TitleCon title="租金信息" className={style.sub_title} />
-      <Item
-        label="月租金"
-        rules={[
-          {
-            required: true,
-            message: '请填写租金信息',
-          },
-        ]}
-        className={style.flex_item}
-      >
-        <Item name="price">
-          <InputNumber
-            style={{ display: 'inline-block', width: 200, margin: 0 }}
-            placeholder="请输入租金"
-          />
+      <Item label="月租金" className={[style.flex_item, style.add_require].join(' ')}>
+        <Item
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: '请填写租金信息',
+              ...sizeRegex,
+            },
+          ]}
+        >
+          <InputNumber className={style.margin} placeholder="请输入租金" />
         </Item>
         <Item name="payway">
-          <Select
-            placeholder="请选择付款方式"
-            style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
-          >
+          <Select placeholder="请选择付款方式" className={style.margin}>
             <Option value={0}>押一付一</Option>
             <Option value={1}>押一付二</Option>
             <Option value={2}>半年付</Option>
@@ -276,7 +301,7 @@ const RentInfo = () => {
         <Item name="method">
           <Select
             placeholder="请选择租赁形式"
-            style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
+            style={{ display: 'inline-block', width: 200, marginRight: 8 }}
           >
             <Option value={0}>整租</Option>
             <Option value={1}>合租</Option>
@@ -307,21 +332,11 @@ const Detail = ({ indeterminate, checkAll, onCheckAllChange, changeCheckList, ch
       <TitleCon title="详细介绍" className={style.sub_title} />
       <Item label="最早入住" className={style.flex_item}>
         <Item name="enterTime">
-          <DatePicker style={{ display: 'inline-block', width: 200, margin: 0 }} />
+          <DatePicker className={style.margin} />
         </Item>
-        <Item name="fitPeople">
-          <Input
-            addonAfter="人"
-            placeholder="宜住"
-            style={{ display: 'inline-block', width: 200, margin: '0 8px' }}
-          />
+        <Item name="fitPeople" rules={[{ required: true, message: '请输入室', ...numberRegex }]}>
+          <Input addonAfter="人" placeholder="宜住" className={style.margin} />
         </Item>
-      </Item>
-      <Item label="房屋结构" name="struct">
-        <Radio.Group>
-          <Radio value={1}>混合</Radio>
-          <Radio value={2}>钢筋混凝土</Radio>
-        </Radio.Group>
       </Item>
       <Item label="看房时间" name="watchTime">
         <Radio.Group>
@@ -352,9 +367,14 @@ const HousePic = () => {
   return (
     <>
       <TitleCon title="房源图片" className={style.sub_title} />
-      <Item label="上传图片" name="upload" rules={[{ require: true }]} className={style.house_pic}>
+      <Item
+        label="上传图片"
+        name="upload"
+        rules={[{ require: true }]}
+        className={[style.house_pic, style.add_require].join(' ')}
+      >
         <Paragraph>
-          请上传清晰、实拍的室内图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照、风景照等与房源无关的图片，最多上传12张，每张最大10M
+          请上传清晰、实拍的室内图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照、风景照等与房源无关的图片，最多上传12张，每张最大5M
         </Paragraph>
         <Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
           <Upload.Dragger name="files" action="/upload.do">
@@ -371,18 +391,15 @@ const HousePic = () => {
 };
 
 // contactInfo 联系信息
-const ContactInfo = () => {
+const ContactInfo = ({ userName, role }) => {
   return (
     <>
       <TitleCon title="联系信息" className={style.sub_title} />
-      <Item label="发布人" name="publisher" rules={[{ required: true }]}>
-        <Input disabled defaultValue="大清" />
+      <Item label="发布人" name="publisher">
+        <Input disabled defaultValue={userName} />
       </Item>
-      <Item label="身份选择" name="role" rules={[{ required: true, message: '请选择用户身份' }]}>
-        <Select placeholder="请选择用户个人身份">
-          <Option value={1}>房东</Option>
-          <Option value={2}>代理服务商</Option>
-        </Select>
+      <Item label="身份选择" name="role">
+        <Input disabled defaultValue={role === 0 ? '租客' : role === 1 ? '房东' : null} />
       </Item>
       <Item label="联系方式" name="phone" rules={[{ required: true, message: '请输入联系方式' }]}>
         <Input placeholder="请输入联系方式" />
@@ -403,7 +420,7 @@ const ButtonList = () => {
   );
 };
 
-const Release = () => {
+const Release = ({ currentUser }) => {
   const form = Form.useForm();
   const [checkedList, changeCheckList] = useState([]);
   const [indeterminate, setIndeterminate] = useState(true);
@@ -412,9 +429,11 @@ const Release = () => {
   const [payway, setPayway] = useState(0);
   const [struct, setStruct] = useState(0);
 
+  const { userName, role } = currentUser;
+
   useEffect(() => {
-    document.title = "区块链共享租赁平台-房源发布"
-  })
+    document.title = '区块链共享租赁平台-房源发布';
+  });
 
   const checkAllChange = (checked) => {
     setIndeterminate(false);
@@ -465,7 +484,7 @@ const Release = () => {
             {/* 房源图片 */}
             <HousePic />
             {/* 联系信息 */}
-            <ContactInfo />
+            <ContactInfo userName={userName} role={role} />
             {/* 按钮集 */}
             <ButtonList />
           </Form>
@@ -476,12 +495,7 @@ const Release = () => {
               <Timeline>
                 <Timeline.Item>基础信息</Timeline.Item>
                 <Timeline.Item>租金信息</Timeline.Item>
-                <Timeline.Item
-                  dot={<ClockCircleOutlined className="timeline-clock-icon" />}
-                  color="red"
-                >
-                  详细介绍
-                </Timeline.Item>
+                <Timeline.Item>详细介绍</Timeline.Item>
                 <Timeline.Item>房源图片</Timeline.Item>
                 <Timeline.Item>联系信息</Timeline.Item>
               </Timeline>
@@ -492,4 +506,7 @@ const Release = () => {
     </div>
   );
 };
-export default Release;
+
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(Release);

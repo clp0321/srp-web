@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { Alert, Checkbox, message, Form } from 'antd';
-import React, { useState } from 'react';
 import { Link, connect, history } from 'umi';
 import FormWraper from '@/components/FormWraper';
 import { findSomeOne } from '@/services/login';
@@ -33,6 +33,10 @@ const Register = (props) => {
   const { userRegister = {}, submitting } = props;
   const { registerStatus, type: loginType } = userRegister;
   
+  useEffect(() => {
+    document.title = "区块链共享租赁平台-用户注册"
+  })
+
 
   // 注册用户
   const handleSubmit = (values, form) => {

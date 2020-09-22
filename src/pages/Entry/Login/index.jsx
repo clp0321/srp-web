@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Alert, Checkbox, Button } from 'antd';
 import React, { useState } from 'react';
 import { Link, connect } from 'umi';
@@ -22,6 +23,10 @@ const Login = (props) => {
   const { status } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
 
+  useEffect(() => {
+    document.title = "区块链共享租赁平台-用户登陆"
+  })
+
   const handleSubmit = (values) => {
     const { dispatch } = props;
     const { userName, password } = values;
@@ -30,7 +35,6 @@ const Login = (props) => {
       payload: { userName, password },
     });
   };
-
 
   return (
     <div className={styles.main}>

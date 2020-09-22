@@ -1,0 +1,47 @@
+.root {
+  display: flex;
+  background-image: url('./banner/login-bg.jpg');
+  justify-content: space-around;
+  width: 100vw;
+  height: 100vh;
+  background-size: 100% 100%;
+  background-position: center;
+  overflow: hidden;
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-basis: 35%;
+  .box {
+    padding: 16px 50px 40px;
+    width: 70%;
+    background: #f8f8f8;
+    border-radius: 20px;
+
+    .header {
+      font-size: 20px;
+      text-align: center;
+      padding: 30px;
+      font-weight: bold;
+    }
+  }
+}
+
+:global {
+  .inputLine {
+    .ant-input {
+      height: 42px;
+    }
+
+    .ant-btn {
+      height: 42px;
+      font-size: 14px;
+    }
+  }
+}

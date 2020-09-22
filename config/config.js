@@ -60,7 +60,7 @@ export default defineConfig({
     },
     {
       path: '/client',
-      component: '../layouts/UserLayout',
+      component: '../layouts/EntryLayout',
       routes: [
         {
           name: 'login',

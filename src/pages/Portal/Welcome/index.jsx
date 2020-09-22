@@ -16,14 +16,9 @@ const Welcome = () => {
         <div className={style.banner_con}>
           <Title level={1}>5G区块链共享租赁平台</Title>
           <Title level={4}>自动化、智能化、5G互联、无人值守</Title>
-          <div className={style.btn}>
-            <Button type="primary" onClick={() => history.push('/srp/rent')}>
-              立即体验
-            </Button>
-            {/* <Button type="primary" onClick={() => history.push('/srp/rent')}>
-              我要发布
-            </Button> */}
-          </div>
+          <Button size="large" type="primary" onClick={() => history.push('/srp/rent')} style={{ width: 200 }}>
+            立即体验
+          </Button>
         </div>
       </div>
       {/* 产品介绍 */}

@@ -38,11 +38,11 @@ const Model = {
               redirect = redirect.substr(redirect.indexOf('#') + 1);
             }
           } else {
-            window.location.href = '/';
+            window.location.href = '/srp/rent';
             return;
           }
         }
-        history.replace(redirect || '/');
+        history.replace(redirect || '/srp/rent');
       } else {
         yield put({
           type: 'changeLoginStatus',

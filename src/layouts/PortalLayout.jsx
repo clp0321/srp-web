@@ -1,17 +1,32 @@
-import { Link } from 'umi';
-import { Typography } from 'antd';
-import style from './PortalLayout.less';
+import { Link, connect } from 'umi';
+import { Typography, Modal } from 'antd';
+import { setAuthority } from '@/utils/authority';
+import { HomeOutlined, LoginOutlined, LogoutOutlined, ForkOutlined } from '@ant-design/icons';
 import logUrl from '@/assets/images/easy-rent.png';
+import Avatar from 'antd/lib/avatar/avatar';
+import style from './PortalLayout.less';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 // Rent页表头
-const RentHome = () => {
+const RentHome = ({ currentUser }) => {
+  const handleLogout = () => {
+    Modal.confirm({
+      title: '确认退出本系统？',
+      onOk: () => {
+        setAuthority('');
+        window.location.reload();
+      },
+      onCancel: () => {},
+    });
+  };
+
   return (
     <>
       <div className={style.header_l}>
         <div className={style.header_home}>
           <h3>
+            <HomeOutlined />
             <Link to="/srp/welcome">首页</Link>
           </h3>
         </div>
@@ -21,13 +36,27 @@ const RentHome = () => {
         </h3>
       </div>
       <div className={style.header_r}>
-        <div className={style.h_r_link}>
-          <Link to="/client/logining">登陆</Link>
-          <span className={style.gap}>|</span>
-          <Link to="/client/register">注册</Link>
-        </div>
+        {currentUser && currentUser.userName ? (
+          <div className={style.user}>
+            <Avatar size="small" src={currentUser.avatar} alt="avatar" />
+            <span>当前登陆用户：{currentUser.userName}</span>
+            <span>
+              <LoginOutlined />
+              <Link to="/" style={{ marginRight: 10 }}>
+                进入子系统
+              </Link>
+              <LogoutOutlined />
+              <a onClick={handleLogout}>退出系统</a>
+            </span>
+          </div>
+        ) : (
+          <div className={style.h_r_link}>
+            <Link to="/client/logining">登陆</Link>
+            <span className={style.gap}>|</span>
+            <Link to="/client/register">注册</Link>
+          </div>
+        )}
       </div>
-      <i className={style.h_r_icon}></i>
     </>
   );
 };
@@ -37,15 +66,24 @@ const WelcomeHeader = () => {
   return (
     <div className={style.logo}>
       <img src={logUrl} />
-      <Text strong><Link to="/srp/welcome">屹租链</Link></Text>
-      <Text strong><Link to="/srp/blockmessage">信息溯源</Link></Text>
+      <Text strong>屹租链</Text>
+      <Text strong>
+        <ForkOutlined />
+        <Link to="/srp/blockmessage"> 信息溯源</Link>
+      </Text>
     </div>
   );
 };
 
 const PortalLayout = (props) => {
-  const { children } = props;
-  let header = location.pathname === '/srp/welcome' ? <WelcomeHeader /> : <RentHome />;
+  const { children, dispatch, currentUser = { avatar: '', userName: '' } } = props;
+  let header =
+    location.pathname === '/srp/welcome' ? (
+      <WelcomeHeader />
+    ) : (
+      <RentHome currentUser={currentUser} />
+    );
+
   return (
     <div className={style.layout_contain}>
       <div className={style.header}>
@@ -59,4 +97,6 @@ const PortalLayout = (props) => {
   );
 };
 
-export default PortalLayout;
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(PortalLayout);

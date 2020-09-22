@@ -70,6 +70,7 @@ const detailCon = [
   {
     title: '溯源状态',
     con: '区块链数据验证成功',
+    status: true,
   },
   {
     title: '时间戳',
@@ -102,7 +103,7 @@ const BlockDetial = ({ data }) => {
   return (
     <Paragraph>
       <Text className={style.start_title}>{data.title}</Text>
-      <Text className={style.desc}>{data.con}</Text>
+      <Text className={[style.desc, data.status ? style.success : ''].join(' ')}>{data.con}</Text>
     </Paragraph>
   );
 };
@@ -111,7 +112,7 @@ const blockContents = mockData.map((item, index) => <BlockItem key={index} data=
 const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} data={item} />);
 
 const BlockMessage = () => {
-  const [showAll, handleShowAll] = useState(true);
+  const [showAll, handleShowAll] = useState(false);
   // 节点名称	节点位置	状态	区块高度	最新区块哈希值	最新区块时间
   const columns = [
     {
@@ -205,7 +206,11 @@ const BlockMessage = () => {
           <>
             <Text className={style.table_title}>
               区块详情信息
-              <Button type="primary" className={style.back_btn} onClick={() => handleShowAll(false)}>
+              <Button
+                type="primary"
+                className={style.back_btn}
+                onClick={() => handleShowAll(false)}
+              >
                 返回
               </Button>
             </Text>

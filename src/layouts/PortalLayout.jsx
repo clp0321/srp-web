@@ -1,7 +1,8 @@
 import { Link, connect } from 'umi';
-import { Typography, Modal } from 'antd';
+import { Typography, Modal, message } from 'antd';
 import { setAuthority } from '@/utils/authority';
 import { HomeOutlined, LoginOutlined, LogoutOutlined, ForkOutlined } from '@ant-design/icons';
+import { getAuthority } from '@/utils/authority'
 import logUrl from '@/assets/images/easy-rent.png';
 import Avatar from 'antd/lib/avatar/avatar';
 import style from './PortalLayout.less';
@@ -10,6 +11,19 @@ const { Text } = Typography;
 
 // Rent页表头
 const RentHome = ({ currentUser }) => {
+
+  // 登入
+  const handleLogin = () => {
+    // 判断当前是否登入
+    const user = getAuthority()[0];
+    if (!user) {
+       message.warning('请先登入本系统');
+    }
+    const w = window.open('about:blank');
+    w.location.href = '/';
+  }
+
+  // 退出
   const handleLogout = () => {
     Modal.confirm({
       title: '确认退出本系统？',
@@ -42,9 +56,9 @@ const RentHome = ({ currentUser }) => {
             <span>当前登陆用户：{currentUser.userName}</span>
             <span>
               <LoginOutlined />
-              <Link to="/" style={{ marginRight: 10 }}>
+              <a onClick={handleLogin} style={{ marginRight: 10 }}>
                 进入子系统
-              </Link>
+              </a>
               <LogoutOutlined />
               <a onClick={handleLogout}>退出系统</a>
             </span>

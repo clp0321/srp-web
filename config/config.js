@@ -44,12 +44,14 @@ export default defineConfig({
         {
           path: '/srp/detail',
           component: './Portal/Detail',
-        }, {
+        },
+        {
           path: '/srp/release',
-          component: './Portal/Release'
-        }, {
+          component: './Portal/Release',
+        },
+        {
           path: '/srp/blockmessage',
-          component: './Portal/BLockMessage'
+          component: './Portal/BLockMessage',
         },
         {
           component: './404',
@@ -121,12 +123,12 @@ export default defineConfig({
                   redirect: '/property/release',
                 },
                 {
-                  name: 'property.release',
+                  name: 'release',
                   path: '/property/release',
                   component: './Property/Release',
                 },
                 {
-                  name: 'property.manage',
+                  name: 'manage',
                   path: '/property/manage',
                   component: './Property/Manage',
                 },

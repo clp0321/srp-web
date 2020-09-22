@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, Input, Table, Badge, Button, Divider } from 'antd';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -113,6 +113,9 @@ const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} dat
 
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
+  useEffect(() => {
+    document.title = "区块链共享租赁平台-信息溯源"
+  })
   // 节点名称	节点位置	状态	区块高度	最新区块哈希值	最新区块时间
   const columns = [
     {

@@ -57,7 +57,6 @@ const ConList = () => {
   const [visible, setVisible] = useState(true);
   const [key, setKey] = useState('1');
   const handleClick = () => {
-    // setVisible(false);
     const w = window.open('about:blank');
     w.location.href = '/srp/detail';
   };

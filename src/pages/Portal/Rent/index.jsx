@@ -12,6 +12,10 @@ class Rent extends Component {
     };
   }
 
+  componentDidMount() {
+    document.title = "区块链共享租赁平台-房源中心";
+  }
+
   handleRelease = () => {
     this.setState({
       visible: true,

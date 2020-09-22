@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, history } from 'umi';
 import { Typography, Button, Card, Col, Row } from 'antd';
 import img5G from '@/assets/images/5G.jpg';
@@ -9,6 +9,9 @@ import style from './style.less';
 
 const { Title, Paragraph } = Typography;
 const Welcome = () => {
+  useEffect(() => {
+    document.title = '区块链共享租赁平台';
+  });
   return (
     <>
       {/* banner图 */}
@@ -16,7 +19,12 @@ const Welcome = () => {
         <div className={style.banner_con}>
           <Title level={1}>5G区块链共享租赁平台</Title>
           <Title level={4}>自动化、智能化、5G互联、无人值守</Title>
-          <Button size="large" type="primary" onClick={() => history.push('/srp/rent')} style={{ width: 200 }}>
+          <Button
+            size="large"
+            type="primary"
+            onClick={() => history.push('/srp/rent')}
+            style={{ width: 200 }}
+          >
             立即体验
           </Button>
         </div>

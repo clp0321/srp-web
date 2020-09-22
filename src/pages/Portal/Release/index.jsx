@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Form,
   Select,
@@ -411,6 +411,10 @@ const Release = () => {
   const [method, setMethod] = useState(0);
   const [payway, setPayway] = useState(0);
   const [struct, setStruct] = useState(0);
+
+  useEffect(() => {
+    document.title = "区块链共享租赁平台-房源发布"
+  })
 
   const checkAllChange = (checked) => {
     setIndeterminate(false);

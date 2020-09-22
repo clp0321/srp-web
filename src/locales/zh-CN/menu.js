@@ -48,12 +48,12 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
-
+  
   'menu.monitoring': '监控页',
 
   'menu.property': '房产',
-  'menu.property.property.release': '房源发布',
-  'menu.property.property.manage': '房产管理',
+  'menu.property.release': '房源发布',
+  'menu.property.manage': '房产管理',
 
   'menu.equipment': '设备',
   'menu.equipment.water_meter': '智能水电表',

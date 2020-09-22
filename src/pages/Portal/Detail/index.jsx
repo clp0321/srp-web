@@ -11,8 +11,8 @@ const { TabPane } = Tabs;
 const Detail = () => {
   const [key, setKey] = useState('1');
   useEffect(() => {
-    document.title = '房屋详情';
-  });
+    document.title = "区块链共享租赁平台-房源详情"
+  })
 
   const callback = () => {};
 

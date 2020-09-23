@@ -123,8 +123,8 @@ const LoginItem = (props) => {
     return (
     <FormItem name={name} {...options}>
       <Select {...customProps} {...otherProps}>
-        <Option value={0}>房东</Option>
-        <Option value={1}>租客</Option>
+        <Option value={0}>租客</Option>
+        <Option value={1}>房东</Option>
         <Option value={2}>代理服务商</Option>
         <Option value={3}>监管用户</Option>
       </Select>

@@ -17,6 +17,13 @@ export default {
     '/user': {
       target: 'http://10.113.8.184:8080',
       changeOrigin: true,
+    },
+    '/back': {
+      target: 'http://10.113.8.184:8080',
+      changeOrigin: true,
+      pathRewrite: {
+        '/back': '',
+      },
     }
   },
   test: {

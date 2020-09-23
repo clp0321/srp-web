@@ -2,28 +2,26 @@ import request from '@/utils/request';
 
 // 获取所有房源信息
 export async function getProperty() {
-  return request('/houseMessage');
+  return request('/back/houseMessage');
 }
 
 // 添加房源
 export async function addProperty(data) {
-  return request.post('/houseMessage', {
+  return request.post('/back/houseMessage', {
     data,
   });
 }
 
 // 修改房源
 export async function updateProperty(data) {
-  return request.put('/houseMessage', {
+  return request.put('/back/houseMessage', {
     data,
   });
 }
 
-// 删除房源
-export async function deleteProperty() {
-  return request.delete('/user', {
-    params: {
-      id,
-    },
+// 添加房产
+export async function addEstate(data) {
+  return request.post('/back/houseManage', {
+    data,
   });
 }

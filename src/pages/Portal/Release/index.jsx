@@ -20,6 +20,7 @@ import {
 } from 'antd';
 import { InboxOutlined, SoundOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
+import { addProperty, addEstate } from '@/services/property';
 import style from './style.less';
 
 const { Option } = Select;
@@ -40,41 +41,15 @@ const formItemLayout = {
   },
 };
 
-// 级联数据
-const mockData = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+// 随机产生一个mockHash
+const randomHash = () => {
+  const word = '0123456789abcdefghijklmnopqrstuvwxyz';
+  let output = '';
+  for (let i = 0; i < 5; i++) {
+    output += word[Math.floor(Math.random() * word.length)];
+  }
+  return output;
+};
 
 // Mock租金信息
 const RentInfoList = [
@@ -187,7 +162,7 @@ const BaseInfo = () => {
       <Row>
         <Col>
           <Item
-            name="area"
+            name="position"
             label="所在区域"
             {...baseLayout}
             rules={[
@@ -203,7 +178,7 @@ const BaseInfo = () => {
         <Col>
           <Item
             label="设备编号"
-            name="equipment"
+            name="device_id"
             {...baseLayout}
             rules={[
               {
@@ -409,19 +384,23 @@ const ContactInfo = ({ userName, role }) => {
 };
 
 // 按钮集合
-const ButtonList = () => {
+const ButtonList = ({ handleSubmit, resetData }) => {
   return (
     <div className={style.btn_list}>
       <Space size="large">
-        <Button type="primary">房源发布</Button>
-        <Button type="danger">信息重置</Button>
+        <Button type="primary" onClick={handleSubmit}>
+          房源发布
+        </Button>
+        <Button type="danger" onClick={resetData}>
+          信息重置
+        </Button>
       </Space>
     </div>
   );
 };
 
 const Release = ({ currentUser }) => {
-  const form = Form.useForm();
+  const [form] = Form.useForm();
   const [checkedList, changeCheckList] = useState([]);
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, handleCheckAll] = useState(false);
@@ -449,7 +428,41 @@ const Release = ({ currentUser }) => {
     handleCheckAll(list.length === configuration.length);
   };
 
-  const onFinish = () => {};
+  const handlePublish = () => {
+    form.validateFields().then(async (values) => {
+      const house_id = randomHash();
+      const {
+        method,
+        price,
+        phone,
+        payway,
+        publisher,
+        device_id,
+        size,
+        position,
+      } = values; // 房源 + 房产
+      Promise.all([
+        addProperty({
+          method,
+          price,
+          house_id,
+          phone,
+          payway,
+          publisher,
+        }),
+        addEstate({ house_id, size, position, specify: 0, device_id }),
+      ])
+        .then((value) => {
+          console.log(value);
+        })
+        .catch((err) => console.log('error', err));
+    });
+  };
+
+  const handleReset = () => {
+    form.resetFields();
+  };
+
   return (
     <div className={style.contain}>
       <Alert
@@ -462,13 +475,7 @@ const Release = ({ currentUser }) => {
       />
       <Row gutter={24}>
         <Col span={20}>
-          <Form
-            onFinish={onFinish}
-            {...formItemLayout}
-            initialValues={{
-              form,
-            }}
-          >
+          <Form {...formItemLayout} form={form}>
             {/* 基础信息 */}
             <BaseInfo />
             {/* 租金信息 */}
@@ -486,7 +493,7 @@ const Release = ({ currentUser }) => {
             {/* 联系信息 */}
             <ContactInfo userName={userName} role={role} />
             {/* 按钮集 */}
-            <ButtonList />
+            <ButtonList handleSubmit={handlePublish} resetData={handleReset} />
           </Form>
         </Col>
         <Col span={4}>

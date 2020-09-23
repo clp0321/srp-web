@@ -27,50 +27,62 @@ export default defineConfig({
   routes: [
     {
       path: '/srp',
-      component: '../layouts/PortalLayout',
+      component: '../layouts/SecurityLayout',
       routes: [
         {
           path: '/srp',
-          redirect: '/srp/welcome',
-        },
-        {
-          path: '/srp/welcome',
-          component: './Portal/Welcome',
-        },
-        {
-          path: '/srp/rent',
-          component: './Portal/Rent',
-        },
-        {
-          path: '/srp/detail',
-          component: './Portal/Detail',
-        },
-        {
-          path: '/srp/release',
-          component: './Portal/Release',
-        },
-        {
-          path: '/srp/blockmessage',
-          component: './Portal/BLockMessage',
-        },
-        {
-          component: './404',
+          component: '../layouts/PortalLayout',
+          routes: [
+            {
+              path: '/srp',
+              redirect: '/srp/welcome',
+            },
+            {
+              path: '/srp/welcome',
+              component: './Portal/Welcome',
+            },
+            {
+              path: '/srp/rent',
+              component: './Portal/Rent',
+            },
+            {
+              path: '/srp/detail',
+              component: './Portal/Detail',
+            },
+            {
+              path: '/srp/release',
+              component: './Portal/Release',
+            },
+            {
+              path: '/srp/blockmessage',
+              component: './Portal/BLockMessage',
+            },
+            {
+              component: './404',
+            },
+          ],
         },
       ],
     },
     {
       path: '/client',
-      component: '../layouts/EntryLayout',
+      component: '../layouts/SecurityLayout',
       routes: [
         {
-          name: 'login',
-          path: '/client/logining',
-          component: './Entry/Login',
-        },
-        {
-          name: 'register',
-          pathL: '/client/register',
-          component: './Entry/Register',
+          path: '/client',
+          component: '../layouts/EntryLayout',
+          routes: [
+            {
+              name: 'login',
+              path: '/client/logining',
+              component: './Entry/Login',
+            },
+            {
+              name: 'register',
+              pathL: '/client/register',
+              component: './Entry/Register',
+            },
+          ],
         },
       ],
     },

@@ -69,5 +69,7 @@ export default {
   'menu.contract.create': '合同生成',
   'menu.contract.manage': '合同管理',
 
+  'menu.reservation': '预约',
+
   'menu.user.manage': '用户',
 };

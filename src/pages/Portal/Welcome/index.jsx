@@ -17,8 +17,8 @@ const Welcome = () => {
       {/* banner图 */}
       <div className={style.banner}>
         <div className={style.banner_con}>
-          <Title level={1}>5G区块链共享租赁平台</Title>
-          <Title level={4}>自动化、智能化、5G互联、无人值守</Title>
+          <Title level={1}>5G物联区块链共享租赁平台</Title>
+          <Title level={4}>5G互联、可信运营、智能共享、无人值守</Title>
           <Button
             size="large"
             type="primary"
@@ -33,9 +33,8 @@ const Welcome = () => {
       <div className={style.introduce}>
         <Title level={2}>产品简介</Title>
         <div className={style.in_con}>
-          <Paragraph>
-            FISCO
-            BCOS平台是金融区块链合作联盟（深圳）（以下简称：金链盟）开源工作组以金融业务实践为参考样本，在BCOS开源平台基础上进行模块升级与功能重塑，深度定制的安全可控、适用于金融行业且完全开源的区块链底层平台。金链盟开源工作组的首批成员包括以下单位：微众银行、深证通、腾讯、华为、神州数码、四方精创、博彦科技、越秀金科、亦笔科技等9家单位。
+          <Paragraph strong style={{ fontSize: 16 }}>
+            本产品是由多方参与共同维护的共享租赁平台。以区块链为基础，打通供求双方的信息壁垒，实现房源信息准确可追溯；以5G通信技术为依托、可信智能合约为手段、智能设备为载体、实现可信可靠、自动化无人值守的租赁体系
           </Paragraph>
         </div>
         <div className={style.break}></div>
@@ -64,9 +63,9 @@ const Welcome = () => {
         <div className={style.break}></div>
       </div>
       {/* 产品结构  */}
-      {/* <div className={style.architecture}>
+      <div className={style.architecture}>
         <Title level={2}>产品架构</Title>
-      </div> */}
+      </div>
     </>
   );
 };

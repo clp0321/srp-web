@@ -8,6 +8,7 @@ import text from './text.png';
 import info from './info.png';
 import star from './star.png';
 import bar from './bar.png';
+import yz_logo from './yz_logo.png';
 import style from './style.less';
 
 export default class Banner extends Component {
@@ -15,8 +16,8 @@ export default class Banner extends Component {
         return (
             <div className={style.root}>
                 <div className={style.logo}>
-                    <img alt="logo" src={logo}/>
-                    <i>屹租链-多方参与、共同维护的可靠房源信息链</i>
+                    <img alt="logo" src={yz_logo} width={120} />
+                    <i>多方参与、共同维护的可靠房源信息链</i>
                 </div>
                 <div className={style.banner}>
                     <div className={style.banner_image_container}>

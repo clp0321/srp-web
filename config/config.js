@@ -210,6 +210,12 @@ export default defineConfig({
               ],
             },
             {
+              name: 'reservation',
+              icon: 'message',
+              path: '/reservation',
+              component: './Reservation'
+            },
+            {
               name: 'user.manage',
               icon: 'user',
               path: '/manage',

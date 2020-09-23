@@ -17,6 +17,8 @@ const Model = {
       const { data } = response;
       if (data) {
         // 将返回登入用户信息存入store中
+        localStorage.setItem('name', data.userName);
+        localStorage.setItem('role', data.role)
         yield put({
           type: 'user/saveCurrentUser',
           payload: data
@@ -42,7 +44,7 @@ const Model = {
             return;
           }
         }
-        history.replace(redirect || '/srp/rent');
+        history.replace('/srp/rent')
       } else {
         yield put({
           type: 'changeLoginStatus',

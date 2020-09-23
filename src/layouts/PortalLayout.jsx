@@ -25,7 +25,6 @@ const WelcomeHeader = () => {
 const PortalLayout = (props) => {
   const { children, dispatch } = props;
   useEffect(() => {
-    console.log(1)
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
@@ -48,4 +47,4 @@ const PortalLayout = (props) => {
   );
 };
 
-export default connect(() => {})(PortalLayout);
+export default connect((global) => ({collapsed: global.collapsed}))(PortalLayout);

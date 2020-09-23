@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Form,
   Select,
@@ -17,6 +16,7 @@ import {
   Affix,
   DatePicker,
   Space,
+  message,
 } from 'antd';
 import { InboxOutlined, SoundOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
@@ -178,7 +178,7 @@ const BaseInfo = () => {
         <Col>
           <Item
             label="设备编号"
-            name="device_id"
+            name="deviceId"
             {...baseLayout}
             rules={[
               {
@@ -366,15 +366,15 @@ const HousePic = () => {
 };
 
 // contactInfo 联系信息
-const ContactInfo = ({ userName, role }) => {
+const ContactInfo = () => {
   return (
     <>
       <TitleCon title="联系信息" className={style.sub_title} />
       <Item label="发布人" name="publisher">
-        <Input disabled defaultValue={userName} />
+        <Input disabled />
       </Item>
       <Item label="身份选择" name="role">
-        <Input disabled defaultValue={role === 0 ? '租客' : role === 1 ? '房东' : null} />
+        <Input disabled />
       </Item>
       <Item label="联系方式" name="phone" rules={[{ required: true, message: '请输入联系方式' }]}>
         <Input placeholder="请输入联系方式" />
@@ -399,121 +399,146 @@ const ButtonList = ({ handleSubmit, resetData }) => {
   );
 };
 
-const Release = ({ currentUser }) => {
-  const [form] = Form.useForm();
-  const [checkedList, changeCheckList] = useState([]);
-  const [indeterminate, setIndeterminate] = useState(true);
-  const [checkAll, handleCheckAll] = useState(false);
-  const [method, setMethod] = useState(0);
-  const [payway, setPayway] = useState(0);
-  const [struct, setStruct] = useState(0);
+class Release extends React.Component {
+  formRef = React.createRef();
+  state = {
+    checkedList: [],
+    indeterminate: true,
+    checkAll: false,
+    method: 0,
+    payway: 0,
+    struct: 0,
+    formVal: {
+      currentUser: '',
+      role: '',
+    },
+  };
 
-  const { userName, role } = currentUser;
-
-  useEffect(() => {
+  componentDidMount() {
     document.title = '区块链共享租赁平台-房源发布';
-  });
+  }
 
-  const checkAllChange = (checked) => {
-    setIndeterminate(false);
+
+  checkAllChange = (checked) => {
     const checkList = checked ? configuration : [];
-    changeCheckList(checkList);
-    handleCheckAll(checked);
+    this.setState({
+      checkAll: checked,
+      checkedList: checkList,
+      indeterminate: false,
+    });
   };
 
-  const handleCheckList = (list) => {
-    changeCheckList(list);
+  handleCheckList = (list) => {
     const indeterBool = !!list.length && list.length < configuration.length;
-    setIndeterminate(indeterBool);
-    handleCheckAll(list.length === configuration.length);
+    this.setState({
+      checkAll: list.length === configuration.length,
+      checkedList: list,
+      indeterminate: indeterBool,
+    });
   };
 
-  const handlePublish = () => {
-    form.validateFields().then(async (values) => {
-      const house_id = randomHash();
-      const {
-        method,
-        price,
-        phone,
-        payway,
-        publisher,
-        device_id,
-        size,
-        position,
-      } = values; // 房源 + 房产
+  handlePublish = () => {
+    this.formRef.current.validateFields().then(async (values) => {
+      const houseId = randomHash();
+      const { method, price, phone, payway, publisher, deviceId, size, position } = values; // 房源 + 房产
       Promise.all([
         addProperty({
           method,
           price,
-          house_id,
+          houseId,
           phone,
           payway,
           publisher,
         }),
-        addEstate({ house_id, size, position, specify: 0, device_id }),
+        addEstate({
+          houseId,
+          size,
+          position,
+          specify: 0,
+          deviceId,
+          houseOwner: publisher,
+          certNum: 1,
+        }),
       ])
         .then((value) => {
-          console.log(value);
+          const [a, b] = value;
+          if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
+            message.success('房源发布成功');
+            this.formRef.current.resetFields();
+          } else {
+            message.error('房源发布失败');
+          }
         })
         .catch((err) => console.log('error', err));
     });
   };
 
-  const handleReset = () => {
-    form.resetFields();
+  handleReset = () => {
+    this.formRef.current.resetFields();
   };
 
-  return (
-    <div className={style.contain}>
-      <Alert
-        className={style.alert}
-        message={warningMessage}
-        type="warning"
-        closable
-        showIcon
-        icon={<SoundOutlined />}
-      />
-      <Row gutter={24}>
-        <Col span={20}>
-          <Form {...formItemLayout} form={form}>
-            {/* 基础信息 */}
-            <BaseInfo />
-            {/* 租金信息 */}
-            <RentInfo />
-            {/* 详细介绍 */}
-            <Detail
-              indeterminate={indeterminate}
-              checkAll={checkAll}
-              onCheckAllChange={checkAllChange}
-              checkedList={checkedList}
-              changeCheckList={handleCheckList}
-            />
-            {/* 房源图片 */}
-            <HousePic />
-            {/* 联系信息 */}
-            <ContactInfo userName={userName} role={role} />
-            {/* 按钮集 */}
-            <ButtonList handleSubmit={handlePublish} resetData={handleReset} />
-          </Form>
-        </Col>
-        <Col span={4}>
-          <Affix offsetTop={0}>
-            <Card>
-              <Timeline>
-                <Timeline.Item>基础信息</Timeline.Item>
-                <Timeline.Item>租金信息</Timeline.Item>
-                <Timeline.Item>详细介绍</Timeline.Item>
-                <Timeline.Item>房源图片</Timeline.Item>
-                <Timeline.Item>联系信息</Timeline.Item>
-              </Timeline>
-            </Card>
-          </Affix>
-        </Col>
-      </Row>
-    </div>
-  );
-};
+  render() {
+    const { indeterminate, checkAll, checkedList } = this.state;
+    const userName = localStorage.getItem('name');
+    const role = localStorage.getItem('role');
 
-export default connect(({ user }) => ({
-  currentUser: user.currentUser,
-}))(Release);
+    return (
+      <div className={style.contain}>
+        <Alert
+          className={style.alert}
+          message={warningMessage}
+          type="warning"
+          closable
+          showIcon
+          icon={<SoundOutlined />}
+        />
+        <Row gutter={24}>
+          <Col span={20}>
+            <Form
+              {...formItemLayout}
+              ref={this.formRef}
+              initialValues={{
+                publisher: userName,
+                role: role === '0' ? '租客' : role === '1' ? '房东' : null
+              }}
+            >
+              {/* 基础信息 */}
+              <BaseInfo />
+              {/* 租金信息 */}
+              <RentInfo />
+              {/* 详细介绍 */}
+              <Detail
+                indeterminate={indeterminate}
+                checkAll={checkAll}
+                onCheckAllChange={this.checkAllChange}
+                checkedList={checkedList}
+                changeCheckList={this.handleCheckList}
+              />
+              {/* 房源图片 */}
+              <HousePic />
+              {/* 联系信息 */}
+              <ContactInfo />
+              {/* 按钮集 */}
+              <ButtonList handleSubmit={this.handlePublish} resetData={this.handleReset} />
+            </Form>
+          </Col>
+          <Col span={4}>
+            <Affix offsetTop={0}>
+              <Card>
+                <Timeline>
+                  <Timeline.Item>基础信息</Timeline.Item>
+                  <Timeline.Item>租金信息</Timeline.Item>
+                  <Timeline.Item>详细介绍</Timeline.Item>
+                  <Timeline.Item>房源图片</Timeline.Item>
+                  <Timeline.Item>联系信息</Timeline.Item>
+                </Timeline>
+              </Card>
+            </Affix>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
+
+export default Release;

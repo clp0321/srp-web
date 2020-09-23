@@ -22,7 +22,7 @@ const SearchBar = ({ currentUser }) => {
           <Text strong>{userName}</Text>，是否发布房源？
         </span>
       ),
-      onOk: () => history.push('/srp/release'),
+      onOk: () => history.replace('/srp/release'),
       okCancel: () => {},
     });
   };

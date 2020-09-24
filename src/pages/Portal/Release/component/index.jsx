@@ -52,6 +52,8 @@ const RentInfoList = [
   },
 ];
 
+const rentContain = ['水费', '电费', '燃气费', '贷款费', '物业费', '停车费'];
+
 // Mock房屋配置信息
 const configuration = [
   '冰箱',
@@ -84,14 +86,6 @@ const sizeRegex = {
   message: '请输入最多两位小数的数字',
 };
 
-const normFile = (e) => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e && e.fileList;
-};
-
 // Title
 const TitleCon = ({ title }) => {
   return (
@@ -102,18 +96,16 @@ const TitleCon = ({ title }) => {
 };
 
 // RentContain 租金包含
-const RentContain = ({ data }) => {
-  return (
-    <Col span={4}>
-      <Checkbox value={data.value} className={style.check_box}>
-        {data.title}
-      </Checkbox>
-    </Col>
-  );
-};
-const rentList = RentInfoList.map((item, index) => {
-  return <RentContain data={item} key={index} />;
-});
+// const RentContain = ({ data }) => {
+//   return (
+//     <Checkbox value={data.value} className={style.check_box}>
+//       {data.title}
+//     </Checkbox>
+//   );
+// };
+// const rentList = RentInfoList.map((item, index) => {
+//   return <RentContain data={item} key={index} />;
+// });
 
 // baseInfo 基础信息
 const BaseInfo = () => {
@@ -226,15 +218,10 @@ const RentInfo = () => {
       <Item label="月租金" className={[style.flex_item, style.add_require].join(' ')}>
         <Item
           name="price"
-          rules={[
-            {
-              required: true,
-              message: '请填写租金信息',
-              ...sizeRegex,
-            },
-          ]}
+          rules={[{ required: true, message: '请输入租金', ...sizeRegex }]}
+          className={style.margin}
         >
-          <InputNumber className={style.margin} placeholder="请输入租金" />
+          <Input addonAfter="￥" placeholder="输入租金" />
         </Item>
         <Item name="payway">
           <Select placeholder="请选择付款方式" className={style.margin}>
@@ -254,19 +241,29 @@ const RentInfo = () => {
           </Select>
         </Item>
       </Item>
-      <Item label="租金包含" name="conctain">
-        <Checkbox.Group className={style.rent_contain}>
-          <Row>{rentList}</Row>
-        </Checkbox.Group>
+      <Item label="租金包含" name="contain">
+        <Checkbox.Group className={style.rent_contain} options={rentContain} />
       </Item>
     </>
   );
 };
 
 // detail 详细介绍
-const Detail = ({ indeterminate, checkAll, onCheckAllChange, changeCheckList, checkedList }) => {
+const Detail = ({
+  indeterminate,
+  checkAll,
+  onCheckAllChange,
+  changeCheckList,
+  checkedList,
+  form,
+}) => {
   const handleCheck = (e) => {
     onCheckAllChange(e.target.checked);
+    if (e.target.checked) {
+      form.current.setFields([{ name: ['configurate'], value: configuration }]);
+    } else {
+      form.current.setFields([{ name: ['configurate'], value: [] }]);
+    }
   };
 
   const handleChange = (checkedList) => {
@@ -288,15 +285,17 @@ const Detail = ({ indeterminate, checkAll, onCheckAllChange, changeCheckList, ch
         <Radio.Group>
           <Radio value={1}>仅周末</Radio>
           <Radio value={2}>仅工作日</Radio>
-          <Radio value={2}>随时看房</Radio>
-          <Radio value={2}>工作日晚和周末</Radio>
+          <Radio value={3}>随时看房</Radio>
+          <Radio value={4}>工作日晚和周末</Radio>
         </Radio.Group>
       </Item>
       <Item label="房屋配置" className={style.configuration}>
         <Checkbox indeterminate={indeterminate} onChange={handleCheck} checked={checkAll}>
           全选
         </Checkbox>
-        <CheckboxGroup options={configuration} value={checkedList} onChange={handleChange} />
+        <Item name="configurate">
+          <CheckboxGroup options={configuration} value={checkedList} onChange={handleChange} />
+        </Item>
       </Item>
       <Item label="房屋描述" name="descrition">
         <Input.TextArea
@@ -309,14 +308,14 @@ const Detail = ({ indeterminate, checkAll, onCheckAllChange, changeCheckList, ch
 };
 
 // houstpic 房源图片
-const HousePic = ({ form }) => {
-  const [fileList, updateFileList] = useState([]);
+const HousePic = ({ form, fileList, handleFile }) => {
+  // const [fileList, updateFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const handlePreview = async (file) => {
     let src = file.url;
     if (!src) {
-      src = await new Promise(resolve => {
+      src = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.readAsDataURL(file.originFileObj);
         reader.onload = () => resolve(reader.result);
@@ -334,6 +333,13 @@ const HousePic = ({ form }) => {
     },
     fileList,
     beforeUpload: (file) => {
+      if (!form.current.getFieldValue('deviceId')) {
+        message.error('请补充完整设备信息');
+        form.current.setFields([
+          { name: ['deviceId'], value: '', errors: ['上传图片前，请完善设备信息！'] },
+        ]);
+        return false;
+      }
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
         message.error(`只能上传JPG/PNG上传图片`);
@@ -347,7 +353,7 @@ const HousePic = ({ form }) => {
       return isJpgOrPng && isLt1M;
     },
     onChange: (info) => {
-      updateFileList(info.fileList.filter((file) => !!file.status));
+      handleFile(info);
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
       }
@@ -403,8 +409,19 @@ const ContactInfo = () => {
       <Item label="身份选择" name="role">
         <Input disabled />
       </Item>
-      <Item label="联系方式" name="phone" rules={[{ required: true, message: '请输入联系方式' }]}>
-        <Input placeholder="请输入联系方式" />
+
+      <Item
+        label="手机号"
+        name="phone"
+        rules={[
+          { required: true, message: '请输入手机号' },
+          {
+            pattern: /^1\d{10}$/,
+            message: '请输入正确的手机号！',
+          },
+        ]}
+      >
+        <Input placeholder="输入手机号" />
       </Item>
     </>
   );

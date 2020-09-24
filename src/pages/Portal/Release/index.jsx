@@ -14,6 +14,26 @@ const randomHash = () => {
   return output;
 };
 
+// Mock房屋配置信息
+const configuration = [
+  '冰箱',
+  '电视',
+  '洗衣机',
+  '热水器',
+  '空调',
+  '宽带',
+  '沙发',
+  '床',
+  '暖气',
+  '衣柜',
+  '可做饭',
+  '卫生间',
+  '阳台',
+  '智能门锁',
+  '油烟机',
+  '燃气社',
+];
+
 const warningMessage =
   '为共建真实可信的生活服务平台，所有新发布的信息需要进行认证才能展现，认证方式包括：支付认证或芝麻信用认证请如实填写信息，如有虚假会有账号封禁及扣除保证金等处罚';
 
@@ -30,18 +50,22 @@ const formItemLayout = {
 
 class Release extends React.Component {
   formRef = React.createRef();
-  state = {
-    checkedList: [],
-    indeterminate: true,
-    checkAll: false,
-    method: 0,
-    payway: 0,
-    struct: 0,
-    formVal: {
-      currentUser: '',
-      role: '',
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedList: [],
+      indeterminate: true,
+      checkAll: false,
+      method: 0,
+      payway: 0,
+      struct: 0,
+      fileList: [],
+      formVal: {
+        currentUser: '',
+        role: '',
+      },
+    };
+  }
 
   componentDidMount() {
     document.title = '区块链共享租赁平台-房源发布';
@@ -65,39 +89,50 @@ class Release extends React.Component {
     });
   };
 
+  // 处理图片
+  handleFileList = (info) => {
+    this.setState({
+      fileList: info.fileList.filter((file) => !!file.status),
+    });
+  };
+
   handlePublish = () => {
     this.formRef.current.validateFields().then(async (values) => {
-      const houseId = randomHash();
-      const { method, price, phone, payway, publisher, deviceId, size, position } = values; // 房源 + 房产
-      Promise.all([
-        addProperty({
-          method,
-          price,
-          houseId,
-          phone,
-          payway,
-          publisher,
-        }),
-        addEstate({
-          houseId,
-          size,
-          position,
-          specify: 0,
-          deviceId,
-          houseOwner: publisher,
-          certNum: 1,
-        }),
-      ])
-        .then((value) => {
-          const [a, b] = value;
-          if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
-            message.success('房源发布成功');
-            this.formRef.current.resetFields();
-          } else {
-            message.error('房源发布失败');
-          }
-        })
-        .catch((err) => console.log('error', err));
+       console.log(values)
+      // const houseId = randomHash();
+      // const { method, price, phone, payway, publisher, deviceId, size, position } = values; // 房源 + 房产
+      // Promise.all([
+      //   addProperty({
+      //     method,
+      //     price,
+      //     houseId,
+      //     phone,
+      //     payway,
+      //     publisher,
+      //   }),
+      //   addEstate({
+      //     houseId,
+      //     size,
+      //     position,
+      //     specify: 0,
+      //     deviceId,
+      //     houseOwner: publisher,
+      //     certNum: 1,
+      //   }),
+      // ])
+      //   .then((value) => {
+      //     const [a, b] = value;
+      //     if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
+      //       message.success('房源发布成功');
+      //       this.formRef.current.resetFields();
+      //       this.setState({
+      //         fileList: [],
+      //       });
+      //     } else {
+      //       message.error('房源发布失败');
+      //     }
+      //   })
+      //   .catch((err) => console.log('error', err));
     });
   };
 
@@ -106,7 +141,7 @@ class Release extends React.Component {
   };
 
   render() {
-    const { indeterminate, checkAll, checkedList } = this.state;
+    const { indeterminate, checkAll, checkedList, fileList } = this.state;
     const userName = localStorage.getItem('name');
     const role = localStorage.getItem('role');
 
@@ -136,14 +171,19 @@ class Release extends React.Component {
               <RentInfo />
               {/* 详细介绍 */}
               <Detail
+                form={this.formRef}
                 indeterminate={indeterminate}
                 checkAll={checkAll}
-                onCheckAllChange={this.checkAllChange}
+                onCheckAllChange={(checked) => this.checkAllChange(checked)}
                 checkedList={checkedList}
-                changeCheckList={this.handleCheckList}
+                changeCheckList={(list) => this.handleCheckList(list)}
               />
               {/* 房源图片 */}
-              <HousePic form={this.formRef} />
+              <HousePic
+                form={this.formRef}
+                fileList={fileList}
+                handleFile={(info) => this.handleFileList(info)}
+              />
               {/* 联系信息 */}
               <ContactInfo />
               {/* 按钮集 */}

@@ -22,6 +22,8 @@ const RentHome = ({ currentUser }) => {
       title: '确认退出本系统？',
       onOk: () => {
         setAuthority('');
+        localStorage.removeItem('name');
+        localStorage.removeItem('role');
         window.location.reload();
       },
       onCancel: () => {},

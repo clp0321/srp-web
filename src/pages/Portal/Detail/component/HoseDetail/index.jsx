@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Typography, Tag, Tooltip, Descriptions, Button } from 'antd';
+import {
+  Typography,
+  Tag,
+  Tooltip,
+  Descriptions,
+  Button,
+  Modal,
+  Form,
+  DatePicker,
+  Input,
+  message,
+} from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
-
 import style from './style.less';
+
+const { Item } = Form;
 
 // mock经纬度
 const lanLat = {
@@ -115,14 +127,34 @@ const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = () => {
   const { lng, lat, title, text } = lanLat;
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const handleApply = () => {
+    setVisible(false);
+    message.success('预约请求已发出');
+  };
+  const formLayout = {
+    labelCol: {
+      span: 5,
+    },
+    wrapperCol: {
+      span: 15,
+    },
+  };
   return (
     <>
+      {/* 基本信息 */}
       <div className={style.house_detail}>
         <Title level={4}>合租 | 远洋新干线2期 5室1厅 西南</Title>
         <Paragraph>
           智能设备编码: 873243241
-          <Button type="primary" className={style.watch_room} icon={<KeyOutlined />}>
-            申请看房
+          <Button
+            type="primary"
+            className={style.watch_room}
+            icon={<KeyOutlined />}
+            onClick={() => setVisible(true)}
+          >
+            预约看房
           </Button>
         </Paragraph>
       </div>
@@ -191,6 +223,31 @@ const HouseDetail = () => {
           6、室内配置：配备品牌家具家电、配套床垫、抱枕、台灯、桌椅、衣柜、空调、洗衣机、冰箱和宽带。
         </Paragraph>
       </div>
+      <Modal
+        title="预约看房"
+        visible={visible}
+        onOk={handleApply}
+        onCancel={() => setVisible(false)}
+      >
+        <Form
+          form={form}
+          {...formLayout}
+          initialValues={{
+            houser_name: '***',
+            user_name: localStorage.getItem('name'),
+          }}
+        >
+          <Item label="房主" name="houser_name">
+            <Input disabled />
+          </Item>
+          <Item label="预约人" name="user_name">
+            <Input disabled />
+          </Item>
+          <Item label="看房时间" name="apply_time" className={style.picker}>
+            <DatePicker placeholder="选择预约看房时间" />
+          </Item>
+        </Form>
+      </Modal>
     </>
   );
 };

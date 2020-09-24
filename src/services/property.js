@@ -25,3 +25,14 @@ export async function addEstate(data) {
     data,
   });
 }
+
+// 获取房产存证信息
+export async function getHouseRent() {
+  return request('/back/houseManage/houseManages');
+}
+
+// houst_id产看具体存证信息
+export async function getHouseRentDetail(id) {
+  return request(`/back/houseManage?house_id=${id}`)
+}
+

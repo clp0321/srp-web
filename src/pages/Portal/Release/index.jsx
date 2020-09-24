@@ -98,41 +98,40 @@ class Release extends React.Component {
 
   handlePublish = () => {
     this.formRef.current.validateFields().then(async (values) => {
-       console.log(values)
-      // const houseId = randomHash();
-      // const { method, price, phone, payway, publisher, deviceId, size, position } = values; // 房源 + 房产
-      // Promise.all([
-      //   addProperty({
-      //     method,
-      //     price,
-      //     houseId,
-      //     phone,
-      //     payway,
-      //     publisher,
-      //   }),
-      //   addEstate({
-      //     houseId,
-      //     size,
-      //     position,
-      //     specify: 0,
-      //     deviceId,
-      //     houseOwner: publisher,
-      //     certNum: 1,
-      //   }),
-      // ])
-      //   .then((value) => {
-      //     const [a, b] = value;
-      //     if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
-      //       message.success('房源发布成功');
-      //       this.formRef.current.resetFields();
-      //       this.setState({
-      //         fileList: [],
-      //       });
-      //     } else {
-      //       message.error('房源发布失败');
-      //     }
-      //   })
-      //   .catch((err) => console.log('error', err));
+      const houseId = randomHash();
+      const { method, price, phone, payway, publisher, deviceId, size, position, room, hall, guard  } = values; // 房源 + 房产
+      Promise.all([
+        addProperty({
+          method,
+          price,
+          houseId,
+          phone,
+          payway,
+          publisher,
+        }),
+        addEstate({
+          houseId,
+          size,
+          position,
+          specify: `${room}室${hall}厅${guard}卫`,
+          deviceId,
+          houseOwner: publisher,
+          certNum: 1,
+        }),
+      ])
+        .then((value) => {
+          const [a, b] = value;
+          if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
+            message.success('房源发布成功');
+            this.formRef.current.resetFields();
+            this.setState({
+              fileList: [],
+            });
+          } else {
+            message.error('房源发布失败');
+          }
+        })
+        .catch((err) => console.log('error', err));
     });
   };
 

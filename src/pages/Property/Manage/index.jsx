@@ -1,70 +1,87 @@
 import React, { Component } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Table, Badge, Card, Radio, DatePicker, Input, Button, Modal } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
+import { Table, Badge, Card, Radio, DatePicker, Input, Button, Modal, Descriptions } from 'antd';
+import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { getProperty, getHouseRentDetail } from '@/services/property';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
-
-// mock信息
-const mockData = [
-  {
-    address: '深圳市南山区塘朗村一号',
-    cert_num: '1155111',
-    publisher: 'zou',
-    device_id: 'device_id_mock1',
-    agency: 'daqing',
-    status: 0,
-  },
-  {
-    address: '深圳市南山区塘朗村二号',
-    cert_num: '1155112',
-    publisher: 'zou',
-    device_id: 'device_id_mock2',
-    agency: 'daqing',
-    status: 1,
-  },
-];
 
 class Manage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
+      houseData: [],
+      houseRentData: [],
+      houseDetail: {
+        deviceId: '',
+        houseOwner: '',
+        agency: '',
+        position: '',
+        size: '',
+        houseStatus: '',
+        specify: '',
+        authTime: '',
+      },
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getAllData();
+  }
+
+  async getAllData() {
+    const resp = await getProperty();
+    if (resp.msg === 'SUCCESS') {
+      this.setState({
+        houseData: resp.data,
+      });
+    }
+  }
 
   columns = [
     {
-      title: '位置信息',
-      dataIndex: 'address',
+      title: '房屋Id',
+      dataIndex: 'houseId',
     },
     {
-      title: '产权证号',
-      dataIndex: 'cert_num',
+      title: '链上哈希值',
+      dataIndex: 'houseHash',
     },
     {
-      title: '物联网设备ID',
-      dataIndex: 'device_id',
+      title: '租赁形式',
+      dataIndex: 'method',
     },
     {
-      title: '房源发布人',
+      title: '支付方式',
+      dataIndex: 'payway',
+    },
+    {
+      title: '租金价格',
+      dataIndex: 'price',
+    },
+    {
+      title: '联系电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '房源描述',
+      dataIndex: 'description',
+    },
+    {
+      title: '发布人',
       dataIndex: 'publisher',
     },
     {
-      title: '代理人',
-      dataIndex: 'agency',
-    },
-    {
       title: '房屋状态',
-      dataIndex: 'status',
+      dataIndex: 'houseStatus',
       render: (_, record) => {
+        const { houseStatus } = record;
         return (
           <>
-            <Badge status={record.status === 0 ? 'default' : 'success'} />{' '}
-            {record.status === 0 ? '空闲' : '在租'}
+            <Badge status={!houseStatus ? 'default' : 'success'} />
+            {!houseStatus ? '空闲' : '在租'}
           </>
         );
       },
@@ -74,83 +91,63 @@ class Manage extends Component {
       dataIndex: 'operation',
       render: (_, record) => (
         <>
-          <a onClick={this.handleWatch}>详情</a>
+          <a onClick={() => this.handleWatch(record.houseId)}>详情</a>
         </>
       ),
     },
   ];
 
-  handleWatch = () => {
-    this.setState({
-      visible: true,
-    });
+  handleWatch = async (house_id) => {
+    const resp = await getHouseRentDetail(house_id);
+    if (resp.msg === 'SUCCESS') {
+      this.setState({
+        visible: true,
+        houseDetail: {...resp.data}
+      });
+    }
   };
 
   render() {
-    const { visible } = this.state;
-    const expandedRowRender = () => {
-      const columns = [
-        {
-          title: '链上房产哈希',
-          dataIndex: 'house_hash',
-        },
-
-        {
-          title: '产权人',
-          dataIndex: 'owner',
-        },
-        {
-          title: '链上状态',
-          key: 'state',
-          render: () => (
-            <span>
-              <Badge status="success" />
-              Finished
-            </span>
-          ),
-        },
-        {
-          title: '上链时间',
-          dataIndex: 'hash_time',
-        },
-      ];
-
-      const data = [];
-      for (let i = 0; i < 3; ++i) {
-        data.push({
-          key: i,
-          house_hash: 'fsagfra321f234342',
-          owner: '丁生',
-          hash_time: moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
-        });
-      }
-      return <Table rowKey="house_hash" columns={columns} dataSource={data} pagination={false} />;
-    };
+    const {
+      visible,
+      houseData,
+      houseDetail: { deviceId, houseOwner, agency, position, size, houseStatus, specify, authTime },
+    } = this.state;
     return (
       <PageContainer>
         <Card style={{ marginBottom: 24 }}>
-          <Radio.Group defaultValue={1}>
+          <Radio.Group defaultValue={0}>
+            <Radio value={0}>全部</Radio>
             <Radio value={1}>已上链</Radio>
             <Radio value={2}>未上链</Radio>
           </Radio.Group>
           <RangePicker placeholder={['查询开始时间', '查询结束时间']} style={{ marginRight: 10 }} />
           <Input placeholder="产权人" style={{ width: 200, marginRight: 10 }} />
+          <Button type="primary" icon={<SearchOutlined />} style={{ marginRight: 10 }}>
+            查询
+          </Button>
           <Button type="danger" icon={<ReloadOutlined />}>
             重置
           </Button>
         </Card>
-        <Table
-          dataSource={mockData}
-          expandedRowRender={expandedRowRender}
-          columns={this.columns}
-          rowKey="cert_num"
-        />
+        <Table dataSource={houseData} columns={this.columns} rowKey="houseId" />
         <Modal
           visible={visible}
           title="房产详情"
           onCancel={() => this.setState({ visible: false })}
           footer={<Button onClick={() => this.setState({ visible: false })}>确认</Button>}
-        ></Modal>
+        >
+          <Descriptions bordered column={2} size={this.state.size}>
+            <Descriptions.Item label="物联网设备ID">{deviceId}</Descriptions.Item>
+            <Descriptions.Item label="产权人">{houseOwner}</Descriptions.Item>
+            <Descriptions.Item label="代理人">{agency}</Descriptions.Item>
+            <Descriptions.Item label="房源位置">{position}</Descriptions.Item>
+            <Descriptions.Item label="房屋面积">{size}</Descriptions.Item>
+            <Descriptions.Item label="房屋状态">{houseStatus}</Descriptions.Item>
+            <Descriptions.Item label="房屋类型">{specify}</Descriptions.Item>
+            <Descriptions.Item label="存证时间">{authTime}</Descriptions.Item>
+          </Descriptions>
+        </Modal>
       </PageContainer>
     );
   }

@@ -63,8 +63,13 @@ const ConList = () => {
   const HouseList = ({ data }) => {
     const { imgUrl, con1, con2, con3, time, btnList, price } = data;
     return (
-      <Card hoverable bodyStyle={{ width: 800, display: 'flex' }} className={style.list_card}>
-        <img src={imgUrl} width="270" onClick={handleClick} />
+      <Card
+        hoverable
+        bodyStyle={{ width: 800, display: 'flex' }}
+        className={style.list_card}
+        onClick={handleClick}
+      >
+        <img src={imgUrl} width="270" />
         <div className={style.mid_dec}>
           <Title level={4}>{con1}</Title>
           <Paragraph>{con2}</Paragraph>

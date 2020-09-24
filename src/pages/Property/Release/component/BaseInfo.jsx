@@ -91,21 +91,6 @@ const BaseInfo = () => {
           <Input placeholder="请输入详细位置信息" />
         </Item>
         <Item
-          name="struct"
-          label="结构"
-          rules={[
-            {
-              required: true,
-              message: '请选择房源结构',
-            },
-          ]}
-        >
-          <Radio.Group onChange={handleMethod} value={struct}>
-            <Radio value={0}>混凝土</Radio>
-            <Radio value={1}>钢筋</Radio>
-          </Radio.Group>
-        </Item>
-        <Item
           name="size"
           label="房屋面积(m²)"
           rules={[

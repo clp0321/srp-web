@@ -309,7 +309,6 @@ const Detail = ({
 
 // houstpic 房源图片
 const HousePic = ({ form, fileList, handleFile }) => {
-  // const [fileList, updateFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const handlePreview = async (file) => {

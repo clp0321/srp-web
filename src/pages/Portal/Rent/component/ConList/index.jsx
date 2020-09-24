@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, Pagination, Button, Typography, Tag, Card } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import room1 from '@/assets/images/room1.jpg';
@@ -7,6 +7,7 @@ import room3 from '@/assets/images/room3.jpg';
 import room4 from '@/assets/images/room4.jpg';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
+import { getProperty,  } from '@/services/property';
 import style from './style.less';
 
 const { TabPane } = Tabs;
@@ -55,11 +56,23 @@ const houseList = [
 
 const ConList = () => {
   const [visible, setVisible] = useState(true);
+  const [propertyArr, setProperty] = useState([]);
   const [key, setKey] = useState('1');
+  // 点击跳转至房源详情页
   const handleClick = () => {
     const w = window.open('about:blank');
     w.location.href = '/srp/detail';
   };
+  // HouseList组件
+    // description: null;
+  // houseHash: null;
+  // houseId: 'q2m7l';
+  // method: 0;
+  // payway: 0;
+  // phone: '13977327178';
+  // price: 500;
+  // publisher: 'daqing';
+  // updateTime: null;
   const HouseList = ({ data }) => {
     const { imgUrl, con1, con2, con3, time, btnList, price } = data;
     return (
@@ -91,7 +104,20 @@ const ConList = () => {
       </Card>
     );
   };
+  // 房源信息列表
   const house_list = houseList.map((item, index) => <HouseList key={index} data={item} />);
+
+  useEffect(() => {
+    getHouse();
+  }, []);
+
+  const getHouse = async () => {
+    const resp = await getProperty();
+    if (resp.msg === 'SUCCESS') {
+      setProperty(resp.data);
+    }
+  };
+
   return (
     <div className={style.list_contain}>
       <div className={style.list_check}>
@@ -106,9 +132,9 @@ const ConList = () => {
         {/* 左侧房源 */}
         <div className={style.house_list}>
           {house_list}
-          <div className={style.pagination}>
+          {/* <div className={style.pagination}>
             <Pagination defaultCurrent={1} total={50} />
-          </div>
+          </div> */}
         </div>
         {/* 右侧内容 */}
         <div className={style.house_recommend}>

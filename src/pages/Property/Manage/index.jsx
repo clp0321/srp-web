@@ -40,6 +40,8 @@ class Manage extends Component {
     }
   }
 
+  // method
+  // payway
   columns = [
     {
       title: '房屋Id',
@@ -52,10 +54,32 @@ class Manage extends Component {
     {
       title: '租赁形式',
       dataIndex: 'method',
+      render: (_, record) => (record.method === 0 ? '整租' : '合租'),
     },
     {
       title: '支付方式',
       dataIndex: 'payway',
+      render: (_, record) => {
+        const { payway } = record;
+        let text;
+        switch (payway) {
+          case 0:
+            text = '押一付一';
+            break;
+          case 1:
+            text = '押一付二';
+            break;
+          case 2:
+            text = '半年付';
+            break;
+          case 3:
+            text = '全年付';
+            break;
+          default:
+            text = '';
+        }
+        return <span>{text}</span>;
+      },
     },
     {
       title: '租金价格',
@@ -102,7 +126,7 @@ class Manage extends Component {
     if (resp.msg === 'SUCCESS') {
       this.setState({
         visible: true,
-        houseDetail: {...resp.data}
+        houseDetail: { ...resp.data },
       });
     }
   };
@@ -121,11 +145,7 @@ class Manage extends Component {
             <Radio value={1}>已上链</Radio>
             <Radio value={2}>未上链</Radio>
           </Radio.Group>
-          <RangePicker placeholder={['查询开始时间', '查询结束时间']} style={{ marginRight: 10 }} />
-          <Input placeholder="产权人" style={{ width: 200, marginRight: 10 }} />
-          <Button type="primary" icon={<SearchOutlined />} style={{ marginRight: 10 }}>
-            查询
-          </Button>
+          <Input.Search placeholder="输入发布人信息" style={{ width: 250, marginRight: 10 }} enterButton="查询" />
           <Button type="danger" icon={<ReloadOutlined />}>
             重置
           </Button>

@@ -4,6 +4,7 @@ import back from '@/assets/images/back.jpg';
 import HouseDetail from './component/HoseDetail';
 import HouseTrace from './component/HouseTrace';
 import HouseComment from './component/HouseComment';
+
 import style from './style.less';
 
 const { TabPane } = Tabs;

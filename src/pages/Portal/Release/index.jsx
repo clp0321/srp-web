@@ -1,6 +1,6 @@
 import { Row, Col, message, Card, Alert, Timeline, Affix, Form } from 'antd';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
-import { addProperty, addEstate } from '@/services/property';
+import { addProperty } from '@/services/property';
 import { SoundOutlined } from '@ant-design/icons';
 import style from './style.less';
 
@@ -96,42 +96,46 @@ class Release extends React.Component {
     });
   };
 
-  handlePublish = () => {
+  handlePublish = async () => {
     this.formRef.current.validateFields().then(async (values) => {
       const houseId = randomHash();
-      const { method, price, phone, payway, publisher, deviceId, size, position, room, hall, guard  } = values; // 房源 + 房产
-      Promise.all([
-        addProperty({
-          method,
-          price,
-          houseId,
-          phone,
-          payway,
-          publisher,
-        }),
-        addEstate({
-          houseId,
-          size,
-          position,
-          specify: `${room}室${hall}厅${guard}卫`,
-          deviceId,
-          houseOwner: publisher,
-          certNum: 1,
-        }),
-      ])
-        .then((value) => {
-          const [a, b] = value;
-          if (a.msg === 'SUCCESS' && b.msg === 'SUCCESS') {
-            message.success('房源发布成功');
-            this.formRef.current.resetFields();
-            this.setState({
-              fileList: [],
-            });
-          } else {
-            message.error('房源发布失败');
-          }
-        })
-        .catch((err) => console.log('error', err));
+      const {
+        method,
+        price,
+        phone,
+        payway,
+        publisher,
+        deviceId,
+        size,
+        position,
+        room,
+        hall,
+        guard,
+      } = values; // 房源 + 房产
+      const resp = await addProperty({
+        method,
+        price,
+        houseId,
+        phone,
+        payway,
+        publisher,
+        houseId,
+        size,
+        position,
+        specify: `${room}室${hall}厅${guard}卫`,
+        deviceId,
+        houseOwner: publisher,
+        certNum: 1,
+      });
+      if (resp.msg === 'SUCCESS') {
+        message.success('房源发布成功');
+        this.formRef.current.resetFields();
+        this.setState({
+          fileList: [],
+        });
+      } else {
+        message.error('房源发布失败');
+      }
     });
   };
 

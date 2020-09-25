@@ -7,7 +7,7 @@ import room3 from '@/assets/images/room3.jpg';
 import room4 from '@/assets/images/room4.jpg';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
-import { getProperty,  } from '@/services/property';
+import { getProperty } from '@/services/property';
 import style from './style.less';
 
 const { TabPane } = Tabs;
@@ -59,36 +59,32 @@ const ConList = () => {
   const [propertyArr, setProperty] = useState([]);
   const [key, setKey] = useState('1');
   // 点击跳转至房源详情页
-  const handleClick = () => {
+  const handleClick = houseId => {
     const w = window.open('about:blank');
-    w.location.href = '/srp/detail';
+    w.location.href = `/srp/detail?houseId=${houseId}`;
   };
-  // HouseList组件
-    // description: null;
-  // houseHash: null;
-  // houseId: 'q2m7l';
-  // method: 0;
-  // payway: 0;
-  // phone: '13977327178';
-  // price: 500;
-  // publisher: 'daqing';
-  // updateTime: null;
+
   const HouseList = ({ data }) => {
-    const { imgUrl, con1, con2, con3, time, btnList, price } = data;
+    // const { imgUrl, con1, con2, con3, time, btnList, price } = data;
+    const { method, position, size, specify, updateTime, price, houseId } = data;
     return (
       <Card
         hoverable
         bodyStyle={{ width: 800, display: 'flex' }}
         className={style.list_card}
-        onClick={handleClick}
+        onClick={() => handleClick(houseId)}
       >
-        <img src={imgUrl} width="270" />
+        <img src="" width="270" alt="房源图片" />
         <div className={style.mid_dec}>
-          <Title level={4}>{con1}</Title>
-          <Paragraph>{con2}</Paragraph>
-          <Paragraph>{con3}</Paragraph>
-          <Paragraph>{time}</Paragraph>
+          <Title level={4}>
+            {method === 0 ? '整租' : '合租'} | {position}
+          </Title>
+          {/* <Paragraph>{con2}</Paragraph> */}
           <Paragraph>
+            {size} m² / {specify}
+          </Paragraph>
+          <Paragraph>{updateTime}</Paragraph>
+          {/* <Paragraph>
             {btnList.map((item, index) => {
               return (
                 <Tag key={index} color={TagColor[Math.floor(Math.random() * 4)]}>
@@ -96,7 +92,7 @@ const ConList = () => {
                 </Tag>
               );
             })}
-          </Paragraph>
+          </Paragraph> */}
         </div>
         <div className={style.price}>
           <Text>{price}</Text>元/月
@@ -105,7 +101,9 @@ const ConList = () => {
     );
   };
   // 房源信息列表
-  const house_list = houseList.map((item, index) => <HouseList key={index} data={item} />);
+  // const house_list = houseList.map((item, index) => <HouseList key={index} data={item} />);
+  const house_list = propertyArr.map((item, index) => <HouseList key={index} data={item} />);
+
 
   useEffect(() => {
     getHouse();

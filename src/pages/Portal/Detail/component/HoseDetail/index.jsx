@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
+import { getHouseDetail } from '@/services/property';
 import style from './style.less';
 
 const { Item } = Form;
@@ -127,8 +128,34 @@ const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = () => {
   const { lng, lat, title, text } = lanLat;
+  const [houseDeatail, setHouseDetail] = useState({
+    deviceId: '',
+    updateTime: '',
+    method: '',
+    position: '',
+    specify: '',
+    //  房屋信息
+    houseOwner: '',
+    phone: '',
+    size: 0,
+    price: '',
+    payway: '',
+    type: '普通住宅',
+    description: '',
+  });
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const house_id = location.search.split('=')[1];
+    getHouseDetail(house_id)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          setHouseDetail(value.data);
+        }
+      })
+      .catch((err) => console.log(err));
+    // 获取当前房源的详细内容
+  }, []);
   const handleApply = () => {
     setVisible(false);
     message.success('预约请求已发出');
@@ -141,13 +168,35 @@ const HouseDetail = () => {
       span: 15,
     },
   };
+
+  const { method, position, specify, deviceId, updateTime, houseOwner, phone, size, price, payway, type, description } = houseDeatail;
+  let pays;
+  switch (payway) {
+    case 0:
+      pays = '押一付一';
+      break;
+    case 0:
+      pays = '押一付二';
+      break;
+    case 0:
+      pays = '半年付';
+      break;
+    case 0:
+      pays = '年付';
+      break;
+    default:
+      pays = '';
+  };
   return (
     <>
       {/* 基本信息 */}
       <div className={style.house_detail}>
-        <Title level={4}>合租 | 远洋新干线2期 5室1厅 西南</Title>
+        {/* <Title level={4}>合租 | 远洋新干线2期 5室1厅 西南</Title> */}
+        <Title level={4}>
+          {method === 0 ? '整租' : '合租'} | {position} {specify}{' '}
+        </Title>
         <Paragraph>
-          智能设备编码: 873243241
+          智能设备编码: {deviceId}
           <Button
             type="primary"
             className={style.watch_room}
@@ -164,15 +213,14 @@ const HouseDetail = () => {
         <Descriptions
           column={3}
           title={<Title level={4}>房屋信息</Title>}
-          extra="发布时间：2020年9月18日"
+          extra={`发布时间：${updateTime}`}
         >
-          <Descriptions.Item label="户型">5室1厅</Descriptions.Item>
-          <Descriptions.Item label="面积">72 m²</Descriptions.Item>
-          <Descriptions.Item label="朝向">朝南</Descriptions.Item>
-          <Descriptions.Item label="楼层">底层(共18)</Descriptions.Item>
-          <Descriptions.Item label="装修">精装修</Descriptions.Item>
-          <Descriptions.Item label="类型">普通住宅</Descriptions.Item>
-          <Descriptions.Item label="小区">龙华区 保利悦都</Descriptions.Item>
+          <Descriptions.Item label="房主">{houseOwner}</Descriptions.Item>
+          <Descriptions.Item label="联系方式">{phone}</Descriptions.Item>
+          <Descriptions.Item label="面积">{size} m²</Descriptions.Item>
+          <Descriptions.Item label="价格">{price}</Descriptions.Item>
+          <Descriptions.Item label="支付方式">{pays}</Descriptions.Item>
+          <Descriptions.Item label="类型">{type}</Descriptions.Item>
         </Descriptions>
       </div>
       {/* 设施信息 */}
@@ -206,7 +254,8 @@ const HouseDetail = () => {
       {/* 房屋描述 */}
       <div className={style.describe}>
         <Title level={4}>房屋描述</Title>
-        <Paragraph>超便宜！业主急租，装修精美，主卧独卫，拎包入住!</Paragraph>
+        {description}
+        {/* <Paragraph>超便宜！业主急租，装修精美，主卧独卫，拎包入住!</Paragraph>
         <Paragraph>
           房源亮点:南北通透,临近地铁，小区附近有大型超市，菜场，出行购物非常方便！
         </Paragraph>
@@ -221,7 +270,7 @@ const HouseDetail = () => {
         </Paragraph>
         <Paragraph>
           6、室内配置：配备品牌家具家电、配套床垫、抱枕、台灯、桌椅、衣柜、空调、洗衣机、冰箱和宽带。
-        </Paragraph>
+        </Paragraph> */}
       </div>
       <Modal
         title="预约看房"
@@ -233,7 +282,7 @@ const HouseDetail = () => {
           form={form}
           {...formLayout}
           initialValues={{
-            houser_name: '***',
+            houser_name: houseOwner,
             user_name: localStorage.getItem('name'),
           }}
         >

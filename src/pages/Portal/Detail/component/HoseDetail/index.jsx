@@ -13,7 +13,8 @@ import {
 } from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
-import { getHouseDetail } from '@/services/property';
+import { getHouseDetail, applyHouse } from '@/services/property';
+import moment from 'moment';
 import style from './style.less';
 
 const { Item } = Form;
@@ -128,7 +129,8 @@ const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = () => {
   const { lng, lat, title, text } = lanLat;
-  const [houseDeatail, setHouseDetail] = useState({
+  const [houseDetail, setHouseDetail] = useState({
+    houseId: '',
     deviceId: '',
     updateTime: '',
     method: '',
@@ -157,8 +159,24 @@ const HouseDetail = () => {
     // 获取当前房源的详细内容
   }, []);
   const handleApply = () => {
+    form.validateFields().then(async (values) => {
+      const { houseId } = houseDetail;
+      const { houser_name, user_name, apply_time } = values;
+      const resp = await applyHouse({
+        houseId,
+        houserName: houser_name,
+        userName: user_name,
+        applyTime: moment(apply_time).format('YYYY/MM/DD'),
+        deviceNum: '23',
+      });
+      if (resp.msg === 'SUCCESS') {
+        message.success('申请看房请求发送成功');
+      } else {
+        message.error('申请看房请求发送失败');
+      }
+    });
+    form.resetFields();
     setVisible(false);
-    message.success('预约请求已发出');
   };
   const formLayout = {
     labelCol: {
@@ -169,7 +187,20 @@ const HouseDetail = () => {
     },
   };
 
-  const { method, position, specify, deviceId, updateTime, houseOwner, phone, size, price, payway, type, description } = houseDeatail;
+  const {
+    method,
+    position,
+    specify,
+    deviceId,
+    updateTime,
+    houseOwner,
+    phone,
+    size,
+    price,
+    payway,
+    type,
+    description,
+  } = houseDetail;
   let pays;
   switch (payway) {
     case 0:
@@ -186,7 +217,7 @@ const HouseDetail = () => {
       break;
     default:
       pays = '';
-  };
+  }
   return (
     <>
       {/* 基本信息 */}
@@ -203,7 +234,7 @@ const HouseDetail = () => {
             icon={<KeyOutlined />}
             onClick={() => setVisible(true)}
           >
-            预约看房
+            申请看房
           </Button>
         </Paragraph>
       </div>

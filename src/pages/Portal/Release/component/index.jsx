@@ -311,6 +311,7 @@ const Detail = ({
 const HousePic = ({ form, fileList, handleFile }) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
+  const [house_id, setHouse_id] = useState('');
   const handlePreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -323,16 +324,20 @@ const HousePic = ({ form, fileList, handleFile }) => {
     setPreviewImage(src); //这个图片路径根据自己的情况而定
     setPreviewVisible(true);
   };
+  const data = {
+    house_id,
+    username: 'daqing',
+    files: fileList,
+  };
   const props = {
     action: '/back/housePic',
     method: 'post',
-    data: {
-      house_id: 2,
-      username: 'daqing',
-    },
+    multiple: true,
+    data,
     fileList,
     beforeUpload: (file) => {
-      if (!form.current.getFieldValue('deviceId')) {
+      const cur_id = form.current.getFieldValue('deviceId')
+      if (!cur_id) {
         message.error('请补充完整设备信息');
         form.current.setFields([
           { name: ['deviceId'], value: '', errors: ['上传图片前，请完善设备信息！'] },
@@ -349,6 +354,7 @@ const HousePic = ({ form, fileList, handleFile }) => {
         message.error('图片必须小于1M!');
         return false;
       }
+      setHouse_id(cur_id) // 更新当前house_id值
       return isJpgOrPng && isLt1M;
     },
     onChange: (info) => {

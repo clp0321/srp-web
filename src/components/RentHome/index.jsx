@@ -29,7 +29,7 @@ const RentHome = ({ currentUser }) => {
       onCancel: () => {},
     });
   };
-
+  console.log(currentUser);
   return (
     <>
       <div className={style.header_l}>
@@ -39,7 +39,10 @@ const RentHome = ({ currentUser }) => {
             <Link to="/srp/welcome">首页</Link>
           </h3>
         </div>
-        <h3>深圳</h3>
+        <h3>
+          {' '}
+          <Link to="/srp/rent">深圳</Link>
+        </h3>
         <h3>
           <a href="#">[切换城市]</a>
         </h3>
@@ -48,7 +51,9 @@ const RentHome = ({ currentUser }) => {
         {currentUser && currentUser.userName ? (
           <div className={style.user}>
             <Avatar size="small" src={currentUser.avatar} alt="avatar" />
-            <span>当前登陆用户：{currentUser.userName}</span>
+            <span>
+              {currentUser.role === 1 ? '房东' : '租客'}：{currentUser.userName}
+            </span>
             <span>
               <LoginOutlined />
               <a onClick={handleLogin} style={{ marginRight: 10 }}>

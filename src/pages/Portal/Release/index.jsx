@@ -98,7 +98,7 @@ class Release extends React.Component {
 
   handlePublish = async () => {
     this.formRef.current.validateFields().then(async (values) => {
-      const houseId = randomHash();
+      // const houseId = randomHash();
       const {
         method,
         price,
@@ -111,21 +111,22 @@ class Release extends React.Component {
         room,
         hall,
         guard,
+        descrition
       } = values; // 房源 + 房产
       const resp = await addProperty({
         method,
         price,
-        houseId,
         phone,
         payway,
         publisher,
-        houseId,
+        houseId: deviceId,
         size,
         position,
         specify: `${room}室${hall}厅${guard}卫`,
         deviceId,
         houseOwner: publisher,
         certNum: 1,
+        descrition
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');

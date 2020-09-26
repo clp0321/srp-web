@@ -8,6 +8,7 @@ import room4 from '@/assets/images/room4.jpg';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
 import { getProperty } from '@/services/property';
+import moment from 'moment';
 import style from './style.less';
 
 const { TabPane } = Tabs;
@@ -66,7 +67,7 @@ const ConList = () => {
 
   const HouseList = ({ data }) => {
     // const { imgUrl, con1, con2, con3, time, btnList, price } = data;
-    const { method, position, size, specify, updateTime, price, houseId } = data;
+    const { method, position, size, specify, updateTime, price, houseId, picUrl } = data;
     return (
       <Card
         hoverable
@@ -74,7 +75,7 @@ const ConList = () => {
         className={style.list_card}
         onClick={() => handleClick(houseId)}
       >
-        <img src="" width="270" alt="房源图片" />
+        <img src={picUrl} width="270" height="250" alt="房源图片" />
         <div className={style.mid_dec}>
           <Title level={4}>
             {method === 0 ? '整租' : '合租'} | {position}
@@ -83,7 +84,7 @@ const ConList = () => {
           <Paragraph>
             {size} m² / {specify}
           </Paragraph>
-          <Paragraph>{updateTime}</Paragraph>
+          <Paragraph>{moment(updateTime).format('YYYY-MM-DD hh:mm:ss')}</Paragraph>
           {/* <Paragraph>
             {btnList.map((item, index) => {
               return (

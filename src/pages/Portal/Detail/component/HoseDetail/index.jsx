@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
-import { getHouseDetail, applyHouse } from '@/services/property';
+import { applyHouse } from '@/services/property';
 import moment from 'moment';
 import style from './style.less';
 
@@ -127,37 +127,38 @@ const toolList = mockTool.map((item, index) => <TooltipList key={index} data={it
 
 const { Paragraph, Text, Title } = Typography;
 
-const HouseDetail = () => {
+const HouseDetail = ({ houseDetail }) => {
   const { lng, lat, title, text } = lanLat;
-  const [houseDetail, setHouseDetail] = useState({
-    houseId: '',
-    deviceId: '',
-    updateTime: '',
-    method: '',
-    position: '',
-    specify: '',
-    //  房屋信息
-    houseOwner: '',
-    phone: '',
-    size: 0,
-    price: '',
-    payway: '',
-    type: '普通住宅',
-    description: '',
-  });
+  // const [houseDetail, setHouseDetail] = useState({
+  //   houseId: '',
+  //   deviceId: '',
+  //   updateTime: '',
+  //   method: '',
+  //   position: '',
+  //   specify: '',
+  //   //  房屋信息
+  //   houseOwner: '',
+  //   phone: '',
+  //   size: 0,
+  //   price: '',
+  //   payway: '',
+  //   type: '普通住宅',
+  //   description: '',
+  //   picUrl: ''
+  // });
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const house_id = location.search.split('=')[1];
-    getHouseDetail(house_id)
-      .then((value) => {
-        if (value.msg === 'SUCCESS') {
-          setHouseDetail(value.data);
-        }
-      })
-      .catch((err) => console.log(err));
-    // 获取当前房源的详细内容
-  }, []);
+  // useEffect(() => {
+  //   const house_id = location.search.split('=')[1];
+  //   getHouseDetail(house_id)
+  //     .then((value) => {
+  //       if (value.msg === 'SUCCESS') {
+  //         setHouseDetail(value.data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  //   // 获取当前房源的详细内容
+  // }, []);
   const handleApply = () => {
     form.validateFields().then(async (values) => {
       const { houseId } = houseDetail;

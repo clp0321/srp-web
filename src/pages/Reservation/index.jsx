@@ -9,6 +9,7 @@ import {
   getApply,
   getUserAccept,
 } from '@/services/property';
+import moment from 'moment';
 
 const mockData = [];
 const { Item } = Form;
@@ -45,6 +46,7 @@ const Reservation = () => {
     {
       title: '申请时间',
       dataIndex: 'applyTime',
+      render: (_, record) => moment(record.applyTime).format('YYYY-MM-DD'),
     },
     {
       title: '智能门锁标识',
@@ -80,6 +82,25 @@ const Reservation = () => {
     {
       title: '密码有效期',
       dataIndex: 'passwordTime',
+      render: (_, record) => {
+        let time;
+        const { passwordTime } = record;
+        switch (passwordTime) {
+          case "0":
+            time = '2小时';
+            break;
+          case "1":
+            time = '4小时';
+            break;
+          case "2":
+            time = '6小时';
+            break;
+          case "3":
+            time = '8小时';
+            break;
+        }
+        return <span>{time}</span>;
+      },
     },
     {
       title: '操作',
@@ -104,27 +125,57 @@ const Reservation = () => {
       },
     },
   ];
+  
   useEffect(() => {
-    getTodo();
+    // 区分当前登陆用户身份
+    if (role === '0') {
+      getHasSent();
+    } else if (role === '1') {
+      getTodo();
+    }
   }, []);
 
   // 获取房东待处理
   const getTodo = () => {
-    getHander(username).then((value) => {
-      if (value.msg === 'SUCCESS') {
-        setData(value.data);
-      }
-    }).finally(() => setLoading(false))
+    getHander(username)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          setData(value.data);
+        }
+      })
+      .finally(() => setLoading(false));
   };
   // 获取房东以处理
   const getDid = () => {
-    getHouser(username).then((value) => {
-      if (value.msg === 'SUCCESS') {
-        setData(value.data);
-      }
-    }).finally(() => setLoading(false))
+    getHouser(username)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          setData(value.data);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+  // 租客获取已申请
+  const getHasSent = () => {
+    getApply(username)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          setData(value.data);
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
+  // 租客获取已同意
+  const getHasAgree = () => {
+    getUserAccept(username)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          setData(value.data);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
   // 处理同意
   const handleAgree = () => {
     form.validateFields().then((values) => {
@@ -132,6 +183,9 @@ const Reservation = () => {
       agreeApply(data).then((value) => {
         if (value.data === 1) {
           message.success('操作成功');
+          setVisible(false);
+          getRoom();
+          form.resetFields();
         } else {
           message.error('操作失败');
         }
@@ -141,9 +195,27 @@ const Reservation = () => {
   };
   // 选项切换
   const handleChange = (e) => {
-    setLoading(true)
+    setLoading(true);
     if (e.target.value === 0) {
+      getRoom();
+    } else {
+      getRooms();
+    }
+  };
+
+  // 房东切换
+  const getRoom = () => {
+    if (role === '0') {
+      getHasSent();
+    } else if (role === '1') {
       getTodo();
+    }
+  };
+
+  // 租客切换
+  const getRooms = () => {
+    if (role === '0') {
+      getHasAgree();
     } else {
       getDid();
     }
@@ -180,7 +252,7 @@ const Reservation = () => {
       </Card>
       <Table
         loading={loading}
-        columns={columns}
+        columns={role === '0' ? columns.splice(0, columns.length - 1) : columns}
         dataSource={dataSource}
         pagination={false}
         rowKey="id"

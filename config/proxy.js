@@ -24,6 +24,10 @@ export default {
       pathRewrite: {
         '/back': '',
       },
+    },
+    '/deviceManagement': {
+      target: 'https://debug.locksuiyi.com',
+      changeOrigin: true
     }
   },
   test: {

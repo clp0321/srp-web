@@ -125,19 +125,6 @@ const SearchMultiple = () => {
               </li>
             </ul>
           </div>
-          <div className={style.options}>
-            <ul className={style.otption_ul}>
-              <li>
-                <Text strong>结构：</Text>
-              </li>
-              <li>
-                <a href="#">混合</a>
-              </li>
-              <li>
-                <a href="#">混凝土钢筋</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

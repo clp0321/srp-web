@@ -1,6 +1,5 @@
 import { queryCurrent, query as queryUsers } from '@/services/user';
 import { getCurrentUser } from '@/services/login';
-import { getAuthority } from '@/utils/authority';
 
 const UserModel = {
   namespace: 'user',
@@ -17,9 +16,9 @@ const UserModel = {
     },
 
     *fetchCurrent(_, { call, put }) {
-      const authority = getAuthority();
-      if (authority[0]) {
-        const resp = yield call(getCurrentUser, authority[0]);
+      const username = localStorage.getItem('name')
+      if (username) {
+        const resp = yield call(getCurrentUser, username);
         yield put({
           type: 'saveCurrentUser',
           payload: resp.data,

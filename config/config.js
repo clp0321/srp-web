@@ -93,7 +93,7 @@ export default defineConfig({
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
+          authority: ['landlord', 'tenant', 'supervisor'],
           routes: [
             {
               path: '/',
@@ -102,12 +102,14 @@ export default defineConfig({
             {
               path: '/monitor',
               component: './Dashboard',
+              authority: ['landlord'],
             },
             {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',
               component: './Welcome',
+              authority: ['landlord'],
             },
             {
               path: '/admin',
@@ -129,6 +131,7 @@ export default defineConfig({
               name: 'property',
               icon: 'bank',
               path: '/property',
+              authority: ['landlord'],
               routes: [
                 {
                   path: '/property',
@@ -150,6 +153,7 @@ export default defineConfig({
               name: 'equipment',
               icon: 'database',
               path: '/equipment',
+              authority: ['landlord'],
               routes: [
                 {
                   path: '/equipment',
@@ -171,6 +175,7 @@ export default defineConfig({
               name: 'order',
               icon: 'account-book',
               path: '/order',
+              authority: ['landlord', 'tenant'],
               routes: [
                 {
                   path: '/order',
@@ -192,6 +197,7 @@ export default defineConfig({
               name: 'contract',
               icon: 'file-text',
               path: '/contract',
+              authority: ['landlord', 'tenant'],
               routes: [
                 {
                   path: '/contract',
@@ -213,13 +219,15 @@ export default defineConfig({
               name: 'reservation',
               icon: 'message',
               path: '/reservation',
-              component: './Reservation'
+              component: './Reservation',
+              authority: ['landlord', 'tenant'],
             },
             {
               name: 'user.manage',
               icon: 'user',
               path: '/manage',
               component: './User',
+              authority: ['landlord'],
             },
             {
               component: './Center',

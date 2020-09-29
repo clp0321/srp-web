@@ -17,6 +17,7 @@ export async function getLockList() {
   return request('/deviceManagement/api/deviceList.do');
 }
 
+// 添加永久密码
 export async function addPermanentPasswd(data) {
   return request.post('/deviceManagement/api/permanentPassword.do', {
     data,
@@ -46,7 +47,14 @@ export async function addTemporaryPasswd(data) {
 
 // 修改临时密码
 export async function updateTemporaryPasswd(data) {
-  return request.put('deviceManagement/api/temporaryPassword.do', {
+  return request.put('/deviceManagement/api/temporaryPassword.do', {
+    data,
+  });
+}
+
+// 删除临时密码
+export async function deleteTemporaryPasswd(data) {
+  return request.delete('/deviceManagement/api/temporaryPassword.do', {
     data,
   });
 }

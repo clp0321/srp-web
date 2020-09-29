@@ -13,9 +13,26 @@ import {
   DatePicker,
   Modal,
 } from 'antd';
-import { SearchOutlined, ToolOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getLockList } from '@/services/lock';
+import {
+  SearchOutlined,
+  ToolOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  PlusSquareOutlined,
+} from '@ant-design/icons';
+import {
+  getLockList,
+  addTemporaryPasswd,
+  addPermanentPasswd,
+  updateTemporaryPasswd,
+  updatPermanentPasswd,
+  deletePermanentPasswd,
+  deleteTemporaryPasswd,
+} from '@/services/lock';
+import moment from 'moment';
 import style from './style.less';
+import request from '@/utils/request';
+
 
 const { Text, Paragraph } = Typography;
 const { Item } = Form;
@@ -26,6 +43,7 @@ const Authorize = () => {
   const [lockList, setLockList] = useState([]);
   const [addVisible, setAddVisible] = useState(false);
   const [modalType, setType] = useState('');
+  const [curDevice, setDevice] = useState('');
   const [updateVisible, setUpdateVisible] = useState(false);
   const [footerKey, setFooter] = useState('default');
   const [form] = Form.useForm();
@@ -217,7 +235,49 @@ const Authorize = () => {
   };
 
   // 确认授权
-  const handleAuthority = () => {};
+  const handleAuthority = () => {
+    form.validateFields().then((values) => {
+      let passwordList = [];
+      const data = { deviceNum: curDevice };
+      if (modalType === 'permanent') {
+        passwordList.push(values);
+        data.passwordList = passwordList;
+        handleAddPermanentPwd(data);
+      } else {
+        const { identification, password, time } = values;
+        passwordList.push({
+          identification,
+          password,
+          startTime: moment(time[0]).format('YYYY-MM-DD hh:mm:ss'),
+          endTime: moment(time[1]).format('YYYY-MM-DD hh:mm:ss'),
+        });
+        passwordList.push(values);
+        data.passwordList = passwordList;
+        handleAddTemporaryPwd(data);
+      }
+    });
+  };
+
+  // 修改密码
+  const handleUpdate = () => {
+    // 修复
+    form.setFields([{ name: ['selectOpt'], value: '' }])
+    form.validateFields().then((values) => {
+      let passwordList = [];
+      const deviceNum = curDevice;
+      if (modalType === 'permanent') {
+        const data = { ...values, deviceNum };
+        handleUpdatePermanent(data)
+      } else {
+        const { time, identification, password } = values;
+        const startTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
+        const endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
+        const data = { deviceNum, startTime, endTime, identification, password };
+        data.passwordList = passwordList;
+        handleUpdateTemporary(data);
+      }
+    });
+  };
 
   // 动态修改Modal的footer
   const Footer = () => {
@@ -245,38 +305,51 @@ const Authorize = () => {
       <div className={style.dropContent}>
         <Paragraph
           onClick={() => {
-            setUpdateVisible(true);
-            setType('permanent');
+            setAddVisible(true);
+            setDevice(device);
           }}
         >
-          <Text className={style.updateStyle}>
-            <EditOutlined />
-            修改永久密码
-          </Text>
-        </Paragraph>
-        <Paragraph onClick={() => showDeleteModal(1)}>
-          <Text className={style.deleteStyle}>
-            <DeleteOutlined />
-            删除永久密码
+          <Text className={style.addStyle}>
+            <PlusSquareOutlined />
+            新增授权
           </Text>
         </Paragraph>
         <Paragraph
           onClick={() => {
             setUpdateVisible(true);
-            setType('temporary');
+            setType('permanent');
+            setDevice(device);
           }}
         >
-          <Text className={style.updateStyle}>
+          <Text className={style.addStyle}>
+            <EditOutlined />
+            修改永久密码
+          </Text>
+        </Paragraph>
+        {/* <Paragraph onClick={() => showDeleteModal(1)}>
+          <Text className={style.deleteStyle}>
+            <DeleteOutlined />
+            删除永久密码
+          </Text>
+        </Paragraph> */}
+        <Paragraph
+          onClick={() => {
+            setUpdateVisible(true);
+            setType('temporary');
+            setDevice(device);
+          }}
+        >
+          <Text className={style.addStyle}>
             <EditOutlined />
             修改临时密码
           </Text>
         </Paragraph>
-        <Paragraph onClick={() => handleDeleteTemporary(2)}>
+        {/* <Paragraph onClick={() => handleDeleteTemporary(2)}>
           <Text className={style.deleteStyle}>
             <DeleteOutlined />
             删除临时密码
           </Text>
-        </Paragraph>
+        </Paragraph> */}
       </div>
     );
   };
@@ -294,13 +367,49 @@ const Authorize = () => {
       onCancel: () => {},
     });
   };
+  // 添加临时密码
+  const handleAddTemporaryPwd = async (data) => {
+    addTemporaryPasswd(data).then((value) => {
+      if (value.code === 0) {
+        message.success(`设备${curDevice} 授权成功!`);
+      } else {
+        message.error(value.msg);
+      }
+    });
+  };
+  // 添加永久密码
+  const handleAddPermanentPwd = async (data) => {
+    addPermanentPasswd(data).then((value) => {
+      if (value.code === 0) {
+        message.success(`设备${curDevice} 授权成功!`);
+      } else {
+        message.error(value.msg);
+      }
+    });
+  };
   // 修改永久
-  const handleUpdatePermanent = () => {};
+  const handleUpdatePermanent = async (data) => {
+    return updatPermanentPasswd(data).then((value) => {
+      if (value.code === 0) {
+        message.success(`设备${curDevice} 永久密码修改成功!`);
+      } else {
+        message.error(value.msg);
+      }
+    });
+  };
+  // 修改临时
+  const handleUpdateTemporary = async (data) => {
+    return updateTemporaryPasswd(data).then((value) => {
+      if (value.code === 0) {
+        message.success(`设备${curDevice} 临时密码修改成功!`);
+      } else {
+        message.error(value.msg);
+      }
+    });
+  };
+
   // 删除永久
   const handleDeletePermanent = () => {};
-
-  // 修改临时
-  const handleUpdateTemporary = () => {};
 
   // 删除临时
   const handleDeleteTemporary = () => {};
@@ -315,17 +424,19 @@ const Authorize = () => {
             placeholder="搜索房间名、锁用户"
             prefix={<SearchOutlined />}
           />
-          <Button type="primary" style={{ marginRight: 10 }} onClick={() => setAddVisible(true)}>
-            新增授权
-          </Button>
         </div>
       </div>
       <Divider className={style.divider} />
-      <Table columns={columns} dataSource={lockList} />
+      <Table columns={columns} dataSource={lockList} rowKey="deviceNum" />
       <Modal
         title="新增授权"
         visible={addVisible}
-        onCancel={() => setAddVisible(false)}
+        onCancel={() => {
+          setAddVisible(false);
+          setDevice('');
+          setFooter('default');
+          form.resetFields();
+        }}
         footer={<Footer />}
       >
         <Form form={form}>
@@ -333,7 +444,6 @@ const Authorize = () => {
             <Item
               name="selectOpt"
               label="授权形式"
-              rules={[{ required: true, message: '请选择授权形式' }]}
             >
               <Select placeholder="选择门锁的授权形式">
                 <Option value={1}>永久密码</Option>
@@ -348,14 +458,20 @@ const Authorize = () => {
       <Modal
         title={modalType === 'temporary' ? '修改临时密码' : '修改永久密码'}
         visible={updateVisible}
-        onCancel={() => setUpdateVisible(false)}
-        onOk={() => {}}
+        onCancel={() => {
+          setDevice('');
+          setUpdateVisible(false);
+          form.resetFields();
+        }}
+        onOk={handleUpdate}
       >
-        {modalType === 'temporary' ? (
-          <TemporaryModal />
-        ) : modalType === 'permanent' ? (
-          <PermanetModal />
-        ) : null}
+        <Form form={form}>
+          {modalType === 'temporary' ? (
+            <TemporaryModal />
+          ) : modalType === 'permanent' ? (
+            <PermanetModal />
+          ) : null}
+        </Form>
       </Modal>
     </>
   );

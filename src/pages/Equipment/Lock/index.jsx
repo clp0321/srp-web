@@ -10,7 +10,7 @@ class EquipmentManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentKey: "2",
+      currentKey: "1",
       authority: true,
       openRecord: true
     };

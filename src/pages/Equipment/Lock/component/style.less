@@ -3,9 +3,6 @@
   .search_opt_l {
     float: left;
   }
-  .search_opt_r {
-    float: right;
-  }
 }
 
 .divider {
@@ -17,7 +14,7 @@
     .ant-result-content {
       width: 25%;
       margin: auto;
-      margin-top: 40px
+      margin-top: 40px;
     }
   }
   .result_con {
@@ -28,6 +25,45 @@
     text-align: left;
     span {
       font-size: 14px;
+    }
+  }
+}
+
+.conn_able {
+  :global {
+    .ant-typography.ant-typography-disabled {
+      cursor: default;
+    }
+  }
+}
+
+.updateStyle {
+  color: #1890ff;
+}
+
+.deleteStyle {
+  color: red;
+}
+
+.rangeStyle {
+  :global {
+    .ant-picker-range {
+      width: 100% !important;
+    }
+  }
+}
+
+.ellipsis {
+  cursor: pointer;
+}
+
+.dropContent {
+  background: white;
+  padding: 20px 24px;
+  border: 1px solid rgb(217, 217, 217);
+  :global {
+    .ant-typography:hover {
+      cursor: pointer;
     }
   }
 }

@@ -1,11 +1,9 @@
 import request from '@/utils/request';
 
-
 // 登陆鉴权
-export async function toLogin(appKey, secret) {
+export async function toLogin(data) {
   return request.post('/deviceManagement/api/login.do', {
-    appKey,
-    secret,
+    data,
   });
 }
 
@@ -40,14 +38,14 @@ export async function deletePermanentPasswd(data) {
 }
 
 // 添加临时密码
-export async function toLogin(data) {
+export async function addTemporaryPasswd(data) {
   return request.post('/deviceManagement/api/temporaryPassword.do', {
     data,
   });
 }
 
 // 修改临时密码
-export async function toLogin(data) {
+export async function updateTemporaryPasswd(data) {
   return request.put('deviceManagement/api/temporaryPassword.do', {
     data,
   });

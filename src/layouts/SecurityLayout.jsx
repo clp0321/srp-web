@@ -27,7 +27,6 @@ class SecurityLayout extends React.Component {
 
     // 判断访问路径时否是以srp开头
     const path = window.location.pathname;
-    console.log(path)
     if (path.includes('/srp')) {
       return children;
     } else {

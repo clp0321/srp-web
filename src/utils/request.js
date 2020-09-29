@@ -26,7 +26,7 @@ const codeMessage = {
  * 异常处理程序
  */
 
-const errorHandler = error => {
+const errorHandler = (error) => {
   const { response } = error;
 
   if (response && response.status) {
@@ -55,4 +55,21 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
   mode: 'cors',
 });
+
+// 添加请求拦截器，将
+request.interceptors.request.use((url, options) => {
+  const token = localStorage.getItem('lock_token');
+  if (url.includes('/deviceManagement')) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'Authorization': token,
+    };
+    return {
+      url,
+      options: { ...options, headers },
+    };
+  }
+});
+
 export default request;

@@ -230,10 +230,10 @@ export default defineConfig({
               authority: ['landlord'],
             },
             {
-              component: './Center',
+              component: './404',
             },
             {
-              component: './404',
+              component: './Center',
             },
           ],
         },

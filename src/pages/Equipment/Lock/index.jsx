@@ -11,6 +11,8 @@ class EquipmentManage extends Component {
     super(props);
     this.state = {
       currentKey: 1,
+      authority: true,
+      openRecord: true
     };
   }
 
@@ -20,8 +22,16 @@ class EquipmentManage extends Component {
     });
   };
 
+  setAbled = () => {
+    this.setState({
+      authority: false,
+      openRecord: false
+    })
+  }
+
+
   render() {
-    const { currentKey } = this.state;
+    const { currentKey, authority, openRecord } = this.state;
 
     const PropertySelect = () => (
       <Select style={{ width: 100 }} defaultValue={1}>
@@ -40,13 +50,13 @@ class EquipmentManage extends Component {
             size="large"
             tabBarExtraContent={<PropertySelect />}
           >
-            <TabPane tab="智能门锁" key="1">
-              <BaseLock />
+            <TabPane tab="智能门锁" key="1" >
+              <BaseLock setAbled={this.setAbled} />
             </TabPane>
-            <TabPane tab="门锁授权" key="2">
+            <TabPane tab="门锁授权" key="2" disabled={authority}>
               <Authorize />
             </TabPane>
-            <TabPane tab="开锁记录" key="3">
+            <TabPane tab="开锁记录" key="3" disabled={openRecord}>
               <Record />
             </TabPane>
           </Tabs>

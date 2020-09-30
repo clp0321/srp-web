@@ -26,11 +26,12 @@ const BaseLock = ({ setAbled }) => {
     const resp = await getLockList();
     const {
       code,
-      data: { list },
+      data,
       msg,
     } = resp;
     if (code === 0) {
       const array = [];
+      const { list = [] } = data;
       list.map((item) => {
         const { deviceNum, battery, lockStatus, signalStrength } = item;
         array.push({ deviceNum, battery, lockStatus, signalStrength });
@@ -59,7 +60,6 @@ const BaseLock = ({ setAbled }) => {
             description: `本次鉴权失效时间：${timeout}`,
           });
           setVisible(false);
-          setAuthority(true);
           localStorage.setItem('lock_token', token);
           return true;
         } else {

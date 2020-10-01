@@ -38,8 +38,6 @@ const BaseLock = ({ setAbled }) => {
       });
       setLock(array);
       setAbled();
-    } else {
-      message.error(msg);
     }
   }
 

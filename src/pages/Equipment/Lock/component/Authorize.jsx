@@ -31,8 +31,6 @@ import {
 } from '@/services/lock';
 import moment from 'moment';
 import style from './style.less';
-import request from '@/utils/request';
-
 
 const { Text, Paragraph } = Typography;
 const { Item } = Form;
@@ -261,20 +259,26 @@ const Authorize = () => {
   // 修改密码
   const handleUpdate = () => {
     // 修复
-    form.setFields([{ name: ['selectOpt'], value: '' }])
+    form.setFields([{ name: ['selectOpt'], value: '' }]);
     form.validateFields().then((values) => {
       let passwordList = [];
       const deviceNum = curDevice;
       if (modalType === 'permanent') {
         const data = { ...values, deviceNum };
-        handleUpdatePermanent(data)
+        const token = localStorage.getItem('lock_token');
+        const url = 'https://debug.locksuiyi.com/deviceManagement/api/permanentPassword.do';
+        const method = 'put';
+        handleUpdatePermanent({ token, url, method, data });
       } else {
         const { time, identification, password } = values;
         const startTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
         const endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
         const data = { deviceNum, startTime, endTime, identification, password };
         data.passwordList = passwordList;
-        handleUpdateTemporary(data);
+        const token = localStorage.getItem('lock_token');
+        const url = 'https://debug.locksuiyi.com/deviceManagement/api/permanentPassword.do';
+        const method = 'put';
+        handleUpdateTemporary({ token, url, method, data});
       }
     });
   };
@@ -392,6 +396,8 @@ const Authorize = () => {
     return updatPermanentPasswd(data).then((value) => {
       if (value.code === 0) {
         message.success(`设备${curDevice} 永久密码修改成功!`);
+        setUpdateVisible(false);
+        form.resetFields();
       } else {
         message.error(value.msg);
       }
@@ -402,6 +408,8 @@ const Authorize = () => {
     return updateTemporaryPasswd(data).then((value) => {
       if (value.code === 0) {
         message.success(`设备${curDevice} 临时密码修改成功!`);
+        setUpdateVisible(false);
+        form.resetFields()
       } else {
         message.error(value.msg);
       }
@@ -441,10 +449,7 @@ const Authorize = () => {
       >
         <Form form={form}>
           {footerKey === 'default' ? (
-            <Item
-              name="selectOpt"
-              label="授权形式"
-            >
+            <Item name="selectOpt" label="授权形式">
               <Select placeholder="选择门锁的授权形式">
                 <Option value={1}>永久密码</Option>
                 <Option value={2}>临时密码</Option>

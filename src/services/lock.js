@@ -26,9 +26,9 @@ export async function addPermanentPasswd(data) {
 
 // 修改永久密码
 export async function updatPermanentPasswd(data) {
-  return request.put('/deviceManagement/api/permanentPassword.do', {
-    data,
-  });
+  return request.post('/crossing/updatePermanentPasswd', {
+    data
+  })
 }
 
 // 删除永久密码
@@ -47,7 +47,7 @@ export async function addTemporaryPasswd(data) {
 
 // 修改临时密码
 export async function updateTemporaryPasswd(data) {
-  return request.put('/deviceManagement/api/temporaryPassword.do', {
+  return request.post('/crossing/updateTemporaryPasswd', {
     data,
   });
 }

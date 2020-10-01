@@ -28,6 +28,13 @@ export default {
     '/deviceManagement': {
       target: 'https://debug.locksuiyi.com',
       changeOrigin: true
+    },
+    '/crossing': {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      pathRewrite: {
+        '/crossing': ''
+      }
     }
   },
   test: {

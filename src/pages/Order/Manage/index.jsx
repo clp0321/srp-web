@@ -67,8 +67,8 @@ const OrderManage = () => {
     },
   ];
   const options = [
-    { label: '未完成', value: 'unfinished' },
-    { label: '已完成', value: 'finished' },
+    { label: '已确认', value: 'finished' },
+    { label: '未确认', value: 'unfinished' },
   ];
   // 订单扩展内容
   const expandedRowRender = () => {
@@ -107,8 +107,8 @@ const OrderManage = () => {
     <PageContainer>
       <Card className={style.searchOption}>
         <Radio.Group defaultValue={1}>
-          <Radio value={1}>已上链</Radio>
-          <Radio value={2}>未上链</Radio>
+          <Radio value={1}>已完成</Radio>
+          <Radio value={2}>未完成</Radio>
         </Radio.Group>
         <Radio.Group
           options={options}

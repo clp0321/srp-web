@@ -49,7 +49,7 @@ const Reservation = () => {
       render: (_, record) => moment(record.applyTime).format('YYYY-MM-DD'),
     },
     {
-      title: '智能门锁标识',
+      title: '智能门锁编号',
       dataIndex: 'deviceNum',
     },
     {

@@ -1,47 +1,130 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
-import { Form, Avatar, Upload, Button, Select, Input } from 'antd';
+import { Form, Avatar, Upload, Button, Select, Input, message } from 'antd';
+import { connect } from 'umi';
+import { updateUser } from '@/services/login';
 import style from './style.less';
 
 const { Item } = Form;
 const { Option } = Select;
 
-const Setting = () => {
+const Setting = (props) => {
+  const { dispatch, currentUser } = props;
+  console.log(currentUser)
+  const [form] = Form.useForm();
+  const {
+    addressName,
+    userName,
+    role,
+    certId,
+    phone,
+    address,
+    userHash,
+    credit_value,
+    avatar,
+    password,
+    id,
+  } = currentUser || {};
+  const handleFinish = () => {
+    form.validateFields().then(async (values) => {
+      const { userName } = values;
+      const data = { id, ...values };
+      const resp = await updateUser(data);
+      if (resp.data > 0) {
+        localStorage.setItem('name', userName)
+        message.success('用户信息更新成功');
+        updatCurUser();
+      } else {
+        message.error('用户信息更新失败');
+      }
+    });
+  };
+
+  const updatCurUser = () => {
+    if (dispatch) {
+      dispatch({
+        type: 'user/fetchCurrent'
+      })
+    }
+  } 
+
   return (
     <div className={style.baseInfo}>
-      <Form className={style.left_form} layout="vertical">
-        <Item label="用户名" name="address_name">
-          <Input placeholder="请输入用户名" />
+      <Form
+        className={style.left_form}
+        form={form}
+        onFinish={handleFinish}
+        layout="vertical"
+        initialValues={{
+          addressName,
+          userName,
+          role,
+          certId,
+          phone,
+          address,
+          userHash,
+          credit_value,
+          password,
+        }}
+      >
+        <Item label="用户名" name="addressName" disabled={addressName ? true : false}>
+          <Input placeholder="用户名" />
         </Item>
-        <Item label="昵称" name="user_name">
-          <Input placeholder="请输入用户名" />
+        <Item label="昵称" name="userName">
+          <Input placeholder="昵称" />
         </Item>
         <Item label="用户角色" name="role">
-          <Select>
-            <Option></Option>
+          <Select placeholder="用户身份" disabled>
+            <Option value={0}>租客</Option>
+            <Option value={1}>房东</Option>
+            <Option value={2}>监管用户</Option>
+            <Option value={3}>代理服务商</Option>
           </Select>
         </Item>
-        <Item label="身份证号" name="cert_id">
-          <Input />
+        <Item label="密码" name="password">
+          <Input placeholder="密码" />
         </Item>
-        <Item label="电话号码" name="phone">
-          <Input />
+        <Item
+          label="身份证号"
+          name="certId"
+          rules={[
+            {
+              pattern: /^(\d{18,18}|\d{15,15}|\d{17,17}X)$/,
+              message: '身份证信息不正确',
+            },
+          ]}
+        >
+          <Input placeholder="身份证号" disabled={certId ? true : false} />
+        </Item>
+        <Item
+          label="电话号码"
+          name="phone"
+          rules={[
+            {
+              pattern: /^1\d{10}$/,
+              message: '手机号输入不正确',
+            },
+          ]}
+        >
+          <Input placeholder="电话号码" />
         </Item>
         <Item label="用户地址" name="address">
-          <Input />
+          <Input placeholder="用户地址" />
         </Item>
-        <Item label="用户哈希" name="address">
-          <Input />
+        <Item label="用户哈希" name="userHash">
+          <Input placeholder="哈希" />
         </Item>
         <Item label="信用分" name="credit_value">
-          <Input />
+          <Input placeholder="信用分" />
         </Item>
         <Item>
-          <Button type="primary">更新基本信息</Button>
+          <Button type="primary" htmlType="submit">
+            更新基本信息
+          </Button>
         </Item>
       </Form>
       <div className={style.right_avatar}>
-        <Avatar size={150} icon={<UserOutlined />} />
+        <Avatar src={avatar} size={150} icon={<UserOutlined />} />
         <Upload>
           <Button style={{ marginTop: 10 }} icon={<UploadOutlined />}>
             更换头像
@@ -51,4 +134,7 @@ const Setting = () => {
     </div>
   );
 };
-export default Setting;
+
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(Setting);

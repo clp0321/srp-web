@@ -150,7 +150,6 @@ const LoginItem = (props) => {
 const LoginItems = {};
 Object.keys(ItemMap).forEach((key) => {
   const item = ItemMap[key];
-  console.log(item)
   LoginItems[key] = (props) => (
     <LoginContext.Consumer>
       {(context) => (

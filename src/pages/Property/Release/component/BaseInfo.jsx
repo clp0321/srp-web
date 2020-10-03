@@ -76,7 +76,8 @@ const BaseInfo = () => {
             },
           ]}
         >
-          <Cascader options={mockData} onChange={onChange} placeholder="请选择所在区域" />
+          {/* <Cascader options={mockData} onChange={onChange} placeholder="请选择所在区域" /> */}
+          <Input placeholder="请输入所在区域" />
         </Item>
         <Item
           name="address"

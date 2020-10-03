@@ -146,7 +146,6 @@ class Manage extends Component {
             <Radio value={1}>已上链</Radio>
             <Radio value={2}>未上链</Radio>
           </Radio.Group>
-          <Input.Search placeholder="输入发布人信息" style={{ width: 250, marginRight: 10 }} enterButton="查询" />
           <Button type="danger" icon={<ReloadOutlined />}>
             重置
           </Button>

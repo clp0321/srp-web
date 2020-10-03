@@ -58,3 +58,8 @@ export async function deleteTemporaryPasswd(data) {
     data,
   });
 }
+
+// 查询开锁记录
+export async function queryLockRecord({ pageNum, pageSize }) {
+  return request(`/deviceManagement/api/unlockRecord.do?pageNum=${pageNum}&pageSize=${pageSize}`)
+}

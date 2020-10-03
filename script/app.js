@@ -46,5 +46,5 @@ app.post('/updateTemporaryPasswd', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('the local server started');
+  console.log('the listener is executing');
 });

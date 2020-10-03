@@ -28,6 +28,15 @@ const Welcome = () => {
             立即体验
           </Button>
         </div>
+
+        <div className={[style.star, style.star1].join(' ')}></div>
+        <div className={[style.star, style.star2].join(' ')}></div>
+        <div className={[style.star, style.star3].join(' ')}></div>
+        <div className={[style.star, style.star4].join(' ')}></div>
+        <div className={[style.star, style.star5].join(' ')}></div>
+        <div className={[style.star, style.star6].join(' ')}></div>
+        <div className={[style.star, style.star7].join(' ')}></div>
+        <div className={[style.star, style.star8].join(' ')}></div>
       </div>
       {/* 产品介绍 */}
       <div className={style.introduce}>

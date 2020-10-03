@@ -21,7 +21,7 @@
     "precommit": "lint-staged",
     "prettier": "prettier -c --write \"**/*\"",
     "start": "umi dev",
-    "server": "nodemon ./script/app.js",
+    "server": "node ./script/app.js",
     "con-start": "concurrently \"yarn run server\" \"yarn start\"",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",

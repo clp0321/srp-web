@@ -114,8 +114,8 @@ const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} dat
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
   useEffect(() => {
-    document.title = "区块链共享租赁平台-信息溯源"
-  })
+    document.title = '区块链共享租赁平台-信息溯源';
+  });
   // 节点名称	节点位置	状态	区块高度	最新区块哈希值	最新区块时间
   const columns = [
     {
@@ -184,16 +184,18 @@ const BlockMessage = () => {
     <>
       {/* 背景 */}
       <div className={style.banner}>
-        <Title level={4}>
-          <img src={logoUrl} />
-          屹租链信息溯源平台
-        </Title>
-        <Input.Search
-          size="large"
-          placeholder="在此输入编码/交易哈希进行查询"
-          className={style.search}
-        />
-        <div className={style.block}>{blockContents}</div>
+        <div className={style.banner_center}> 
+          <Title level={2}>
+            <img src={logoUrl} />
+            屹租链信息溯源平台
+          </Title>
+          <Input.Search
+            size="large"
+            placeholder="在此输入编码/交易哈希进行查询"
+            className={style.search}
+          />
+          <div className={style.block}>{blockContents}</div>
+        </div>
       </div>
 
       {/* 查询信息 */}

@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
+import certification from '@/assets/images/certification.png';
 import { applyHouse } from '@/services/property';
 import moment from 'moment';
 import style from './style.less';
@@ -129,23 +130,6 @@ const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = ({ houseDetail }) => {
   const { lng, lat, title, text } = lanLat;
-  // const [houseDetail, setHouseDetail] = useState({
-  //   houseId: '',
-  //   deviceId: '',
-  //   updateTime: '',
-  //   method: '',
-  //   position: '',
-  //   specify: '',
-  //   //  房屋信息
-  //   houseOwner: '',
-  //   phone: '',
-  //   size: 0,
-  //   price: '',
-  //   payway: '',
-  //   type: '普通住宅',
-  //   description: '',
-  //   picUrl: ''
-  // });
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   // useEffect(() => {
@@ -162,11 +146,11 @@ const HouseDetail = ({ houseDetail }) => {
   const handleApply = () => {
     form.validateFields().then(async (values) => {
       const { houseId } = houseDetail;
-      const { houser_name, user_name, apply_time } = values;
+      const { apply_time } = values;
       const resp = await applyHouse({
         houseId,
-        houserName: houser_name,
-        userName: user_name,
+        houserName: houseDetail.houseOwner,
+        userName: localStorage.getItem('name'),
         applyTime: moment(apply_time).format('YYYY/MM/DD'),
         deviceNum: '23',
       });
@@ -219,16 +203,21 @@ const HouseDetail = ({ houseDetail }) => {
     default:
       pays = '';
   }
+  let equipId = '';
+  if (deviceId && deviceId.length > 0) {
+    equipId = deviceId.replace(deviceId.substring(1, deviceId.length -1 ),'***')
+  }
+
   return (
     <>
       {/* 基本信息 */}
       <div className={style.house_detail}>
-        {/* <Title level={4}>合租 | 远洋新干线2期 5室1厅 西南</Title> */}
         <Title level={4}>
           {method === 0 ? '整租' : '合租'} | {position} {specify}{' '}
         </Title>
         <Paragraph>
-          智能设备编码: {deviceId}
+        <img src={certification} height={30} />
+          智能门锁编号: {equipId} 
           <Button
             type="primary"
             className={style.watch_room}
@@ -245,7 +234,7 @@ const HouseDetail = ({ houseDetail }) => {
         <Descriptions
           column={3}
           title={<Title level={4}>房屋信息</Title>}
-          extra={`发布时间：${updateTime}`}
+          extra={`发布时间：${moment(updateTime).format('YYYY-MM-DD hh:mm:ss')}`}
         >
           <Descriptions.Item label="房主">{houseOwner}</Descriptions.Item>
           <Descriptions.Item label="联系方式">{phone}</Descriptions.Item>
@@ -318,11 +307,27 @@ const HouseDetail = ({ houseDetail }) => {
             user_name: localStorage.getItem('name'),
           }}
         >
-          <Item label="房主" name="houser_name">
+          {/* <Item label="房主" name="houser_name">
             <Input disabled />
           </Item>
           <Item label="预约人" name="user_name">
             <Input disabled />
+          </Item> */}
+          <Item
+            label="联系方式"
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: '请输入联系方式！',
+              },
+              {
+                pattern: /^1\d{10}$/,
+                message: '请输入正确的联系方式！',
+              },
+            ]}
+          >
+            <Input placeholder="请输入联系方式" />
           </Item>
           <Item label="看房时间" name="apply_time" className={style.picker}>
             <DatePicker placeholder="选择预约看房时间" />

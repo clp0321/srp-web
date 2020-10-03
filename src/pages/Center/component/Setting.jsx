@@ -4,19 +4,22 @@ import { Form, Avatar, Upload, Button, Select, Input } from 'antd';
 import style from './style.less';
 
 const { Item } = Form;
+const { Option } = Select;
 
 const Setting = () => {
   return (
     <div className={style.baseInfo}>
       <Form className={style.left_form} layout="vertical">
         <Item label="用户名" name="address_name">
-          <Input />
+          <Input placeholder="请输入用户名" />
         </Item>
         <Item label="昵称" name="user_name">
-          <Input />
+          <Input placeholder="请输入用户名" />
         </Item>
         <Item label="用户角色" name="role">
-          <Input />
+          <Select>
+            <Option></Option>
+          </Select>
         </Item>
         <Item label="身份证号" name="cert_id">
           <Input />

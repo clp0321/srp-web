@@ -71,5 +71,7 @@ export default {
 
   'menu.reservation': '预约',
 
-  'menu.user.manage': '用户',
+  'menu.user.manage': '管理',
+
+  'menu.person': '用户'
 };

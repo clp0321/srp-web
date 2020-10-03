@@ -24,8 +24,8 @@ const Login = (props) => {
   const [autoLogin, setAutoLogin] = useState(true);
 
   useEffect(() => {
-    document.title = "区块链共享租赁平台-用户登陆"
-  })
+    document.title = '区块链共享租赁平台-用户登陆';
+  });
 
   const handleSubmit = (values) => {
     const { dispatch } = props;
@@ -40,16 +40,7 @@ const Login = (props) => {
     <div className={styles.main}>
       <FormWraper onSubmit={handleSubmit}>
         {status === 'error' && !submitting && <LoginMessage content="登陆失败" />}
-        <UserName
-          name="userName"
-          placeholder="用户名"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户名',
-            },
-          ]}
-        />
+        <UserName name="userName" placeholder="用户名" />
         <Password
           name="password"
           placeholder="密码"
@@ -66,12 +57,6 @@ const Login = (props) => {
           countDown={120}
           getCaptchaButtonText=""
           getCaptchaSecondText="秒"
-          rules={[
-            {
-              required: true,
-              message: '请输入验证码！',
-            },
-          ]}
         />
         <Submit type="primary" htmlType="submit" loading={submitting}>
           登录

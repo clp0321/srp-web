@@ -230,10 +230,13 @@ export default defineConfig({
               authority: ['landlord'],
             },
             {
-              component: './404',
+              name: 'person',
+              icon: 'pic-center',
+              path: '/account',
+              component: './Center',
             },
             {
-              component: './Center',
+              component: './404',
             },
           ],
         },

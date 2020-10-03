@@ -39,29 +39,30 @@ const mockData = [
 // mock节点信息数
 const dataSource = [
   {
-    peer: '微众节点1',
-    location: 'http://localhost:8888',
-    status: true,
-    new_hash: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
-    new_time: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+    id: '微众节点1',
+    ip: '127.0.1',
+    prePort: 5002,
+    nide_id: 'e132121e21e212323',
+    node_v: 2.0,
+    argnization: 'org1',
+    creatTime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+    updateTime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
   },
 ];
 
-// mock 区块信息数
-const blockData = [
+// mock 节点列表信息
+const peerList = [
   {
-    blockHeight: 220,
-    hash: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
-    ip: '183.****.114',
-    timstamp: '1540281841',
-    cerficate_status: '验证通过',
+    peer_id: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
+    peer_type: '共识',
+    block_height: '50369',
+    pbftView: '1540281841',
   },
   {
-    blockHeight: 219,
-    hash: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
-    ip: '183.****.14',
-    timstamp: '1540281842',
-    cerficate_status: '验证通过',
+    peer_id: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
+    peer_type: '共识',
+    block_height: '50374',
+    pbftView: '1540281841',
   },
 ];
 
@@ -116,15 +117,40 @@ const BlockMessage = () => {
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
   });
-  // 节点名称	节点位置	状态	区块高度	最新区块哈希值	最新区块时间
+
+  // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作
   const columns = [
     {
-      title: '节点名称',
-      dataIndex: 'peer',
+      title: '前置编号',
+      dataIndex: 'id',
     },
     {
-      title: '节点位置',
-      dataIndex: 'location',
+      title: 'ip',
+      dataIndex: 'ip',
+    },
+    {
+      title: '前置端口',
+      dataIndex: 'prePort',
+    },
+    {
+      title: '节点id',
+      dataIndex: 'nide_id',
+    },
+    {
+      title: '节点版本',
+      dataIndex: 'node_v',
+    },
+    {
+      title: '所属机构',
+      dataIndex: 'argnization',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'creatTime',
+    },
+    {
+      title: '修改时间',
+      dataIndex: 'updateTime',
     },
     {
       title: '状态',
@@ -136,37 +162,40 @@ const BlockMessage = () => {
       ),
     },
     {
-      title: '最新区块哈希值',
-      dataIndex: 'new_hash',
-    },
-    {
-      title: '最新区块时间',
-      dataIndex: 'new_time',
+      title: '操作',
+      render: () => <a>修改</a>,
     },
   ];
-  // 区块高度	哈希值 	信息IP	时间戳	验证状态
+  // 节点ID、节点类型、块高、pbftView、状态、操作
   const txColumns = [
     {
-      title: '区块高度',
-      dataIndex: 'blockHeight',
+      title: '节点ID',
+      dataIndex: 'peer_id',
     },
     {
-      title: '哈希值',
-      dataIndex: 'hash',
+      title: '节点类型',
+      dataIndex: 'peer_type',
     },
     {
-      title: '信息IP',
-      dataIndex: 'ip',
+      title: '块高',
+      dataIndex: 'block_height',
     },
     {
-      title: '时间戳',
-      dataIndex: 'timstamp',
+      title: 'pbftView',
+      dataIndex: 'pbftView',
     },
     {
-      title: '验证状态',
+      title: '状态',
       dataIndex: 'cerficate_status',
+      render: () => (
+        <>
+          <Badge />
+          运行中
+        </>
+      ),
     },
     {
+      title: '操作',
       dataIndex: 'opt',
       render: (_, record) => (
         <Button type="primary" onClick={() => showDetail(record.blockHeight)}>
@@ -184,7 +213,7 @@ const BlockMessage = () => {
     <>
       {/* 背景 */}
       <div className={style.banner}>
-        <div className={style.banner_center}> 
+        <div className={style.banner_center}>
           <Title level={2}>
             <img src={logoUrl} />
             屹租链信息溯源平台
@@ -202,10 +231,10 @@ const BlockMessage = () => {
       <div className={style.content}>
         {!showAll ? (
           <>
-            <Text className={style.table_title}>节点</Text>
+            <Text className={style.table_title}>节点前置</Text>
             <Table columns={columns} dataSource={dataSource} pagination={false} />
-            <Text className={[style.table_title, style.trans].join(' ')}>最新交易</Text>
-            <Table columns={txColumns} dataSource={blockData} pagination={false} />
+            <Text className={[style.table_title, style.trans].join(' ')}>节点列表</Text>
+            <Table columns={txColumns} dataSource={peerList} pagination={false} />
           </>
         ) : (
           <>

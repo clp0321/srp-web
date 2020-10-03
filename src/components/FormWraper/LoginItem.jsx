@@ -9,7 +9,14 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules, status = "", help = null }) => {
+const getFormItemOptions = ({
+  onChange,
+  defaultValue,
+  customProps = {},
+  rules,
+  status = '',
+  help = null,
+}) => {
   const options = {
     rules: rules || customProps.rules,
   };
@@ -60,6 +67,7 @@ const LoginItem = (props) => {
     message.info('验证码为：1234');
     setTiming(true);
   }, []);
+
   useEffect(() => {
     let interval = 0;
     const { countDown } = props;
@@ -119,21 +127,21 @@ const LoginItem = (props) => {
     );
   }
 
-  if (type === 'Select') {
+  if (type === 'RoleSelect') {
     return (
-    <FormItem name={name} {...options}>
-      <Select {...customProps} {...otherProps}>
-        <Option value={0}>租客</Option>
-        <Option value={1}>房东</Option>
-        <Option value={2}>代理服务商</Option>
-        <Option value={3}>监管用户</Option>
-      </Select>
-    </FormItem>
-    )
+      <FormItem name={name} {...options}>
+        <Select {...customProps} {...otherProps}>
+          <Option value={0}>租客</Option>
+          <Option value={1}>房东</Option>
+          <Option value={2}>监管用户</Option>
+          <Option value={3}>代理服务商</Option>
+        </Select>
+      </FormItem>
+    );
   }
 
   return (
-    <FormItem name={name} {...options} >
+    <FormItem name={name} {...options}>
       <Input {...customProps} {...otherProps} />
     </FormItem>
   );
@@ -142,7 +150,7 @@ const LoginItem = (props) => {
 const LoginItems = {};
 Object.keys(ItemMap).forEach((key) => {
   const item = ItemMap[key];
-
+  console.log(item)
   LoginItems[key] = (props) => (
     <LoginContext.Consumer>
       {(context) => (

@@ -20,7 +20,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter username!',
+        message: '请输入用户名!',
       },
     ],
   },
@@ -32,12 +32,6 @@ export default {
       id: 'password',
       placeholder: '888888',
     },
-    rules: [
-      {
-        required: true,
-        message: 'Please enter password!',
-      },
-    ],
   },
   Mobile: {
     props: {
@@ -48,11 +42,11 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter mobile number!',
+        message: '请输手机号码！',
       },
       {
         pattern: /^1\d{10}$/,
-        message: 'Wrong mobile number format!',
+        message: '请输入正确的手机号！',
       },
     ],
   },
@@ -65,19 +59,19 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter Captcha!',
+        message: '请输入验证码！',
       },
     ],
   },
-  Select: {
+  RoleSelect: {
     props: {
       size: 'large',
-      placeholder: 'select',
+      placeholder: '选择用户角色',
     },
     rules: [
       {
         required: true,
-        message: 'Please Select',
+        message: '请选择用户角色',
       },
     ],
   },

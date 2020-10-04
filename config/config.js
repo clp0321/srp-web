@@ -217,21 +217,28 @@ export default defineConfig({
             },
             {
               name: 'reservation',
-              icon: 'message',
+              icon: 'phone',
               path: '/reservation',
               component: './Reservation',
               authority: ['landlord', 'tenant'],
             },
             {
+              name: 'negotiate',
+              icon: 'message',
+              path: '/negotiate',
+              component: './Negotiate',
+              authority: ['landlord', 'tenant']
+            },
+            {
               name: 'user.manage',
-              icon: 'user',
+              icon: 'pic-center',
               path: '/manage',
               component: './User',
               authority: ['landlord'],
             },
             {
               name: 'person',
-              icon: 'pic-center',
+              icon: 'user',
               path: '/account',
               component: './Center',
             },

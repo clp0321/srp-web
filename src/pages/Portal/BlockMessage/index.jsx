@@ -216,7 +216,7 @@ const BlockMessage = () => {
         <div className={style.banner_center}>
           <Title level={2}>
             <img src={logoUrl} />
-            屹租链信息溯源平台
+            屹租链-房源信息溯源平台
           </Title>
           <Input.Search
             size="large"

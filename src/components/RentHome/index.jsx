@@ -39,12 +39,11 @@ const RentHome = ({ currentUser }) => {
           </h3>
         </div>
         <h3>
-          {' '}
-          <Link to="/srp/rent">深圳</Link>
+          <Link to="/srp/rent">深圳租房</Link>
         </h3>
-        <h3>
+        {/* <h3>
           <a href="#">[切换城市]</a>
-        </h3>
+        </h3> */}
       </div>
       <div className={style.header_r}>
         {currentUser && currentUser.userName ? (

@@ -29,7 +29,6 @@ const RentHome = ({ currentUser }) => {
       onCancel: () => {},
     });
   };
-  console.log(currentUser);
   return (
     <>
       <div className={style.header_l}>

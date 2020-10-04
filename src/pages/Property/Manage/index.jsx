@@ -146,9 +146,6 @@ class Manage extends Component {
             <Radio value={1}>已上链</Radio>
             <Radio value={2}>未上链</Radio>
           </Radio.Group>
-          <Button type="danger" icon={<ReloadOutlined />}>
-            重置
-          </Button>
         </Card>
         <Table dataSource={houseData} columns={this.columns} rowKey="houseId" />
         <Modal

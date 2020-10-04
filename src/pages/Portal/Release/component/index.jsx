@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import {
   Select,
-  InputNumber,
   Radio,
   Button,
-  Upload,
   Checkbox,
   Input,
   Typography,
@@ -13,44 +11,14 @@ import {
   Form,
   Row,
   Col,
-  message,
-  Modal,
 } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import UploadComponent from '@/components/Upload';
 import style from '../style.less';
 
 const { Item } = Form;
 const { Option } = Select;
 const { Text, Title, Paragraph } = Typography;
 const CheckboxGroup = Checkbox.Group;
-
-// Mock租金信息
-const RentInfoList = [
-  {
-    title: '水费',
-    value: 1,
-  },
-  {
-    title: '电费',
-    value: 2,
-  },
-  {
-    title: '燃气费',
-    value: 3,
-  },
-  {
-    title: '贷款费',
-    value: 4,
-  },
-  {
-    title: '物业费',
-    value: 5,
-  },
-  {
-    title: '停车费',
-    value: 6,
-  },
-];
 
 const rentContain = ['水费', '电费', '燃气费', '贷款费', '物业费', '停车费'];
 
@@ -94,18 +62,6 @@ const TitleCon = ({ title }) => {
     </Title>
   );
 };
-
-// RentContain 租金包含
-// const RentContain = ({ data }) => {
-//   return (
-//     <Checkbox value={data.value} className={style.check_box}>
-//       {data.title}
-//     </Checkbox>
-//   );
-// };
-// const rentList = RentInfoList.map((item, index) => {
-//   return <RentContain data={item} key={index} />;
-// });
 
 // baseInfo 基础信息
 const BaseInfo = () => {
@@ -297,7 +253,7 @@ const Detail = ({
           <CheckboxGroup options={configuration} value={checkedList} onChange={handleChange} />
         </Item>
       </Item>
-      <Item label="房屋描述" name="descrition">
+      <Item label="房屋描述" name="description">
         <Input.TextArea
           rows={5}
           placeholder="可以介绍房源亮点,交通,周边环境,可以入住二点时间和对租客的要求等,详细的房源描述信息会大大增加快速出租的机会!"
@@ -309,66 +265,6 @@ const Detail = ({
 
 // houstpic 房源图片
 const HousePic = ({ form, fileList, handleFile }) => {
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [house_id, setHouse_id] = useState('');
-  const handlePreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    setPreviewImage(src); //这个图片路径根据自己的情况而定
-    setPreviewVisible(true);
-  };
-  const data = {
-    house_id,
-    username: 'daqing',
-    files: fileList,
-  };
-  const props = {
-    action: '/back/housePic',
-    method: 'post',
-    multiple: true,
-    data,
-    fileList,
-    beforeUpload: (file) => {
-      const cur_id = form.current.getFieldValue('deviceId')
-      if (!cur_id) {
-        message.error('请补充完整设备信息');
-        form.current.setFields([
-          { name: ['deviceId'], value: '', errors: ['上传图片前，请完善设备信息！'] },
-        ]);
-        return false;
-      }
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        message.error(`只能上传JPG/PNG上传图片`);
-        return false;
-      }
-      const isLt1M = file.size / 1024 / 1024 < 1;
-      if (!isLt1M) {
-        message.error('图片必须小于1M!');
-        return false;
-      }
-      setHouse_id(cur_id) // 更新当前house_id值
-      return isJpgOrPng && isLt1M;
-    },
-    onChange: (info) => {
-      handleFile(info);
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} 图片上传成功`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} 图片上传失败`);
-      }
-    },
-  };
   return (
     <>
       <TitleCon title="房源图片" className={style.sub_title} />
@@ -382,23 +278,9 @@ const HousePic = ({ form, fileList, handleFile }) => {
           请上传清晰、实拍的室内图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照、风景照等与房源无关的图片，最多上传12张，每张最大1M
         </Paragraph>
         <Item noStyle>
-          <Upload.Dragger {...props} onPreview={handlePreview}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">点击或拖拽图片至此处上传</p>
-            <p className="ant-upload-hint">支持单文件或多文件上传</p>
-          </Upload.Dragger>
+          <UploadComponent form={form} fileList={fileList} handleFile={handleFile} />
         </Item>
       </Item>
-      <Modal
-        visible={previewVisible}
-        title="预览照片"
-        footer={null}
-        onCancel={() => setPreviewVisible(false)}
-      >
-        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-      </Modal>
     </>
   );
 };

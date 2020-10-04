@@ -97,8 +97,12 @@ class Release extends React.Component {
   };
 
   handlePublish = async () => {
+    const { fileList } = this.state;
     this.formRef.current.validateFields().then(async (values) => {
-      // const houseId = randomHash();
+      if (fileList.length === 0) {
+        message.warning('请至少上传一张房源图片');
+        return;
+      }
       const {
         method,
         price,
@@ -111,7 +115,7 @@ class Release extends React.Component {
         room,
         hall,
         guard,
-        descrition
+        description,
       } = values; // 房源 + 房产
       const resp = await addProperty({
         method,
@@ -126,7 +130,7 @@ class Release extends React.Component {
         deviceId,
         houseOwner: publisher,
         certNum: 1,
-        descrition
+        description,
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');

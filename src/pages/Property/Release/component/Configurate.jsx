@@ -5,7 +5,7 @@ import style from './style.less';
 const { Option } = Select;
 const { Item } = Form;
 
-const Configure = () => {
+const Configure = ({ prev }) => {
   const [method, setMethod] = useState(0);
   const [payway, setPayway] = useState(0);
   const form = Form.useForm();
@@ -28,7 +28,7 @@ const Configure = () => {
           rules={[
             {
               required: true,
-              message: '请选择出租方式',
+              message: '选择出租方式',
             },
           ]}
         >
@@ -43,7 +43,7 @@ const Configure = () => {
           rules={[
             {
               required: true,
-              message: '请输入租金',
+              message: '输入租金',
             },
           ]}
         >
@@ -55,7 +55,7 @@ const Configure = () => {
           rules={[
             {
               required: true,
-              message: '请选择出租方式',
+              message: '选择出租方式',
             },
           ]}
         >
@@ -67,34 +67,26 @@ const Configure = () => {
           </Select>
         </Item>
         <Item
-          name="divice"
-          label="门锁"
-          rules={[
-            {
-              required: true,
-              message: '请输入智能门锁ID',
-            },
-          ]}
-        >
-          <Input placeholder="请输入智能门锁ID" />
-        </Item>
-        <Item
           name="phone"
           label="联系方式"
           rules={[
             {
               required: true,
-              message: '请输入联系方式',
+              message: '请输入手机号',
             },
+            {
+              pattern: /^1\d{10}$/,
+              message: '请输入正确的手机号'
+            }
           ]}
         >
-          <Input placeholder="请输入联系方式" />
+          <Input placeholder="输入联系方式" />
         </Item>
         <Item name="description" label="其他信息">
-          <Input.TextArea placeholder="其他备注信息" />
+          <Input.TextArea placeholder="其他备注信息" rows={5} />
         </Item>
         <div style={{ textAlign: 'center' }}>
-          <Button>上一步</Button>
+          <Button onClick={() => prev()}>上一步</Button>
           <Button type="primary" htmlType="submit" style={{ marginLeft: 10 }}>
             提交
           </Button>

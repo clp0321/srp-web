@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Table, Badge, Card, Radio, DatePicker, Input, Button, Modal, Descriptions } from 'antd';
 import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { getProperty  } from '@/services/property';
+import { getProperty, getHouseDetail  } from '@/services/property';
 import moment from 'moment';
 
 
@@ -123,7 +123,7 @@ class Manage extends Component {
   ];
 
   handleWatch = async (house_id) => {
-    const resp = await getHouseRentDetail(house_id);
+    const resp = await getHouseDetail(house_id);
     if (resp.msg === 'SUCCESS') {
       this.setState({
         visible: true,

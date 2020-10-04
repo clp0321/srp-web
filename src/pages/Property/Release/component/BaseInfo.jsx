@@ -1,46 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Cascader, Input, Select, Radio, InputNumber, Upload } from 'antd';
-import { InboxOutlined } from '@ant-design/icons'
+import { Form, Cascader, Input, Select, Radio, InputNumber, Upload, Button } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
 import style from './style.less';
 
 const { Item } = Form;
 const { Option } = Select;
-
-// 级联数据
-const mockData = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: { span: 6 },
@@ -55,7 +19,7 @@ const BaseInfo = () => {
     setStruct(e.target.value);
   };
 
-  const normFile = e => {
+  const normFile = (e) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
@@ -65,7 +29,7 @@ const BaseInfo = () => {
 
   return (
     <div className={style.base}>
-      <Form {...formItemLayout}>
+      <Form {...formItemLayout} name="base">
         <Item
           name="method"
           label="所在区域"
@@ -101,7 +65,7 @@ const BaseInfo = () => {
             },
           ]}
         >
-          <InputNumber min={1} placeholder="请输入面积"  step={0.01} />
+          <InputNumber min={1} placeholder="请输入面积" step={0.01} />
         </Item>
         <Item
           name="specify"
@@ -122,16 +86,21 @@ const BaseInfo = () => {
           </Select>
         </Item>
         <Item label="上传图片">
-        <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-          <Upload.Dragger name="files" action="/upload.do">
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">点击或拖拽图片至此处上传</p>
-            <p className="ant-upload-hint">支持单文件或多文件上传</p>
-          </Upload.Dragger>
-        </Form.Item>
-      </Item>
+          <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+            <Upload.Dragger name="files" action="/upload.do">
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">点击或拖拽图片至此处上传</p>
+              <p className="ant-upload-hint">支持单文件或多文件上传</p>
+            </Upload.Dragger>
+          </Form.Item>
+        </Item>
+        <div style={{ textAlign: 'center'}}>
+          <Button type="primary" htmlType="submit" >
+            下一步
+          </Button>
+        </div>
       </Form>
     </div>
   );

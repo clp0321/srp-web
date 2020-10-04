@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Radio, InputNumber, Select } from 'antd';
+import { Form, Input, Radio, InputNumber, Select, Button } from 'antd';
 import style from './style.less';
 
 const { Option } = Select;
@@ -21,7 +21,7 @@ const Configure = () => {
   };
   return (
     <div className={style.base}>
-      <Form {...formItemLayout}>
+      <Form {...formItemLayout} name="configure">
         <Item
           name="method"
           label="出租方式"
@@ -93,6 +93,12 @@ const Configure = () => {
         <Item name="description" label="其他信息">
           <Input.TextArea placeholder="其他备注信息" />
         </Item>
+        <div style={{ textAlign: 'center' }}>
+          <Button>上一步</Button>
+          <Button type="primary" htmlType="submit" style={{ marginLeft: 10 }}>
+            提交
+          </Button>
+        </div>
       </Form>
     </div>
   );

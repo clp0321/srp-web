@@ -11,7 +11,7 @@ import style from './style.less';
 const { TabPane } = Tabs;
 
 const Detail = () => {
-  const [key, setKey] = useState('2');
+  const [key, setKey] = useState('1');
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',

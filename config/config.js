@@ -216,18 +216,29 @@ export default defineConfig({
               ],
             },
             {
+              name: 'negotiate',
+              icon: 'message',
+              path: '/negotiate',
+              authority: ['landlord', 'tenant'],
+              routes: [
+                {
+                  name: 'center',
+                  path: '/negotiate/center',
+                  redirect: '/Negotiate/Center',
+                },
+                {
+                  name: 'manage',
+                  path: '/negotiate/manage',
+                  component: './Negotiate/Manage',
+                },
+              ],
+            },
+            {
               name: 'reservation',
               icon: 'phone',
               path: '/reservation',
               component: './Reservation',
               authority: ['landlord', 'tenant'],
-            },
-            {
-              name: 'negotiate',
-              icon: 'message',
-              path: '/negotiate',
-              component: './Negotiate',
-              authority: ['landlord', 'tenant']
             },
             {
               name: 'user.manage',

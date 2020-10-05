@@ -205,7 +205,7 @@ const HouseDetail = ({ houseDetail }) => {
   }
   let equipId = '';
   if (deviceId && deviceId.length > 0) {
-    equipId = deviceId.replace(deviceId.substring(1, deviceId.length -1 ),'***')
+    equipId = deviceId.replace(deviceId.substring(1, deviceId.length - 1), '***');
   }
 
   return (
@@ -216,8 +216,8 @@ const HouseDetail = ({ houseDetail }) => {
           {method === 0 ? '整租' : '合租'} | {position} {specify}{' '}
         </Title>
         <Paragraph>
-        <img src={certification} height={30} />
-          智能门锁编号: {equipId} 
+          <img src={certification} height={30} />
+          智能门锁编号: {equipId}
           <Button
             type="primary"
             className={style.watch_room}
@@ -307,12 +307,12 @@ const HouseDetail = ({ houseDetail }) => {
             user_name: localStorage.getItem('name'),
           }}
         >
-          {/* <Item label="房主" name="houser_name">
-            <Input disabled />
+          <Item label="房主" name="houser_name">
+            <Text strong>{houseOwner}</Text>
           </Item>
           <Item label="预约人" name="user_name">
-            <Input disabled />
-          </Item> */}
+            <Text strong>{localStorage.getItem('name')}</Text>
+          </Item>
           <Item
             label="联系方式"
             name="phone"
@@ -329,7 +329,17 @@ const HouseDetail = ({ houseDetail }) => {
           >
             <Input placeholder="请输入联系方式" />
           </Item>
-          <Item label="看房时间" name="apply_time" className={style.picker}>
+          <Item
+            label="看房时间"
+            name="apply_time"
+            className={style.picker}
+            rules={[
+              {
+                required: true,
+                message: '请输入预约看房时间',
+              },
+            ]}
+          >
             <DatePicker placeholder="选择预约看房时间" />
           </Item>
         </Form>

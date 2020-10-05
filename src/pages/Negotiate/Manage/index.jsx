@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import {
   Card,
   List,
@@ -75,6 +75,9 @@ const Negotiage = () => {
     <PageContainer>
       <Card className={style.contain}>
         <div className="clearfix">
+          <Button type="primary" className={style.center} icon={<WhatsAppOutlined />}>
+            协商中心
+          </Button>
           <Input.Search placeholder="请输入事件主题" className={style.search} enterButton="查询" />
           <Radio.Group
             className={style.radio}

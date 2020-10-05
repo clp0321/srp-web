@@ -1,6 +1,16 @@
 import { useState } from 'react';
-import { Descriptions, Badge, Button, Timeline, Divider, Typography, Modal, Alert } from 'antd';
-import { SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import {
+  Descriptions,
+  Badge,
+  Button,
+  Timeline,
+  Divider,
+  Typography,
+  Modal,
+  Alert,
+  message,
+} from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import style from './style.less';
 
@@ -19,12 +29,13 @@ const HouseTrace = () => {
   const handleCancel = () => {
     handleSet([]);
     setVisible(false);
-  }
+  };
 
   const handleSubmit = () => {
-    handleSet([])
+    handleSet([]);
+    message.success('房屋评级成功');
     setVisible(false);
-  }
+  };
   return (
     <>
       <Button

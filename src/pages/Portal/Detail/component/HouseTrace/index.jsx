@@ -1,20 +1,30 @@
-import { Descriptions, Badge, Button, Timeline, Divider, Typography, Modal } from 'antd';
+import { useState } from 'react';
+import { Descriptions, Badge, Button, Timeline, Divider, Typography, Modal, Alert } from 'antd';
 import { SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import style from './style.less';
 
 const { Title, Paragraph } = Typography;
+const stateArr = new Array(4).fill(false);
 
 const HouseTrace = () => {
-  const confirm = () => {
-    Modal.confirm({
-      title: '参与房屋评级',
-      icon: <ExclamationCircleOutlined />,
-      content: 'Bla bla ...',
-      okText: '确认',
-      cancelText: '取消',
-    });
+  const [visible, setVisible] = useState(false);
+  const [status, setStatus] = useState(stateArr);
+  const handleSet = (key) => {
+    const statusList = new Array(4).fill(false);
+    statusList[key] = true;
+    setStatus(statusList);
   };
+
+  const handleCancel = () => {
+    handleSet([]);
+    setVisible(false);
+  }
+
+  const handleSubmit = () => {
+    handleSet([])
+    setVisible(false);
+  }
   return (
     <>
       <Button
@@ -55,7 +65,7 @@ const HouseTrace = () => {
           </Descriptions>
         </Timeline.Item>
       </Timeline>
-      <Button type="primary" className={style.star_btn} onClick={confirm}>
+      <Button type="primary" className={style.star_btn} onClick={() => setVisible(true)}>
         房屋评级
       </Button>
       <Divider />
@@ -66,6 +76,42 @@ const HouseTrace = () => {
       <Paragraph className={style.last_p}>
         您的选票与最终结果是否一致将会影响您的信用分，请谨慎投票
       </Paragraph>
+      <Modal
+        title="房屋评级"
+        visible={visible}
+        onOk={handleSubmit}
+        onCancel={handleCancel}
+        className={style.showModal}
+      >
+        <Alert
+          className={status[0] ? style.selected : ''}
+          message="确认无误"
+          description="实际情况与系统描述完全匹配"
+          type="success"
+          onClick={() => handleSet(0)}
+        />
+        <Alert
+          className={status[1] ? style.selected : ''}
+          message="较为可靠"
+          description="实际情况与系统描述基本符合"
+          onClick={() => handleSet(1)}
+          type="info"
+        />
+        <Alert
+          className={status[2] ? style.selected : ''}
+          message="整体一般"
+          description="实际情况与系统描述近乎相似"
+          type="warning"
+          onClick={() => handleSet(2)}
+        />
+        <Alert
+          className={status[3] ? style.selected : ''}
+          message="内容虚假"
+          description="实际情况与系统描述严重不符"
+          type="error"
+          onClick={() => handleSet(3)}
+        />
+      </Modal>
     </>
   );
 };

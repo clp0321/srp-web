@@ -12,3 +12,30 @@
 .last_p {
   margin-bottom: 20px !important;
 }
+
+.showModal {
+  :global {
+    .ant-alert {
+      margin-bottom: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .ant-alert:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.selected {
+  background: #1890ff;
+  border-color: #1890ff;
+  :global {
+    .ant-alert-message {
+      color: white;
+    }
+    .ant-alert-description {
+      color: white;
+    }
+  }
+}

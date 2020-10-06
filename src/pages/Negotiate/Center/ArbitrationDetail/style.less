@@ -1,0 +1,73 @@
+.arbitration {
+  .btnList {
+    position: relative;
+    text-align: center;
+    button {
+      width: 200px;
+    }
+    & button:first-child {
+      margin-right: 20px;
+    }
+    .i_choose {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
+  .arb_con {
+    margin-top: 20px;
+    .pic_list {
+      display: flex;
+      img {
+        margin-right: 10px;
+      }
+    }
+  }
+  .vote {
+    margin-right: 20px;
+    .agree {
+      color: rgb(135, 208, 104);
+      font-size: 20px;
+    }
+    .disagree {
+      color: red;
+      font-size: 20px;
+    }
+  }
+}
+
+.progressVs {
+  width: 50%;
+  margin: auto;
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  .progress {
+    :global {
+      .ant-progress-inner {
+        height: 20px;
+      }
+      .ant-progress-inner .ant-progress-bg {
+        background-color: #ff4d4f;
+        height: 20px !important;
+        & ::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          background: url(../../../../assets/images/VS.png) no-repeat;
+          height: 20px;
+          width: 20px;
+          background-size: 100%;
+          z-index: 100;
+        }
+      }
+      .ant-progress-success-bg {
+        height: 20px !important;
+        background-color: #1890ff;
+      }
+    }
+  }
+}

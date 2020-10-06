@@ -36,17 +36,21 @@
   }
 }
 
-.list_item :hover {
+.list_item:hover {
   cursor: pointer;
   :global {
-    .ant-typography,
-    .ant-typography-secondary {
+    .ant-typography {
       color: #1890ff;
     }
   }
-  :global {
-    .ant-list-item-meta .ant-typography {
-      color: #1890ff;
-    }
+  &::before {
+    content: '';
+    width: 4px;
+    height: 26px;
+    background: #1890ff;
+    position: absolute;
+    display: block;
+    left: -20px;
+    margin-bottom: 2px;
   }
 }

@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs, Card, List, Typography, Space, Pagination, Avatar, Button } from 'antd';
-import { LikeTwoTone, DislikeTwoTone } from '@ant-design/icons';
+import { LikeTwoTone, DislikeTwoTone, WhatsAppOutlined } from '@ant-design/icons';
+import ArbitrationDetail from './ArbitrationDetail';
 import moment from 'moment';
 import style from './style.less';
 
@@ -77,7 +79,7 @@ const ShowList = ({ data, name }) => {
       <List
         dataSource={data}
         renderItem={(item) => (
-          <List.Item className={style.list_item}>
+          <List.Item className={style.list_item} onClick={() => {}}>
             <List.Item.Meta
               title={
                 <div>
@@ -116,59 +118,68 @@ const StateText = ({ like, text }) => {
 };
 
 const BtnRight = () => {
-  return <Button type="primary">新建冲裁</Button>;
+  return (
+    <Button type="primary" icon={<WhatsAppOutlined />}>
+      申请仲裁
+    </Button>
+  );
 };
 
 const Center = () => {
+  const [visible, setVisible] = useState(false);
   return (
     <PageContainer>
-      <Card className={style.negotiate}>
-        <Tabs defaultActiveKey="3" tabBarExtraContent={<BtnRight />}>
-          <TabPane key="1" tab="全部信息">
-            <ShowList data={allData} name="全部信息" />
-          </TabPane>
-          <TabPane key="2" tab="热门冲裁">
-            <ShowList data={hotData} name="热门冲裁" />
-          </TabPane>
-          <TabPane key="3" tab="我的冲裁">
-            <List
-              itemLayout="vertical"
-              size="large"
-              pagination={{
-                onChange: (page) => {
-                  console.log(page);
-                },
-                pageSize: 3,
-              }}
-              dataSource={myData}
-              className={style.my_list}
-              renderItem={(item) => (
-                <List.Item
-                  key={item.title}
-                  actions={[
-                    <StateText
-                      className={style.like}
-                      like={true}
-                      text={item.like}
-                      key="list-vertical-star-o"
-                    />,
-                    <StateText
-                      className={style.dislike}
-                      like={false}
-                      text={item.dislike}
-                      key="list-vertical-like-o"
-                    />,
-                  ]}
-                  extra={<img width={272} alt="冲裁图片" />}
-                >
-                  <List.Item.Meta title={item.title} />
-                  {item.content}
-                </List.Item>
-              )}
-            />
-          </TabPane>
-        </Tabs>
-      </Card>
+      {visible ? (
+        <Card className={style.negotiate}>
+          <Tabs defaultActiveKey="1" tabBarExtraContent={<BtnRight />}>
+            <TabPane key="1" tab="全部信息">
+              <ShowList data={allData} name="全部信息" />
+            </TabPane>
+            <TabPane key="2" tab="热门冲裁">
+              <ShowList data={hotData} name="热门冲裁" />
+            </TabPane>
+            <TabPane key="3" tab="我的仲裁">
+              <List
+                itemLayout="vertical"
+                size="large"
+                pagination={{
+                  onChange: (page) => {
+                    console.log(page);
+                  },
+                  pageSize: 3,
+                }}
+                dataSource={myData}
+                className={style.my_list}
+                renderItem={(item) => (
+                  <List.Item
+                    key={item.title}
+                    actions={[
+                      <StateText
+                        className={style.like}
+                        like={true}
+                        text={item.like}
+                        key="list-vertical-star-o"
+                      />,
+                      <StateText
+                        className={style.dislike}
+                        like={false}
+                        text={item.dislike}
+                        key="list-vertical-like-o"
+                      />,
+                    ]}
+                    extra={<img width={272} alt="仲裁图片" />}
+                  >
+                    <List.Item.Meta title={item.title} />
+                    {item.content}
+                  </List.Item>
+                )}
+              />
+            </TabPane>
+          </Tabs>
+        </Card>
+      ) : (
+        <ArbitrationDetail />
+      )}
     </PageContainer>
   );
 };

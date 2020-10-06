@@ -72,7 +72,7 @@ export default {
   'menu.reservation': '预约',
 
   'menu.negotiate': '协商',
-  'menu.negotiate.center': '协商中心',
+  'menu.negotiate.center': '仲裁中心',
   'menu.negotiate.manage': '协商管理',
 
 

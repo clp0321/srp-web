@@ -75,9 +75,6 @@ const Negotiage = () => {
     <PageContainer>
       <Card className={style.contain}>
         <div className="clearfix">
-          <Button type="primary" className={style.center} icon={<WhatsAppOutlined />}>
-            协商中心
-          </Button>
           <Input.Search placeholder="请输入事件主题" className={style.search} enterButton="查询" />
           <Radio.Group
             className={style.radio}
@@ -102,7 +99,7 @@ const Negotiage = () => {
           dataSource={mockData}
           itemLayout="horizontal"
           renderItem={(item) => (
-            <List.Item actions={[<a key="list-edit">编辑</a>, <a key="list-del">删除</a>]}>
+            <List.Item actions={[<a key="list-edit">处理</a>, <a key="list-del">删除</a>]}>
               <List.Item.Meta
                 avatar={
                   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />

@@ -1,0 +1,52 @@
+.negotiate {
+  :global {
+    .ant-list {
+      padding: 0 20px;
+    }
+  }
+  .pagination {
+    float: right;
+    margin-top: 20px;
+  }
+  .my_list {
+    :global {
+      .ant-list-item {
+        padding: 12px;
+      }
+      .ant-list-item-meta {
+        margin-bottom: 0px;
+      }
+    }
+  }
+  .like {
+    color: #52c41a;
+    :global {
+      .ant-space-item {
+        color: #52c41a;
+      }
+    }
+  }
+  .dislike {
+    color: red;
+    :global {
+      .ant-space-item {
+        color: red;
+      }
+    }
+  }
+}
+
+.list_item :hover {
+  cursor: pointer;
+  :global {
+    .ant-typography,
+    .ant-typography-secondary {
+      color: #1890ff;
+    }
+  }
+  :global {
+    .ant-list-item-meta .ant-typography {
+      color: #1890ff;
+    }
+  }
+}

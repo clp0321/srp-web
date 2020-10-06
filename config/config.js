@@ -222,14 +222,14 @@ export default defineConfig({
               authority: ['landlord', 'tenant'],
               routes: [
                 {
-                  name: 'center',
-                  path: '/negotiate/center',
-                  redirect: '/Negotiate/Center',
-                },
-                {
                   name: 'manage',
                   path: '/negotiate/manage',
                   component: './Negotiate/Manage',
+                },
+                {
+                  name: 'center',
+                  path: '/negotiate/center',
+                  component: './Negotiate/Center',
                 },
               ],
             },

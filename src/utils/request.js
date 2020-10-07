@@ -28,12 +28,11 @@ const codeMessage = {
 
 const errorHandler = (error) => {
   const { response } = error;
-
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
     notification.error({
-      message: `请求错误 ${status}: ${url}`,
+      message: `请求错误 ${status}`,
       description: errorText,
     });
   } else if (!response) {
@@ -48,7 +47,6 @@ const errorHandler = (error) => {
 /**
  * 配置request请求时的默认参数
  */
-
 const request = extend({
   errorHandler,
   // 默认错误处理
@@ -56,20 +54,25 @@ const request = extend({
   mode: 'cors',
 });
 
-// 添加请求拦截器，将
-request.interceptors.request.use((url, options) => {
-  const token = localStorage.getItem('lock_token');
-  if (url.includes('/deviceManagement')) {
-    const headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'Authorization': token,
-    };
-    return {
-      url,
-      options: { ...options, headers },
-    };
-  }
-});
+// 添加请求拦截器，访问设备接口时，添加Authorization
+request.interceptors.request.use(
+  (url, options) => {
+    const token = localStorage.getItem('lock_token');
+    if (url.includes('/deviceManagement')) {
+      const headers = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: token,
+      };
+      return {
+        url,
+        options: { ...options, headers },
+      };
+    }
+  },
+  (err) => {
+    return Promise.reject(err);
+  },
+);
 
 export default request;

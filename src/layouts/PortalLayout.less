@@ -4,7 +4,6 @@
   .header {
     height: 48px;
     width: 100%;
-    line-height: 35px;
     border-bottom: 1px solid #dddddd;
     svg {
       margin-right: 5px;
@@ -12,34 +11,42 @@
     .header_w {
       width: 1190px;
       margin: 0 auto;
-      color: white;
       .logo {
-        line-height: 45px;
-        img {
+        line-height: 48px;
+        .home_logo {
+          margin-top: -5px;
           height: 40px;
         }
         span {
-          color: white;
           font-size: 20px;
           margin-left: 5px;
           vertical-align: middle;
         }
         & span:last-child {
-          font-size: 16px;
+          font-size: 14px;
           float: right;
+        }
+        .trace {
+          margin-right: 10px;
+        }
+        .log_list {
+          img {
+            height: 25px;
+            margin-right: 5px;
+          }
         }
       }
     }
     a {
-      color: white;
       text-decoration: none;
       font-weight: bold;
+      color: rgba(0, 0, 0, 0.65);
     } /*去掉超链接的下划线*/
     a:hover {
       color: #1890ff;
     }
     font: 14px/150% Arial, Verdana, '\5b8b\4f53';
-    background: #13161f;
+    background: rgb(248, 248, 248);
   }
   .con {
     margin: auto;
@@ -53,9 +60,9 @@
     width: 100%;
     border-top: 1px solid #dddddd;
     text-align: center;
-    background: #13161f;
+    background: rgb(248, 248, 248);
     span {
-      color: white;
+      font-size: 14px;
     }
   }
 }

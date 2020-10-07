@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { Typography, Modal, message } from 'antd';
-import { ForkOutlined } from '@ant-design/icons';
 import RentHome from '@/components/RentHome';
-import logUrl from '@/assets/images/easy-rent.png';
+import logUrl from '@/assets/images/yzl_logo.png';
+import trace from '@/assets/images/trace_1.png';
+import search_home from '@/assets/images/rent_home.png';
 import style from './PortalLayout.less';
 
 const { Text } = Typography;
@@ -12,11 +13,14 @@ const { Text } = Typography;
 const WelcomeHeader = () => {
   return (
     <div className={style.logo}>
-      <img src={logUrl} />
-      <Text strong>易租链</Text>
-      <Text strong>
-        <ForkOutlined />
-        <Link to="/srp/blockmessage"> 信息溯源</Link>
+      <img src={logUrl} className={style.home_logo} />
+      <Text strong className={style.log_list}>
+        <img src={trace} />
+        <Link to="/srp/blockmessage" className={style.trace}>
+          信息溯源
+        </Link>
+        <img src={search_home} />
+        <Link to="/srp/rent">深圳找房</Link>
       </Text>
     </div>
   );
@@ -47,4 +51,4 @@ const PortalLayout = (props) => {
   );
 };
 
-export default connect((global) => ({collapsed: global.collapsed}))(PortalLayout);
+export default connect((global) => ({ collapsed: global.collapsed }))(PortalLayout);

@@ -1,6 +1,6 @@
 import { connect, Link } from 'umi';
 import { Avatar, Modal } from 'antd';
-import { HomeOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getAuthority, setAuthority } from '@/utils/authority';
 import style from './style.less';
 
@@ -34,7 +34,6 @@ const RentHome = ({ currentUser }) => {
       <div className={style.header_l}>
         <div className={style.header_home}>
           <h3>
-            <HomeOutlined />
             <Link to="/srp/welcome">首页</Link>
           </h3>
         </div>

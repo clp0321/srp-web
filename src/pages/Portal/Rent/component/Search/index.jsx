@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Input, Button, Typography, Modal } from 'antd';
 import { Link, history, connect } from 'umi';
 import { SearchOutlined } from '@ant-design/icons';
+import logUrl from '@/assets/images/yzl_logo.png';
 import style from './style.less';
-import logoUrl from '@/assets/images/easy-rent.png';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -32,7 +32,7 @@ const SearchBar = ({ currentUser }) => {
       <div className={style.search_h}>
         <div className={style.search_l}>
           <Link to="/srp/welcome">
-            <img src={logoUrl} height={30} />
+            <img src={logUrl} height={40} />
             <Text strong style={{ fontSize: 18 }}>
               区块链共享房屋租赁平台
             </Text>

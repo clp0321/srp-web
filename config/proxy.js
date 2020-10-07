@@ -26,7 +26,7 @@ export default {
       },
     },
     '/deviceManagement': {
-      target: 'https://debug.locksuiyi.com',
+      target: 'http://debug.locksuiyi.com',
       changeOrigin: true
     },
     '/crossing': {

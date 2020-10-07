@@ -109,7 +109,6 @@ export default defineConfig({
               name: 'welcome',
               icon: 'smile',
               component: './Welcome',
-              authority: ['landlord'],
             },
             {
               path: '/admin',

@@ -2,6 +2,8 @@ import { connect, Link } from 'umi';
 import { Avatar, Modal } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getAuthority, setAuthority } from '@/utils/authority';
+import home_new from '@/assets/introduce/home-new.png';
+import trace from '@/assets/introduce/trace.png';
 import style from './style.less';
 
 const RentHome = ({ currentUser }) => {
@@ -34,20 +36,26 @@ const RentHome = ({ currentUser }) => {
       <div className={style.header_l}>
         <div className={style.header_home}>
           <h3>
+            <img src={home_new} />
             <Link to="/srp/welcome">首页</Link>
           </h3>
         </div>
         <h3>
-          <Link to="/srp/rent">深圳租房</Link>
+          <img src={trace} />
+          <Link to="/srp/blockmessage">信息溯源</Link>
         </h3>
-        {/* <h3>
-          <a href="#">[切换城市]</a>
-        </h3> */}
       </div>
       <div className={style.header_r}>
         {currentUser && currentUser.userName ? (
           <div className={style.user}>
-            <Avatar size="small" src={currentUser.avatar} alt="avatar" />
+            <Avatar
+              size="small"
+              src={currentUser.avatar}
+              alt="avatar"
+              style={{ backgroundColor: currentUser.role === 1 ? '#f56a00' : '#7265e6' }}
+            >
+              {currentUser.role === 1 ? '售' : '租'}
+            </Avatar>
             <span>
               {currentUser.role === 1 ? '房东' : '租客'}：{currentUser.userName}
             </span>

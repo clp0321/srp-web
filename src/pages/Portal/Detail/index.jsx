@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Tabs } from 'antd';
 import { getHouseDetail } from '@/services/property';
-import back from '@/assets/images/back.jpg';
 import HouseDetail from './component/HoseDetail';
 import HouseTrace from './component/HouseTrace';
 import HouseComment from './component/HouseComment';

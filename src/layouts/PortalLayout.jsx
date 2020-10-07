@@ -3,8 +3,9 @@ import { Link, connect } from 'umi';
 import { Typography, Modal, message } from 'antd';
 import RentHome from '@/components/RentHome';
 import logUrl from '@/assets/images/yzl_logo.png';
-import trace from '@/assets/images/trace_1.png';
-import search_home from '@/assets/images/rent_home.png';
+import trace from '@/assets/introduce/trace.png';
+import search_home from '@/assets/introduce/search_home.png';
+
 import style from './PortalLayout.less';
 
 const { Text } = Typography;
@@ -15,12 +16,12 @@ const WelcomeHeader = () => {
     <div className={style.logo}>
       <img src={logUrl} className={style.home_logo} />
       <Text strong className={style.log_list}>
+        <img src={search_home} />
+        <Link to="/srp/rent" className={style.search_home}>深圳租房</Link>
         <img src={trace} />
-        <Link to="/srp/blockmessage" className={style.trace}>
+        <Link to="/srp/blockmessage" >
           信息溯源
         </Link>
-        <img src={search_home} />
-        <Link to="/srp/rent">深圳找房</Link>
       </Text>
     </div>
   );

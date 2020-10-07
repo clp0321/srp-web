@@ -30,10 +30,6 @@ class Rent extends Component {
         <Search />
         {/* 条件搜搜 */}
         <SearchMultiple />
-        {/* 搜索结果 */}
-        <div className={style.show_result}>
-          已为您找到 <span>4286</span> 套深圳房租
-        </div>
         {/* 内容选择 */}
         <ConList />
         {/* 页面底部 */}

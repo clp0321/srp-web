@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, SelectLang, useIntl, connect } from 'umi';
 import DefaultFooterDom from '@/components/DefaultFooterDom';
 import React from 'react';
-import logo from '../assets/logo.svg';
+import yzl_logo from '@/assets/images/yzl_logo';
 import styles from './UserLayout.less';
 
 const UserLayout = (props) => {
@@ -38,7 +38,7 @@ const UserLayout = (props) => {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src={logo} />
+                <img alt="logo" className={styles.logo} src={yzl_logo} />
                 <span className={styles.title}>5G物联区块链共享租赁平台</span>
               </Link>
             </div>

@@ -1,13 +1,51 @@
 import React, { useEffect } from 'react';
 import { Link, history } from 'umi';
 import { Typography, Button, Card, Col, Row } from 'antd';
-import img5G from '@/assets/images/5G.jpg';
-import imgIot from '@/assets/images/nbiot.jpg';
-import imgBlockchain from '@/assets/images/blockchain.jpg';
-import imgArchitecture from '@/assets/images/architecture.png';
+import intelligent from '@/assets/introduce/intelligent.png';
+import less_confilct from '@/assets/introduce/less_confilct.png';
+import low_expense from '@/assets/introduce/low_expense.png';
+import true_house from '@/assets/introduce/true_house.png';
+import architecture from '@/assets/introduce/architecture.png';
 import style from './style.less';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
+
+const featureList = [
+  {
+    imgUrl: low_expense,
+    title: '降低租赁成本',
+    con:
+      '使用微信支付分免押金租房、平台对接无需额外中介费、远程智能设备控制自主看房、水电费用量化精细化',
+  },
+  {
+    imgUrl: true_house,
+    title: '房源信息真实',
+    con:
+      '智能设备与身份信息双向绑定、利用“一房一码”溯源真实信息、依赖智能合约激励与房源真伪判定算法进一步提高房源真实性',
+  },
+  {
+    imgUrl: intelligent,
+    title: '减少违约纠纷',
+    con: '租赁双方可在平台社区中发起纠纷仲裁，同时支持用户参与公平投票、链上取证',
+  },
+  {
+    imgUrl: less_confilct,
+    title: '房屋智能化管理',
+    con: '物联设备自动计费、抄表，智能合约履行租约合同，自动控制智能门锁权限',
+  },
+];
+
+const FeatureIntroduce = ({ data }) => {
+  return (
+    <div className={style.feature_item}>
+      <Text>{data.title}</Text>
+      <Paragraph>{data.con}</Paragraph>
+    </div>
+  );
+};
+
+const feature_list = featureList.map((item) => <FeatureIntroduce key={item.title} data={item} />);
+
 const Welcome = () => {
   useEffect(() => {
     document.title = '区块链共享租赁平台';
@@ -28,7 +66,6 @@ const Welcome = () => {
             立即体验
           </Button>
         </div>
-
         <div className={[style.star, style.star1].join(' ')}></div>
         <div className={[style.star, style.star2].join(' ')}></div>
         <div className={[style.star, style.star3].join(' ')}></div>
@@ -40,40 +77,34 @@ const Welcome = () => {
       </div>
       {/* 产品介绍 */}
       <div className={style.introduce}>
-        <Title level={2}>产品简介</Title>
+        <Title level={3} className={style.jusitfy_title}>
+          产品简介
+        </Title>
         <div className={style.in_con}>
-          <Paragraph strong style={{ fontSize: 16 }}>
-            本产品是由多方参与共同维护的共享租赁平台。以区块链为基础，打通供求双方的信息壁垒，实现房源信息准确可追溯；以5G通信技术为依托、可信智能合约为手段、智能设备为载体、实现可信可靠、自动化无人值守的租赁体系
+          <Paragraph strong style={{ fontSize: 16, textAlign: 'left' }}>
+            本产品以5G物联网以及区块链为基层技术，致力于打造一个交易费用低廉、房源信息真实、违约纠纷减少、租务管理智能的可信共享租赁平台
           </Paragraph>
         </div>
         <div className={style.break}></div>
       </div>
       {/* 产品特性 */}
       <div className={[style.feature, style.clearfix].join(' ')}>
-        <Title level={2}>产品特性</Title>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card hoverable cover={<img src={img5G} height={254} />}>
-              {/* 5G是最新一代蜂窝移动通信技术，也是继4G（LTE-A、WiMax）、3G（UMTS、LTE）和2G（GSM）系统之后的延伸。5G的性能目标是高数据速率、减少延迟、节省能源、降低成本、提高系统容量和大规模设备连接。Release-15中的5G规范的第一阶段是为了适应早期的商业部署 */}
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card hoverable cover={<img src={imgIot} height={254} />}>
-              {/* IOT通过各种信息传感器、射频识别技术、全球定位系统、红外感应器、激光扫描器等各种装置与技术，实时采集任何需要监控、
-              连接、互动的物体或过程，采集其声、光、热、电、力学、化学、生物、位置等各种需要的信息，通过各类可能的网络接入，实现物与物、物与人的泛在连接，实现对物品和过程的智能化感知、识别和管理 */}
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card hoverable cover={<img src={imgBlockchain} height={254} />}>
-              {/* 区块链是一个信息技术领域的术语。从本质上讲，它是一个共享数据库，存储于其中的数据或信息，具有“不可伪造”“全程留痕”“可以追溯”“公开透明”“集体维护”等特征。基于这些特征，区块链技术奠定了坚实的“信任”基础，创造了可靠的“合作”机制，具有广阔的运用前景 */}
-            </Card>
-          </Col>
-        </Row>
+        <Title level={3} className={style.jusitfy_title}>
+          产品特性
+        </Title>
+        <div className={style.pic_list}>
+          <img src={low_expense} />
+          <img src={true_house} />
+          <img src={intelligent} />
+          <img src={less_confilct} />
+        </div>
+        <div className={style.feature_introduce}>{feature_list}</div>
         <div className={style.break}></div>
       </div>
       {/* 产品结构  */}
       <div className={style.architecture}>
-        <Title level={2}>产品架构</Title>
+        <Title level={3}>产品架构</Title>
+        <img src={architecture} />
       </div>
     </>
   );

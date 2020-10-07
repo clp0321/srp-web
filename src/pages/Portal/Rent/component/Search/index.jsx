@@ -34,7 +34,7 @@ const SearchBar = ({ currentUser }) => {
           <Link to="/srp/welcome">
             <img src={logUrl} height={40} />
             <Text strong style={{ fontSize: 18 }}>
-              区块链共享房屋租赁平台
+              共享房屋租赁平台
             </Text>
           </Link>
         </div>

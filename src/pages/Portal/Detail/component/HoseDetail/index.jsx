@@ -22,10 +22,10 @@ const { Item } = Form;
 
 // mock经纬度
 const lanLat = {
-  lng: 114.039232,
-  lat: 22.674789,
-  title: '保利悦都',
-  text: '深圳市龙华区清龙路与龙观大道交叉路口往南约100米',
+  lng: 114.006482,
+  lat: 22.596454,
+  title: '塘朗城',
+  text: '深圳市南山区西丽镇塘朗社区留仙大道3333号',
 };
 
 const mockTool = [
@@ -183,7 +183,6 @@ const HouseDetail = ({ houseDetail }) => {
     size,
     price,
     payway,
-    type,
     description,
   } = houseDetail;
   let pays;
@@ -241,7 +240,6 @@ const HouseDetail = ({ houseDetail }) => {
           <Descriptions.Item label="面积">{size} m²</Descriptions.Item>
           <Descriptions.Item label="价格">{price}</Descriptions.Item>
           <Descriptions.Item label="支付方式">{pays}</Descriptions.Item>
-          <Descriptions.Item label="类型">{type}</Descriptions.Item>
         </Descriptions>
       </div>
       {/* 设施信息 */}
@@ -275,23 +273,20 @@ const HouseDetail = ({ houseDetail }) => {
       {/* 房屋描述 */}
       <div className={style.describe}>
         <Title level={4}>房屋描述</Title>
-        {description}
-        {/* <Paragraph>超便宜！业主急租，装修精美，主卧独卫，拎包入住!</Paragraph>
+        <Paragraph>超便宜！业主急租，装修精美，主卧独卫，拎包入住!</Paragraph>
         <Paragraph>
           房源亮点:南北通透,临近地铁，小区附近有大型超市，菜场，出行购物非常方便！
         </Paragraph>
         <Paragraph>现在租房，还可房租减免活动，欢迎来电咨询！</Paragraph>
-        <Paragraph> 1、附近地铁：3号线南联:1205m</Paragraph>
+        <Paragraph> 1、附近地铁：与地铁5号线塘朗地铁口接驳，临近留仙大道公交站台</Paragraph>
         <Paragraph>
-          2、周边公交：盛龙路口:165m;东港酒店:201m;龙园印象:302m;华升学校:339m;盛平天桥:455m
+          2、教育配套：南方科技大学实验，南方科技大学实验中学正在筹建，南科大幼儿园；
         </Paragraph>
-        <Paragraph>3、周围商店：万福来百货:345m;云双百货:625m </Paragraph>
+        <Paragraph>3、医疗配套：深圳大学总医院； </Paragraph>
+        <Paragraph>4、安保措施：24小时保安巡逻，进入小区仅凭住户卡刷卡入内；</Paragraph>
         <Paragraph>
-          4、餐饮：幸福小家:52m;蝶爱甜品蜜饮:54m;湘味小厨:72m;沙县小吃店:85m;姚记北方饺子馆:100m
+          6、室内配置：配备品牌家具家电、配套床垫、抱枕、台灯、桌椅、衣柜、空调、洗衣机、冰箱和宽带等。
         </Paragraph>
-        <Paragraph>
-          6、室内配置：配备品牌家具家电、配套床垫、抱枕、台灯、桌椅、衣柜、空调、洗衣机、冰箱和宽带。
-        </Paragraph> */}
       </div>
       <Modal
         title="预约看房"

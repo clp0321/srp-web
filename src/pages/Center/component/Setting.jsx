@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const Setting = (props) => {
   const { dispatch, currentUser } = props;
-  console.log(currentUser)
+  console.log(currentUser);
   const [form] = Form.useForm();
   const {
     addressName,
@@ -31,7 +31,7 @@ const Setting = (props) => {
       const data = { id, ...values };
       const resp = await updateUser(data);
       if (resp.data > 0) {
-        localStorage.setItem('name', userName)
+        localStorage.setItem('name', userName);
         message.success('用户信息更新成功');
         updatCurUser();
       } else {
@@ -43,10 +43,10 @@ const Setting = (props) => {
   const updatCurUser = () => {
     if (dispatch) {
       dispatch({
-        type: 'user/fetchCurrent'
-      })
+        type: 'user/fetchCurrent',
+      });
     }
-  } 
+  };
 
   return (
     <div className={style.baseInfo}>
@@ -62,8 +62,9 @@ const Setting = (props) => {
           certId,
           phone,
           address,
-          userHash,
-          credit_value,
+          userHash: 'did:weid:1:0xf4e5f96de0627960c8b91c1cc126f7b5cdeacbd0',
+          credit_value: 67,
+          integral: 450,
           password,
         }}
       >
@@ -111,11 +112,14 @@ const Setting = (props) => {
         <Item label="用户地址" name="address">
           <Input placeholder="用户地址" />
         </Item>
-        <Item label="用户哈希" name="userHash">
+        <Item label="分布式ID" name="userHash">
           <Input placeholder="哈希" />
         </Item>
         <Item label="信用分" name="credit_value">
           <Input placeholder="信用分" />
+        </Item>
+        <Item label="用户积分" name="integral">
+          <Input placeholder="用户积分" />
         </Item>
         <Item>
           <Button type="primary" htmlType="submit">
@@ -124,7 +128,13 @@ const Setting = (props) => {
         </Item>
       </Form>
       <div className={style.right_avatar}>
-        <Avatar src={avatar} size={150} icon={<UserOutlined />} />
+        <Avatar
+          src={avatar}
+          size={150}
+          style={{ backgroundColor: currentUser.role === 1 ? '#f56a00' : '#7265e6' }}
+        >
+          {currentUser.role === 1 ? '售' : '租'}
+        </Avatar>
         <Upload>
           <Button style={{ marginTop: 10 }} icon={<UploadOutlined />}>
             更换头像

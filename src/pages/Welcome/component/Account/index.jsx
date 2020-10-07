@@ -8,7 +8,7 @@ const Account = () => {
   return (
     <div className={style.account}>
       <Statistic
-        value={596}
+        value={5967.21}
         precision={2}
         valueStyle={{ fontSize: 30, fontWeight: 'bold' }}
         title="账户金额"

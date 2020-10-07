@@ -10,11 +10,10 @@ import {
   Alert,
   message,
 } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import { history } from 'umi';
+import { DollarOutlined, KeyOutlined } from '@ant-design/icons';
 import style from './style.less';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 const stateArr = new Array(4).fill(false);
 
 const HouseTrace = () => {
@@ -36,43 +35,86 @@ const HouseTrace = () => {
     message.success('房屋评级成功');
     setVisible(false);
   };
+
+  // owner: 房东、agency、house_id、device、digest:信息摘要、grade：认证等级、status、房屋状态
   return (
     <>
-      <Button
-        type="primary"
-        className={style.findMore}
-        icon={<SearchOutlined />}
-        onClick={() => history.push('/srp/blockmessage')}
-      >
-        更多房源
-      </Button>
+      <div className={style.watch_list}>
+        <Button
+          type="primary"
+          className={style.watch_record}
+          icon={<KeyOutlined />}
+          onClick={() => {}}
+        >
+          看房记录
+        </Button>
+        <Button type="danger" icon={<DollarOutlined />} onClick={() => {}}>
+          订单记录
+        </Button>
+      </div>
       <Timeline reverse className={style.timeline}>
         <Timeline.Item>
-          <Descriptions title="初始化房源" bordered>
-            <Descriptions.Item label="链上哈希">123213213</Descriptions.Item>
-            <Descriptions.Item label="产权人">Prepaid</Descriptions.Item>
-            <Descriptions.Item label="产权证号"></Descriptions.Item>
-            <Descriptions.Item label="房源设备ID">565799449</Descriptions.Item>
-            <Descriptions.Item label="上链时间戳" span={3}>
-              <Badge status="success" text="2019-04-24 18:00:00" />
+          <Descriptions title="房源记录-1" bordered>
+            <Descriptions.Item label="产权人">daqing</Descriptions.Item>
+            <Descriptions.Item label="房屋状态">
+              <Badge status="default" />
+              未出租
             </Descriptions.Item>
-            <Descriptions.Item label="详细地址" span={3}>
-              深圳市南山区塘朗村
+            <Descriptions.Item label="代理人">无</Descriptions.Item>
+            <Descriptions.Item label="设备Id">
+              <Text ellipsis={true} style={{ width: 200 }}>
+                6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12
+              </Text>
             </Descriptions.Item>
-            <Descriptions.Item label="链上哈希" span={3}></Descriptions.Item>
-            <Descriptions.Item label="图片cid" span={3}></Descriptions.Item>
+            <Descriptions.Item label="认证等级">4</Descriptions.Item>
+            <Descriptions.Item label="信息摘要">
+              <Text ellipsis={true} copyable>
+                2fb48ee814269fb67e2987659e0792ae2f378eba54cd141bbdc021da5a811c2
+              </Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="房源Id" span={3}>
+              <Text ellipsis={true} copyable>
+                6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
+              </Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="图片Cid" span={3}>
+              <a>QmTq99WTkcgvDQ8F4sQGf6kBhmaQoo9mpod9kp4Rf51N5T</a>
+            </Descriptions.Item>
+            <Descriptions.Item label="时间戳" span={3}>
+              2020-10-02 08:11:14
+            </Descriptions.Item>
           </Descriptions>
         </Timeline.Item>
         <Timeline.Item>
-          <Descriptions title="房源1" bordered>
-            <Descriptions.Item label="链上哈希">123213213</Descriptions.Item>
-            <Descriptions.Item label="产权人">Prepaid</Descriptions.Item>
-            <Descriptions.Item label="受代理人"></Descriptions.Item>
-            <Descriptions.Item label="房屋受理时间" span={3}>
-              <Badge status="processing" text="2019-04-24 18:00:00" />
+          <Descriptions title="房源记录-2" bordered>
+            <Descriptions.Item label="产权人">daqing</Descriptions.Item>
+            <Descriptions.Item label="房屋状态">
+              <Badge status="processing" />
+              出租中
             </Descriptions.Item>
-            <Descriptions.Item label="上链时间戳" span={3}></Descriptions.Item>
-            <Descriptions.Item label="图片cid" span={3}></Descriptions.Item>
+            <Descriptions.Item label="代理人">李明</Descriptions.Item>
+            <Descriptions.Item label="设备Id">
+              <Text ellipsis={true} style={{ width: 200 }}>
+                6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12
+              </Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="认证等级">4</Descriptions.Item>
+            <Descriptions.Item label="信息摘要">
+              <Text ellipsis={true} copyable>
+                34ec33c44d2344f426ab653d7863a0ff928b605f87b60541fb6195fcabe913a2
+              </Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="房源Id" span={3}>
+              <Text ellipsis={true} copyable>
+                6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
+              </Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="图片Cid" span={3}>
+              <a>QmdAj1dEFJv1ABAgJYxpU6xZcwcGy563nXF1cfiP64Xpwz</a>
+            </Descriptions.Item>
+            <Descriptions.Item label="时间戳" span={3}>
+              2020-10-02 08:11:14
+            </Descriptions.Item>
           </Descriptions>
         </Timeline.Item>
       </Timeline>

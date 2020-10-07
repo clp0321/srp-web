@@ -71,17 +71,17 @@ const HouseComment = () => {
             <Text strong style={{ fontSize: 16 }}>
               综合评分:
             </Text>
-            <Rate count={5} defaultValue={5} />
+            <Rate count={5} defaultValue={4.6} />
             <Text strong style={{ fontSize: 16 }}>
-              5分
+              4.6分
             </Text>
           </Space>
           <div className={style.rate}>
             <Space size="large">
-              <Text>整洁评分: 5分</Text>
-              <Text>管理评分: 5分</Text>
-              <Text>交通位置: 5分</Text>
-              <Text>设施装修: 5分</Text>
+              <Text>整洁评分: 4.8分</Text>
+              <Text>管理评分: 4.6分</Text>
+              <Text>交通位置: 4.4分</Text>
+              <Text>设施装修: 4.8分</Text>
             </Space>
           </div>
         </div>

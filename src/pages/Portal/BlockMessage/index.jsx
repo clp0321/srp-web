@@ -22,17 +22,17 @@ const mockData = [
   {
     title: '区块高度',
     imgUrl: blockHeightUrl,
-    num: 220,
+    num: 468,
   },
   {
     title: '总交易数',
     imgUrl: transaction,
-    num: 3314,
+    num: 468,
   },
   {
-    title: '总存证数',
+    title: '已部署合约',
     imgUrl: certificate,
-    num: 1547,
+    num: 49,
   },
 ];
 
@@ -42,7 +42,9 @@ const dataSource = [
     id: '微众节点1',
     ip: '127.0.1',
     prePort: 5002,
-    nide_id: 'e132121e21e212323',
+    node_id:
+      '9537ec91773302f704f4994d283a5a4a3ca1d7670789666f0c6e1a2fd1c81b18b01990e8972c62001b9492cd8858377f73d8c4dafd6a27e776441d08ce267abf',
+    cid: '12D3KooWQzdCMc5ZZevX7tSj8na872Cp9tXqSpQNxnTYdFjQsMPj',
     node_v: 2.0,
     argnization: 'org1',
     creatTime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
@@ -53,16 +55,25 @@ const dataSource = [
 // mock 节点列表信息
 const peerList = [
   {
-    peer_id: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
+    peer_id:
+      '28b0ec7d933f0d0bdb81c2ceb6a42917100fd94bfb634dd14fb0dd010dd9c45b11d64caecdb18d0677e40a4732595700ba12e49958bcb87e101d26b05882eb49',
     peer_type: '共识',
-    block_height: '50369',
-    pbftView: '1540281841',
+    block_height: '468',
+    pbftView: '12492',
   },
   {
-    peer_id: 'c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319',
+    peer_id:
+      ' 6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f',
     peer_type: '共识',
-    block_height: '50374',
-    pbftView: '1540281841',
+    block_height: '468',
+    pbftView: '12493',
+  },
+  {
+    peer_id:
+      ' 9537ec91773302f704f4994d283a5a4a3ca1d7670789666f0c6e1a2fd1c81b18b01990e8972c62001b9492cd8858377f73d8c4dafd6a27e776441d08ce267abf',
+    peer_type: '共识',
+    block_height: '468',
+    pbftView: '12494',
   },
 ];
 
@@ -70,7 +81,7 @@ const peerList = [
 const detailCon = [
   {
     title: '溯源状态',
-    con: '区块链数据验证成功',
+    con: '数据已验证成功',
     status: true,
   },
   {
@@ -114,16 +125,13 @@ const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} dat
 
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
+  const [curBlock, setCurBlock] = useState([]);
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
   });
 
   // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作
   const columns = [
-    {
-      title: '前置编号',
-      dataIndex: 'id',
-    },
     {
       title: 'ip',
       dataIndex: 'ip',
@@ -134,11 +142,27 @@ const BlockMessage = () => {
     },
     {
       title: '节点id',
-      dataIndex: 'nide_id',
+      width: 250,
+      dataIndex: 'node_id',
+      render: (text) => (
+        <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+          <Text ellipsis copyable>
+            {text}
+          </Text>
+        </div>
+      ),
     },
     {
-      title: '节点版本',
-      dataIndex: 'node_v',
+      title: 'IPFS节点Id',
+      width: 250,
+      dataIndex: 'cid',
+      render: (text) => (
+        <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+          <Text ellipsis copyable>
+            {text}
+          </Text>
+        </div>
+      ),
     },
     {
       title: '所属机构',
@@ -147,10 +171,6 @@ const BlockMessage = () => {
     {
       title: '创建时间',
       dataIndex: 'creatTime',
-    },
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
     },
     {
       title: '状态',
@@ -163,7 +183,7 @@ const BlockMessage = () => {
     },
     {
       title: '操作',
-      render: () => <a>修改</a>,
+      render: () => <a>切换</a>,
     },
   ];
   // 节点ID、节点类型、块高、pbftView、状态、操作
@@ -171,6 +191,13 @@ const BlockMessage = () => {
     {
       title: '节点ID',
       dataIndex: 'peer_id',
+      render: (text, record) => (
+        <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+          <Text ellipsis={true} copyable>
+            {text}
+          </Text>
+        </div>
+      ),
     },
     {
       title: '节点类型',
@@ -189,7 +216,7 @@ const BlockMessage = () => {
       dataIndex: 'cerficate_status',
       render: () => (
         <>
-          <Badge />
+          <Badge status="success" />
           运行中
         </>
       ),
@@ -198,7 +225,7 @@ const BlockMessage = () => {
       title: '操作',
       dataIndex: 'opt',
       render: (_, record) => (
-        <Button type="primary" onClick={() => showDetail(record.blockHeight)}>
+        <Button type="primary" onClick={() => showDetail(record)}>
           详情
         </Button>
       ),
@@ -206,6 +233,7 @@ const BlockMessage = () => {
   ];
 
   const showDetail = (block) => {
+    setCurBlock(block);
     handleShowAll(true);
   };
 
@@ -232,9 +260,9 @@ const BlockMessage = () => {
         {!showAll ? (
           <>
             <Text className={style.table_title}>节点前置</Text>
-            <Table columns={columns} dataSource={dataSource} pagination={false} />
+            <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="node_id" />
             <Text className={[style.table_title, style.trans].join(' ')}>节点列表</Text>
-            <Table columns={txColumns} dataSource={peerList} pagination={false} />
+            <Table columns={txColumns} dataSource={peerList} pagination={false} rowKey="peer_id" />
           </>
         ) : (
           <>
@@ -249,9 +277,22 @@ const BlockMessage = () => {
               </Button>
             </Text>
             <Paragraph className={style.para}>
-              交易哈希：c51541f2a5a98f4d8dac5644925da1b7e32e35267226ab20101237eed67d4319
+              交易哈希：<Text ellipsis={true}>{curBlock.peer_id}</Text>
             </Paragraph>
-            <div className={style.mian_detail}>{blockDetails}</div>
+            <div className={style.mian_detail}>
+              <Paragraph>
+                <Text className={style.start_title}>溯源状态</Text>
+                <Text className={[style.desc, style.success].join(' ')}>数据验证成功</Text>
+              </Paragraph>
+              <Paragraph>
+                <Text className={style.start_title}>区块高度</Text>
+                <Text className={style.desc}>{curBlock.block_height}</Text>
+              </Paragraph>
+              <Paragraph>
+                <Text className={style.start_title}>时间戳</Text>
+                <Text className={style.desc}>2020-10-07 17:27:49</Text>
+              </Paragraph>
+            </div>
           </>
         )}
       </div>

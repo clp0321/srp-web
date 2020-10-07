@@ -24,12 +24,12 @@ const featureList = [
       '智能设备与身份信息双向绑定、利用“一房一码”溯源真实信息、依赖智能合约激励与房源真伪判定算法进一步提高房源真实性',
   },
   {
-    imgUrl: intelligent,
+    imgUrl: less_confilct,
     title: '减少违约纠纷',
     con: '租赁双方可在平台社区中发起纠纷仲裁，同时支持用户参与公平投票、链上取证',
   },
   {
-    imgUrl: less_confilct,
+    imgUrl: intelligent,
     title: '房屋智能化管理',
     con: '物联设备自动计费、抄表，智能合约履行租约合同，自动控制智能门锁权限',
   },
@@ -38,7 +38,7 @@ const featureList = [
 const FeatureIntroduce = ({ data }) => {
   return (
     <div className={style.feature_item}>
-      <Text>{data.title}</Text>
+      <Text strong>{data.title}</Text>
       <Paragraph>{data.con}</Paragraph>
     </div>
   );
@@ -95,8 +95,8 @@ const Welcome = () => {
         <div className={style.pic_list}>
           <img src={low_expense} />
           <img src={true_house} />
-          <img src={intelligent} />
           <img src={less_confilct} />
+          <img src={intelligent} />
         </div>
         <div className={style.feature_introduce}>{feature_list}</div>
         <div className={style.break}></div>

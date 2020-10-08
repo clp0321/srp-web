@@ -237,22 +237,24 @@ const Authorize = () => {
     form.validateFields().then((values) => {
       let passwordList = [];
       const data = { deviceNum: curDevice };
-      if (modalType === 'permanent') {
-        passwordList.push(values);
-        data.passwordList = passwordList;
-        handleAddPermanentPwd(data);
-      } else {
-        const { identification, password, time } = values;
-        passwordList.push({
-          identification,
-          password,
-          startTime: moment(time[0]).format('YYYY-MM-DD hh:mm:ss'),
-          endTime: moment(time[1]).format('YYYY-MM-DD hh:mm:ss'),
-        });
-        passwordList.push(values);
-        data.passwordList = passwordList;
-        handleAddTemporaryPwd(data);
-      }
+      message.success('授权成功')
+      setAddVisible(false)
+      // if (modalType === 'permanent') {
+      //   passwordList.push(values);
+      //   data.passwordList = passwordList;
+      //   handleAddPermanentPwd(data);
+      // } else {
+      //   const { identification, password, time } = values;
+      //   passwordList.push({
+      //     identification,
+      //     password,
+      //     startTime: moment(time[0]).format('YYYY-MM-DD hh:mm:ss'),
+      //     endTime: moment(time[1]).format('YYYY-MM-DD hh:mm:ss'),
+      //   });
+      //   passwordList.push(values);
+      //   data.passwordList = passwordList;
+      //   handleAddTemporaryPwd(data);
+      // }
     });
   };
 

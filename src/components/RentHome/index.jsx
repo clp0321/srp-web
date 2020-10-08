@@ -3,6 +3,7 @@ import { Avatar, Modal } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getAuthority, setAuthority } from '@/utils/authority';
 import home_new from '@/assets/introduce/home-new.png';
+import search_home from '@/assets/introduce/search_home.png';
 import trace from '@/assets/introduce/trace.png';
 import style from './style.less';
 
@@ -31,6 +32,7 @@ const RentHome = ({ currentUser }) => {
       onCancel: () => {},
     });
   };
+  const path = location.pathname;
   return (
     <>
       <div className={style.header_l}>
@@ -41,8 +43,26 @@ const RentHome = ({ currentUser }) => {
           </h3>
         </div>
         <h3>
-          <img src={trace} />
-          <Link to="/srp/blockmessage">信息溯源</Link>
+          {path.includes('/blockmessage') ? (
+            <>
+              <img src={search_home} />
+              <Link to="/srp/rent">深圳租房</Link>
+            </>
+          ) : path.includes('/release') ? (
+            <>
+              <img src={search_home} />
+              <Link to="/srp/rent" style={{ marginRight: 10 }}>
+                深圳租房
+              </Link>
+              <img src={trace} />
+              <Link to="/srp/blockmessage">信息溯源</Link>
+            </>
+          ) : (
+            <>
+              <img src={trace} />
+              <Link to="/srp/blockmessage">信息溯源</Link>
+            </>
+          )}
         </h3>
       </div>
       <div className={style.header_r}>

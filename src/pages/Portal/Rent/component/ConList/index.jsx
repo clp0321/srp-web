@@ -88,7 +88,10 @@ const ConList = () => {
         </div>
         <div className={[style.con, style.clearfix].join(' ')}>
           {/* 左侧房源 */}
-          <div className={style.house_list}>{house_list}</div>
+          <div className={style.house_list}>
+            {house_list}
+            <Pagination total={propertyArr.length} size={10} className={style.pagination} />
+          </div>
           {/* 右侧内容 */}
           <div className={style.house_recommend}>
             <div className={style.rmfy}>

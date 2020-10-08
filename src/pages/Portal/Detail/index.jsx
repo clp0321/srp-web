@@ -10,7 +10,7 @@ import style from './style.less';
 const { TabPane } = Tabs;
 
 const Detail = () => {
-  const [key, setKey] = useState('2');
+  const [key, setKey] = useState('1');
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',
@@ -40,8 +40,6 @@ const Detail = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const callback = () => {};
-
   const showImgList = () => {};
   const { picUrl } = detail;
   return (
@@ -56,8 +54,8 @@ const Detail = () => {
           <TabPane tab="房屋详情" key="1">
             <HouseDetail houseDetail={detail} />
           </TabPane>
-          <TabPane tab="信息溯源" key="2">
-            <HouseTrace />
+          <TabPane tab="信息溯源" key="2" >
+            <HouseTrace picUrl={picUrl} />
           </TabPane>
           <TabPane tab="房屋点评" key="3">
             <HouseComment />

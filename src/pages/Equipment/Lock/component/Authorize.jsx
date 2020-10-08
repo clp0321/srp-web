@@ -131,17 +131,31 @@ const Authorize = () => {
   }, []);
 
   const getList = async () => {
-    const resp = await getLockList();
-    const {
-      code,
-      data: { list = [] },
-      msg,
-    } = resp;
-    if (code === 0) {
-      setLockList(list);
-    } else {
-      message.error(msg);
-    }
+    // mock得到数据
+    const mockList = [
+      {
+        deviceNum: '180801020000001',
+        lockStatus: 1,
+        signalStrength: 57,
+        connStatus: 0,
+        battery: 13,
+        bluetoothMac: 'c998071f92bc',
+        fwVersion: '45.3',
+        createAt: '2020-05-15 15:11:27',
+      },
+    ];
+    setLockList(mockList);
+    // const resp = await getLockList();
+    // const {
+    //   code,
+    //   data,
+    //   msg,
+    // } = resp;
+    // if (code === 0) {
+    //   setLockList(data.list);
+    // } else {
+    //   message.error(msg);
+    // }
   };
 
   const FirstStep = () => (
@@ -237,8 +251,8 @@ const Authorize = () => {
     form.validateFields().then((values) => {
       let passwordList = [];
       const data = { deviceNum: curDevice };
-      message.success('授权成功')
-      setAddVisible(false)
+      message.success('授权成功');
+      setAddVisible(false);
       // if (modalType === 'permanent') {
       //   passwordList.push(values);
       //   data.passwordList = passwordList;
@@ -280,7 +294,7 @@ const Authorize = () => {
         const token = localStorage.getItem('lock_token');
         const url = 'https://debug.locksuiyi.com/deviceManagement/api/permanentPassword.do';
         const method = 'put';
-        handleUpdateTemporary({ token, url, method, data});
+        handleUpdateTemporary({ token, url, method, data });
       }
     });
   };
@@ -411,7 +425,7 @@ const Authorize = () => {
       if (value.code === 0) {
         message.success(`设备${curDevice} 临时密码修改成功!`);
         setUpdateVisible(false);
-        form.resetFields()
+        form.resetFields();
       } else {
         message.error(value.msg);
       }

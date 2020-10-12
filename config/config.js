@@ -54,6 +54,10 @@ export default defineConfig({
               component: './Portal/Release',
             },
             {
+              path: '/srp/order',
+              component: './Portal/Order',
+            },
+            {
               path: '/srp/blockmessage',
               component: './Portal/BLockMessage',
             },

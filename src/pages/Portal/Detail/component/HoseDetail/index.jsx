@@ -11,7 +11,8 @@ import {
   Input,
   message,
 } from 'antd';
-import { KeyOutlined } from '@ant-design/icons';
+import { history } from 'umi';
+import { KeyOutlined, DollarOutlined } from '@ant-design/icons';
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmapgl';
 import certification from '@/assets/images/certification.png';
 import { applyHouse } from '@/services/property';
@@ -132,6 +133,7 @@ const HouseDetail = ({ houseDetail }) => {
   const { lng, lat, title, text } = lanLat;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  const [bookVisible, setBookVisible] = useState(false);
   // useEffect(() => {
   //   const house_id = location.search.split('=')[1];
   //   getHouseDetail(house_id)
@@ -207,6 +209,19 @@ const HouseDetail = ({ houseDetail }) => {
     equipId = deviceId.replace(deviceId.substring(1, deviceId.length - 1), '***');
   }
 
+  // 处理修改
+  const handleBook = () => {
+    console.log(1);
+    Modal.confirm({
+      title: '确认预定此房源？',
+      okText: '确认',
+      onOk: () => {
+        history.push('/srp/order');
+      },
+      onCancel: () => {},
+    });
+  };
+
   return (
     <>
       {/* 基本信息 */}
@@ -217,14 +232,14 @@ const HouseDetail = ({ houseDetail }) => {
         <Paragraph>
           <img src={certification} height={30} />
           智能门锁编号: {equipId}
-          <Button
-            type="primary"
-            className={style.watch_room}
-            icon={<KeyOutlined />}
-            onClick={() => setVisible(true)}
-          >
-            申请看房
-          </Button>
+          <Text className={style.watch_room}>
+            <Button type="primary" icon={<KeyOutlined />} onClick={() => setVisible(true)}>
+              申请看房
+            </Button>
+            <Button type="danger" icon={<DollarOutlined />} onClick={handleBook}>
+              立即预定
+            </Button>
+          </Text>
         </Paragraph>
       </div>
       {toolList}

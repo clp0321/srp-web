@@ -53,8 +53,8 @@
     display: block;
   }
   .ellipsis {
-    overflow: hidden;    
-    text-overflow:ellipsis;    
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
   .pay_money {
@@ -62,5 +62,29 @@
     font-size: 24px;
     font-weight: bold;
     color: rgb(24, 144, 255);
+  }
+  .money {
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .card {
+    :global {
+      .ant-card-body {
+        position: relative;
+      }
+    }
+  }
+  .traced_con {
+    position: absolute;
+    color: #3dc983;
+    right: 20px;
+    top: 35px;
+  }
+  .trace_log {
+    height: 40px;
+    position: absolute;
+    right: 100px;
+    top: 30px;
   }
 }

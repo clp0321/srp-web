@@ -1,6 +1,6 @@
 import { connect, Link } from 'umi';
 import { Avatar, Modal } from 'antd';
-import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { MacCommandOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getAuthority, setAuthority } from '@/utils/authority';
 import home_new from '@/assets/introduce/home-new.png';
 import search_home from '@/assets/introduce/search_home.png';
@@ -80,10 +80,8 @@ const RentHome = ({ currentUser }) => {
               {currentUser.role === 1 ? '房东' : '租客'}：{currentUser.userName}
             </span>
             <span>
-              <LoginOutlined />
-              <a onClick={handleLogin} style={{ marginRight: 10 }}>
-                进入子系统
-              </a>
+              <MacCommandOutlined />
+              <a onClick={handleLogin}>进入子系统</a>
               <LogoutOutlined />
               <a onClick={handleLogout}>退出系统</a>
             </span>

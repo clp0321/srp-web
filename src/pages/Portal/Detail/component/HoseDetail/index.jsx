@@ -211,12 +211,12 @@ const HouseDetail = ({ houseDetail }) => {
 
   // 处理修改
   const handleBook = () => {
-    console.log(1);
+    const queryOpt = location.search.split('=')[1];
     Modal.confirm({
       title: '确认预定此房源？',
       okText: '确认',
       onOk: () => {
-        history.push('/srp/order');
+        history.push(`/srp/order?queryId=${queryOpt}`);
       },
       onCancel: () => {},
     });

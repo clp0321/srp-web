@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input, Button, Typography, Modal } from 'antd';
+import { Input, Button, Typography, Modal, Form } from 'antd';
 import { Link, history, connect } from 'umi';
 import { SearchOutlined } from '@ant-design/icons';
 import logUrl from '@/assets/images/yzl_logo.png';
@@ -11,18 +11,24 @@ const { confirm } = Modal;
 
 const SearchBar = ({ currentUser }) => {
   const [visible, setVisible] = useState(false);
-  const [stepFormValues, setStepFormValues] = useState({});
   const { role, userName } = currentUser;
+  const [form] = Form.useForm();
 
-  const showModal = () => {
+  const showModal = (roles) => {
     // 判断当前用户的登陆身份
     confirm({
       title: (
         <span>
-          <Text strong>{userName}</Text>，是否发布房源？
+          <Text strong>{userName}</Text>，{roles === 1 ? '是否发布房源' : '是否发布需求'}？
         </span>
       ),
-      onOk: () => history.replace('/srp/release'),
+      onOk: () => {
+        if (roles === 1) {
+          history.replace('/srp/release');
+        } else {
+          history.replace('/srp/agent');
+        }
+      },
       okCancel: () => {},
     });
   };
@@ -38,6 +44,7 @@ const SearchBar = ({ currentUser }) => {
             </Text>
           </Link>
         </div>
+        {/* 查询条件 */}
         <div>
           <Search
             icon={<SearchOutlined />}
@@ -45,6 +52,7 @@ const SearchBar = ({ currentUser }) => {
             enterButton="查询"
             className={style.search_btn}
           />
+          {/* 热门搜索 */}
           <ul className={style.search_opt}>
             <li>热门搜索：</li>
             <li>
@@ -70,19 +78,9 @@ const SearchBar = ({ currentUser }) => {
             </li>
           </ul>
         </div>
-        {role === 1 ? (
-          <Button className={style.realase} type="primary" onClick={showModal}>
-            发布房源
-          </Button>
-        ) : null}
-        {/* <Modal
-          title="房源发布"
-          visible={visible}
-          onOk={() => setVisible(false)}
-          onCancel={() => setVisible(false)}
-        >
-         
-        </Modal> */}
+        <Button className={style.realase} type="primary" onClick={() => showModal(role)}>
+          {role === 1 ? '发布房源' : '需求发布'}
+        </Button>
       </div>
     </div>
   );

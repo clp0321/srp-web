@@ -77,9 +77,6 @@ const Order = () => {
           <Form
             form={form}
             name="dynamic_form_nest_item"
-            initialValues={{
-              numbers: 1,
-            }}
             onFinish={handlePay}
           >
             {/* 预定信息  */}
@@ -97,7 +94,7 @@ const Order = () => {
                 name="numbers"
                 required={{ required: true, message: '选择入住人数' }}
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 200 }} placeholder="选择入住人数">
                   <Option value={1}>1人</Option>
                   <Option value={2}>2人</Option>
                   <Option value={3}>3人</Option>

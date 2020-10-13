@@ -62,6 +62,10 @@ export default defineConfig({
               component: './Portal/BLockMessage',
             },
             {
+              path: '/srp/agent',
+              component: './Portal/agent',
+            },
+            {
               component: './404',
             },
           ],

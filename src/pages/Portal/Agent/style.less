@@ -1,0 +1,39 @@
+.contain {
+  width: 1190px;
+  margin: auto;
+  .title {
+    margin: 20px 0;
+  }
+  .submit {
+    display: block;
+    width: 200px;
+    margin: auto;
+  }
+  .divider {
+    height: 2px;
+    width: 20px;
+    background: rgb(221, 221, 221);
+    margin: 0 5px;
+  }
+  .rent_range {
+    :global {
+      .ant-form-item-label {
+        & ::before {
+          display: inline-block;
+          margin-right: 4px;
+          color: rgb(255, 77, 79);
+          font-size: 14px;
+          font-family: SimSun, sans-serif;
+          line-height: 1;
+          content: '*';
+        }
+      }
+    }
+  }
+  .related_house {
+    margin-bottom: 22px;
+    .reload {
+      float: right;
+    }
+  }
+}

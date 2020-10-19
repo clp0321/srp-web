@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Tabs, Pagination, Button, Typography, Tag, Card } from 'antd';
+import { PageLoading } from '@ant-design/pro-layout';
 import { ReloadOutlined } from '@ant-design/icons';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
-import { getProperty } from '@/services/property';
+import { getProperty, findPropertyByItems } from '@/services/property';
 import moment from 'moment';
 import style from './style.less';
 
@@ -11,8 +12,8 @@ const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 const TagColor = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 
-const ConList = () => {
-  const [visible, setVisible] = useState(true);
+const ConList = ({ visible }) => {
+  // const [visible, setVisible] = useState(false);
   const [propertyArr, setProperty] = useState([]);
   const [key, setKey] = useState('1');
   // 点击跳转至房源详情页
@@ -89,8 +90,14 @@ const ConList = () => {
         <div className={[style.con, style.clearfix].join(' ')}>
           {/* 左侧房源 */}
           <div className={style.house_list}>
-            {house_list}
-            <Pagination total={propertyArr.length} size={10} className={style.pagination} />
+            {visible ? (
+              <PageLoading />
+            ) : (
+              <>
+                {house_list}
+                <Pagination total={propertyArr.length} size={10} className={style.pagination} />
+              </>
+            )}
           </div>
           {/* 右侧内容 */}
           <div className={style.house_recommend}>

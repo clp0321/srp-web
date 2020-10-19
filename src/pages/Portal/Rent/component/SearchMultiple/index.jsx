@@ -3,7 +3,24 @@ import style from './style.less';
 
 const { Text } = Typography;
 
-const SearchMultiple = () => {
+// 地区
+const mockLi = ['宝安', '南山', '龙华', '福田', '龙岗'];
+
+// 价格
+const priceList = ['1500元以下', '1500-2000', '2500-3500', '3500-4000', '4500-5000', '5000-5500'];
+
+// 户型
+const typeList = ['一居室', '二居室', '三居室', '四居室', '五居室', '五居室以上'];
+
+// 面积
+const sizeList = ['50m²以下', '50m²-70m²', '70m²-90m²', '90m²-110m²', '110m²-130m²'];
+
+const SearchMultiple = ({ handle }) => {
+  // 多条件查询
+  const handleQuery = (position) => {
+    // todo 查询位置信息
+    handle(true)
+  };
   return (
     <div className={style.opt_filter}>
       <Text strong>共享租赁 / 深圳租房</Text>
@@ -23,50 +40,31 @@ const SearchMultiple = () => {
         </div>
         <div className={style.con_option}>
           <div className={style.select_all}>
+            {/* 区信息 */}
             <ul className={style.select_ul}>
-              <li>全部</li>
-              <li>宝安</li>
-              <li>南山</li>
-              <li>龙华</li>
-              <li>福田</li>
-              <li>龙岗</li>
-              <li>罗湖</li>
-              <li>盐田</li>
-              <li>龙华区</li>
-              <li>坪山区</li>
-              <li>光明新区</li>
-              <li>大鹏新区</li>
-              <li>惠州</li>
-              <li>东莞</li>
-              <li>深圳周边</li>
+              <li>
+                <a>全部</a>
+              </li>
+              {mockLi.map((item) => (
+                <li key={item}>
+                  <a onClick={() => handleQuery(item, 1)}>{item}</a>
+                </li>
+              ))}
             </ul>
           </div>
           <div className={style.options}>
+            {/* 租金信息 */}
             <ul className={[style.otption_ul, style.top].join(' ')}>
               <li>
                 <Text strong>租金：</Text>
               </li>
-              <li>
-                <a href="#">全部</a>
-              </li>
-              <li>
-                <a href="#">1500元以下</a>
-              </li>
-              <li>
-                <a href="#">1500-2000</a>
-              </li>
-              <li>
-                <a href="#">2500-3500</a>
-              </li>
-              <li>
-                <a href="#">3500-4000</a>
-              </li>
-              <li>
-                <a href="#">4500-5000</a>
-              </li>
-              <li>
-                <a href="#">5500-5500</a>
-              </li>
+              {priceList.map((item) => {
+                return (
+                  <li key={item}>
+                    <a onClick={() => handleQuery(item, 2)}>{item}</a>
+                  </li>
+                );
+              })}
               <li>
                 <Input className={style.rent_search} /> - <Input className={style.rent_search} /> 元
               </li>
@@ -77,27 +75,11 @@ const SearchMultiple = () => {
               <li>
                 <Text strong>户型：</Text>
               </li>
-              <li>
-                <a href="#">全部</a>
-              </li>
-              <li>
-                <a href="#">一居室</a>
-              </li>
-              <li>
-                <a href="#">二居室</a>
-              </li>
-              <li>
-                <a href="#">三居室</a>
-              </li>
-              <li>
-                <a href="#">四居室</a>
-              </li>
-              <li>
-                <a href="#">五居室</a>
-              </li>
-              <li>
-                <a href="#">五居室以上</a>
-              </li>
+              {typeList.map((item) => (
+                <li key={item}>
+                  <a onClick={() => handleQuery(item, 3)}>{item}</a>
+                </li>
+              ))}
             </ul>
           </div>
           <div className={style.options}>
@@ -105,24 +87,11 @@ const SearchMultiple = () => {
               <li>
                 <Text strong>面积：</Text>
               </li>
-              <li>
-                <a href="#">全部</a>
-              </li>
-              <li>
-                <a href="#">50m²以下</a>
-              </li>
-              <li>
-                <a href="#">50m²-70m²</a>
-              </li>
-              <li>
-                <a href="#">70m²-90m²</a>
-              </li>
-              <li>
-                <a href="#">90m²-110m²</a>
-              </li>
-              <li>
-                <a href="#">110m²-130m²</a>
-              </li>
+              {sizeList.map((item) => (
+                <li key={item}>
+                  <a onClick={() => handleQuery(item, 3)}>{item}</a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

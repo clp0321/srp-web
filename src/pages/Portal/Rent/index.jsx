@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import style from './style.less';
 
-
 import { Search, SearchMultiple, ConList } from './component';
 
 class Rent extends Component {
@@ -13,12 +12,12 @@ class Rent extends Component {
   }
 
   componentDidMount() {
-    document.title = "区块链共享租赁平台-房源中心";
+    document.title = '区块链共享租赁平台-房源中心';
   }
 
-  handleRelease = () => {
+  handleVisible = (visible) => {
     this.setState({
-      visible: true,
+      visible,
     });
   };
 
@@ -27,11 +26,11 @@ class Rent extends Component {
     return (
       <div className={style.contain}>
         {/* 内容索引 */}
-        <Search />
+        <Search handle={this.handleVisible} />
         {/* 条件搜搜 */}
-        <SearchMultiple />
+        <SearchMultiple handle={this.handleVisible} />
         {/* 内容选择 */}
-        <ConList />
+        <ConList handle={this.handleVisible} visible={visible} />
         {/* 页面底部 */}
       </div>
     );

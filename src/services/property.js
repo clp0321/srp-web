@@ -1,5 +1,10 @@
 import request from '@/utils/request';
 
+// 条件查询房源信息
+export async function findPropertyByItems() {
+  return request('/back/houseManage/choice')
+}
+
 // 添加房源
 export async function addProperty(data) {
   return request.post('/back/houseManage', {

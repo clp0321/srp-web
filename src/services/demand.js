@@ -20,13 +20,11 @@ export const updateDemands = (data) => {
 };
 
 /** 删除发布信息 */
-export const deleteDemands = (data) => {
-  return request.delete('/back/demand', {
-    data,
-  });
+export const deleteDemand = (id) => {
+  return request.delete(`/back/demand/?id=${id}`);
 };
 
 /** 获取所以需求信息 */
 export const getAllDemands = () => {
-  return request('/back/all');
+  return request('/back/demand/all');
 };

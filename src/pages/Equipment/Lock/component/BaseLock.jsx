@@ -44,46 +44,47 @@ const BaseLock = ({ setAbled }) => {
       .validateFields()
       .then(async (values) => {
         // 模拟测试通过
-        notification.success({
-          message: '登陆鉴权成功',
-          description: `本次鉴权失效时间：${moment(new Date())
-            .add(1, 'day')
-            .format('YYYY-MM-DD hh:mm:ss')}`,
-        });
-        setVisible(false);
-        const array = [];
-        array.push({
-          deviceNum: '180801020000001',
-          battery: 13,
-          lockStatus: 0,
-          signalStrength: 50,
-        });
-        setLock(array);
-        setAbled();
-        // const resp = await toLogin(values);
-        // const {
-        //   code,
-        //   msg,
-        //   data: { timeout, token },
-        // } = resp;
-        // if (code === 0) {
-        //   notification.success({
-        //     message: '登陆鉴权成功',
-        //     description: `本次鉴权失效时间：${timeout}`,
-        //   });
-        //   setVisible(false);
-        //   localStorage.setItem('lock_token', token);
-        //   return true;
-        // } else {
-        //   message.error(msg);
-        //   return false;
-        // }
+        // notification.success({
+        //   message: '登陆鉴权成功',
+        //   description: `本次鉴权失效时间：${moment(new Date())
+        //     .add(1, 'day')
+        //     .format('YYYY-MM-DD hh:mm:ss')}`,
+        // });
+        // setVisible(false);
+        // const array = [];
+        // array.push({
+        //   deviceNum: '180801020000001',
+        //   battery: 13,
+        //   lockStatus: 0,
+        //   signalStrength: 50,
+        // });
+        // setLock(array);
+        // setAbled();
+
+        const resp = await toLogin(values);
+        const {
+          code,
+          msg,
+          data: { timeout, token },
+        } = resp;
+        if (code === 0) {
+          notification.success({
+            message: '登陆鉴权成功',
+            description: `本次鉴权失效时间：${timeout}`,
+          });
+          setVisible(false);
+          localStorage.setItem('lock_token', token);
+          return true;
+        } else {
+          message.error(msg);
+          return false;
+        }
       })
-      // .then(async (bool) => {
-      //   if (bool) {
-      //     watchEquip();
-      //   }
-      // })
+      .then(async (bool) => {
+        if (bool) {
+          watchEquip();
+        }
+      })
       .catch((err) => console.log(err));
   };
 

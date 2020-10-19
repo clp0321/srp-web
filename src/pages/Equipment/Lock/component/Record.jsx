@@ -51,7 +51,7 @@ const Record = () => {
       },
     },
     {
-      title: '标识',
+      title: '用户标识',
       dataIndex: 'identification',
     },
     {

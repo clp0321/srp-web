@@ -19,6 +19,7 @@ const Model = {
         // 将返回登入用户信息存入缓存中
         localStorage.setItem('name', data.userName);
         localStorage.setItem('role', data.role);
+        localStorage.setItem('id', data.id)
         yield put({
           type: 'user/saveCurrentUser',
           payload: data,

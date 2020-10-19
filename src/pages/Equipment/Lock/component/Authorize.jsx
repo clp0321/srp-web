@@ -132,30 +132,30 @@ const Authorize = () => {
 
   const getList = async () => {
     // mock得到数据
-    const mockList = [
-      {
-        deviceNum: '180801020000001',
-        lockStatus: 1,
-        signalStrength: 57,
-        connStatus: 0,
-        battery: 13,
-        bluetoothMac: 'c998071f92bc',
-        fwVersion: '45.3',
-        createAt: '2020-05-15 15:11:27',
-      },
-    ];
-    setLockList(mockList);
-    // const resp = await getLockList();
-    // const {
-    //   code,
-    //   data,
-    //   msg,
-    // } = resp;
-    // if (code === 0) {
-    //   setLockList(data.list);
-    // } else {
-    //   message.error(msg);
-    // }
+    // const mockList = [
+    //   {
+    //     deviceNum: '180801020000001',
+    //     lockStatus: 1,
+    //     signalStrength: 57,
+    //     connStatus: 0,
+    //     battery: 13,
+    //     bluetoothMac: 'c998071f92bc',
+    //     fwVersion: '45.3',
+    //     createAt: '2020-05-15 15:11:27',
+    //   },
+    // ];
+    // setLockList(mockList);
+    const resp = await getLockList();
+    const {
+      code,
+      data,
+      msg,
+    } = resp;
+    if (code === 0) {
+      setLockList(data.list);
+    } else {
+      message.error(msg);
+    }
   };
 
   const FirstStep = () => (
@@ -251,24 +251,22 @@ const Authorize = () => {
     form.validateFields().then((values) => {
       let passwordList = [];
       const data = { deviceNum: curDevice };
-      message.success('授权成功');
-      setAddVisible(false);
-      // if (modalType === 'permanent') {
-      //   passwordList.push(values);
-      //   data.passwordList = passwordList;
-      //   handleAddPermanentPwd(data);
-      // } else {
-      //   const { identification, password, time } = values;
-      //   passwordList.push({
-      //     identification,
-      //     password,
-      //     startTime: moment(time[0]).format('YYYY-MM-DD hh:mm:ss'),
-      //     endTime: moment(time[1]).format('YYYY-MM-DD hh:mm:ss'),
-      //   });
-      //   passwordList.push(values);
-      //   data.passwordList = passwordList;
-      //   handleAddTemporaryPwd(data);
-      // }
+      if (modalType === 'permanent') {
+        passwordList.push(values);
+        data.passwordList = passwordList;
+        handleAddPermanentPwd(data);
+      } else {
+        const { identification, password, time } = values;
+        passwordList.push({
+          identification,
+          password,
+          startTime: moment(time[0]).format('YYYY-MM-DD hh:mm:ss'),
+          endTime: moment(time[1]).format('YYYY-MM-DD hh:mm:ss'),
+        });
+        passwordList.push(values);
+        data.passwordList = passwordList;
+        handleAddTemporaryPwd(data);
+      }
     });
   };
 
@@ -392,6 +390,7 @@ const Authorize = () => {
     addTemporaryPasswd(data).then((value) => {
       if (value.code === 0) {
         message.success(`设备${curDevice} 授权成功!`);
+        setAddVisible(false)
       } else {
         message.error(value.msg);
       }

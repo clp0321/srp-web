@@ -23,8 +23,3 @@ export const updateDemands = (data) => {
 export const deleteDemand = (id) => {
   return request.delete(`/back/demand/?id=${id}`);
 };
-
-/** 获取所以需求信息 */
-export const getAllDemands = () => {
-  return request('/back/demand/all');
-};

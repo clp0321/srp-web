@@ -16,8 +16,9 @@ import {
   Modal,
   Descriptions,
   Badge,
-  Tooltip
+  Tooltip,
 } from 'antd';
+import { connect } from 'umi';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getHouseDetail } from '@/services/property';
 import zhifubao from '@/assets/introduce/zhifubao.png';
@@ -40,33 +41,68 @@ const TitleCon = ({ title }) => {
   );
 };
 
-const Order = () => {
+const Order = ({ currentUser }) => {
   const [curKey, setKey] = useState(0);
   const [payAbeld, setPayAbeld] = useState(true);
   const [modalVisible, setVisible] = useState(false);
+  const [way, setWay] = useState(1);
+  const [price, setPrice] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const [payMoney, setPay] = useState(0);
   const [form] = Form.useForm();
+
+  const { userName, phone, certId, id } = currentUser;
 
   const handlePay = (values) => {
     // todo 调用订单提交接口
-    const { list, numbers, time, type } = values;
+    const { contactPersonList, numbers, time, type } = values;
     // pushOrder({
-    //   lessee: '', // 出租人
-    //   start_time: time[0],
-    //   end_time: time[1],
+    //   lesseeId: '', // 出租人
+    //   lessorId: '',
+    //   startTime: time[0],
+    //   endTime: time[1],
     //   type, // 租赁方式：1 日租 2 月租
     //   numbers, // 入住人数
     //   rent, // 租金
-    //   list,
+    //   contactPersonList, // 入住人信息
     // });
   };
 
   useEffect(() => {
     const house_id = location.search.split('=')[1];
-    getHouseDetail(house_id).then((values) => {});
+    getHouseDetail(house_id).then((values) => {
+      if (values && values.data) {
+        setPrice(values.data.price);
+        const val = Math.floor(values.data.price / 30); // 默认 每天房租
+        form.setFields([{ name: ['rent'], value: val }]);
+      }
+    });
   }, []);
 
   const showTrace = () => {
     setVisible(true);
+  };
+
+  // 切换方式
+  const handleSelect = (value) => {
+    form.setFields([{ name: ['time'], value: '' }]); // 清空时间
+    setWay(value);
+    setTotalTime(0);
+    setPay(0);
+    const val = value === 1 ? Math.floor(price / 30) : price; // 计算租金信息
+    form.setFields([{ name: ['rent'], value: val }]);
+  };
+
+  // 时间切换
+  const handleDateChange = (time) => {
+    if (time && time.constructor === Array) {
+      const [start, end] = time;
+      const data = end.diff(start, way === 1 ? 'days' : 'months');
+      const num = way === 1 ? data : data + 1;
+      const moneyItem = form.getFieldValue('rent');
+      setTotalTime(num);
+      setPay(num * moneyItem);
+    }
   };
 
   return (
@@ -74,44 +110,50 @@ const Order = () => {
       <Row gutter={24}>
         {/* 房源预定 */}
         <Col span={17}>
-          <Form
-            form={form}
-            name="dynamic_form_nest_item"
-            onFinish={handlePay}
-          >
+          <Form form={form} name="dynamic_form_nest_item" onFinish={handlePay}>
             {/* 预定信息  */}
             <TitleCon title="预订信息" />
-            <Item
-              label="入住时间"
-              name="time"
-              rules={[{ required: true, message: '选择入住时间' }]}
-            >
-              <RangePicker />
-            </Item>
             <Space>
-              <Item
-                label="入住人数"
-                name="numbers"
-                required={{ required: true, message: '选择入住人数' }}
-              >
-                <Select style={{ width: 200 }} placeholder="选择入住人数">
-                  <Option value={1}>1人</Option>
-                  <Option value={2}>2人</Option>
-                  <Option value={3}>3人</Option>
-                  <Option value={4}>更多</Option>
-                </Select>
-              </Item>
               <Item
                 label="租赁方式"
                 name="type"
                 required={{ required: true, message: '选择租赁方式' }}
               >
-                <Select placeholder="选择租赁方式" style={{ width: 200 }}>
+                <Select placeholder="选择租赁方式" style={{ width: 200 }} onChange={handleSelect}>
                   <Option value={1}>日租</Option>
                   <Option value={2}>月租</Option>
                 </Select>
               </Item>
+              <Item
+                label="入住时间"
+                name="time"
+                rules={[{ required: true, message: '选择入住时间' }]}
+              >
+                <RangePicker onChange={handleDateChange} />
+              </Item>
+              <Text className={style.total}>
+                共：<Text className={style.desc_num}>{totalTime}</Text> {way === 1 ? '晚' : '月'}
+              </Text>
             </Space>
+            <Item
+              label={way === 1 ? '每日租金' : '每月租金'}
+              name="rent"
+              style={{ marginLeft: 10 }}
+            >
+              <Input disabled style={{ width: 200 }} />
+            </Item>
+            <Item
+              label="入住人数"
+              name="numbers"
+              required={{ required: true, message: '选择入住人数' }}
+            >
+              <Select style={{ width: 200 }} placeholder="选择入住人数">
+                <Option value={1}>1人</Option>
+                <Option value={2}>2人</Option>
+                <Option value={3}>3人</Option>
+                <Option value={4}>更多</Option>
+              </Select>
+            </Item>
             {/* 入住人信息 */}
             <TitleCon title="入住人信息" />
             <div className={style.lessor_detail}>
@@ -121,9 +163,8 @@ const Order = () => {
               </Paragraph>
             </div>
 
-            <Form.List name="list">
+            <Form.List name="contactPersonList">
               {(fields, { add, remove }) => {
-                console.log(fields)
                 return (
                   <>
                     {fields.map((field) => (
@@ -131,27 +172,36 @@ const Order = () => {
                         <Item
                           {...field}
                           label="联系人"
-                          name={[field.name, 'lessor']}
-                          fieldKey={[field.fieldKey, 'lessor']}
+                          name={[field.name, 'contactName']}
+                          fieldKey={[field.fieldKey, 'contactName']}
                           rules={[{ required: true, message: '请输入联系人' }]}
+                          initialValue={userName}
                         >
                           <Input placeholder="输入联系人" />
                         </Item>
                         <Item
                           {...field}
                           label="联系号码"
-                          name={[field.name, 'phone']}
-                          fieldKey={[field.fieldKey, 'phone']}
+                          name={[field.name, 'cellPhoneNumber']}
+                          fieldKey={[field.fieldKey, 'cellPhoneNumber']}
                           rules={[{ required: true, message: '请输入联系号码' }]}
+                          initialValue={phone}
                         >
                           <Input placeholder="输入联系号码" />
                         </Item>
                         <Item
                           {...field}
                           label="身份证"
-                          name={[field.name, 'cert_id']}
-                          fieldKey={[field.fieldKey, 'cert_id']}
-                          rules={[{ required: true, message: 'Street is required' }]}
+                          name={[field.name, 'identityId']}
+                          fieldKey={[field.fieldKey, 'identityId']}
+                          rules={[
+                            { required: true, message: '请输入身份证' },
+                            {
+                              pattern: /^(\d{18,18}|\d{15,15}|\d{17,17}X)$/,
+                              message: '身份证信息不正确',
+                            },
+                          ]}
+                          initialValue={certId}
                         >
                           <Input
                             style={{ width: '60%' }}
@@ -185,7 +235,7 @@ const Order = () => {
             <TitleCon title="退订规则" />
             <Paragraph>未入住/提前离店，收取剩余房费的100%</Paragraph>
             <Title level={3}>
-              待支付金额：<Text className={style.rent}>¥1750</Text>
+              待支付金额：<Text className={style.rent}>¥ {payMoney}</Text>
             </Title>
             <Divider />
             {/* 支付方式 */}
@@ -305,4 +355,6 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(Order);

@@ -3,9 +3,8 @@ import { Input, Button, Typography, Modal, Form } from 'antd';
 import { Link, history, connect } from 'umi';
 import { SearchOutlined } from '@ant-design/icons';
 import logUrl from '@/assets/images/yzl_logo.png';
+import { findPropertyByItems } from '@/services/property';
 import style from './style.less';
-import { values } from 'lodash';
-import FormItem from 'antd/lib/form/FormItem';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -13,7 +12,7 @@ const { confirm } = Modal;
 
 const hotSearchList = ['民治', '大剧院', '坪山', '会展中心', '固戍', '老街', '田贝'];
 
-const SearchBar = ({ currentUser, handle }) => {
+const SearchBar = ({ currentUser, handle, setConList }) => {
   const { role, userName } = currentUser;
 
   const showModal = (roles) => {
@@ -35,12 +34,15 @@ const SearchBar = ({ currentUser, handle }) => {
     });
   };
 
-  const handleSearch = (values) => {
+  const handleSearch = async (values) => {
     handle(true);
-  };
-
-  const handleQuery = (value) => {
-    handle(true);
+    const resp = await findPropertyByItems({ position: values });
+    setTimeout(() => {
+      if (resp && resp.data) {
+        setConList(resp.data);
+        handle(false);
+      }
+    }, 500);
   };
 
   return (
@@ -68,7 +70,7 @@ const SearchBar = ({ currentUser, handle }) => {
             <li>热门搜索：</li>
             {hotSearchList.map((item) => (
               <li key={item}>
-                <a onClick={() => handleQuery(FormItem)}>{item}</a>
+                <a onClick={() => handleSearch(item)}>{item}</a>
               </li>
             ))}
           </ul>

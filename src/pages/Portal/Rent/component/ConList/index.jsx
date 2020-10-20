@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Pagination, Button, Typography, Tag, Card } from 'antd';
+import { Tabs, Pagination, Empty, Typography, Tag, Card } from 'antd';
 import { PageLoading } from '@ant-design/pro-layout';
 import { ReloadOutlined } from '@ant-design/icons';
 import hotroom1 from '@/assets/images/hotroom1.jpg';
 import hotroom2 from '@/assets/images/hotroom2.jpg';
-import { getProperty, findPropertyByItems } from '@/services/property';
+import { findPropertyByItems } from '@/services/property';
 import moment from 'moment';
 import style from './style.less';
 
@@ -12,9 +12,7 @@ const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 const TagColor = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 
-const ConList = ({ visible }) => {
-  // const [visible, setVisible] = useState(false);
-  const [propertyArr, setProperty] = useState([]);
+const ConList = ({ visible, list }) => {
   const [key, setKey] = useState('1');
   // 点击跳转至房源详情页
   const handleClick = (houseId) => {
@@ -22,8 +20,10 @@ const ConList = ({ visible }) => {
     w.location.href = `/srp/detail?houseId=${houseId}`;
   };
 
+  // 房屋展示组件
   const HouseList = ({ data }) => {
-    const { method, position, size, specify, updateTime, price, houseId, picUrl, btnList } = data;
+    const { method, position, size, specify, updateTime, price, houseId, picUrl } = data;
+    const btnList = ['拎包入住', '近地铁'];
     return (
       <Card
         hoverable
@@ -42,7 +42,7 @@ const ConList = ({ visible }) => {
           <Paragraph>
             {btnList.map((item, index) => {
               return (
-                <Tag key={index} color={TagColor[index]}>
+                <Tag key={item} color={TagColor[index]}>
                   {item}
                 </Tag>
               );
@@ -57,26 +57,12 @@ const ConList = ({ visible }) => {
     );
   };
   // 房源信息列表
-  const house_list = propertyArr.map((item, index) => <HouseList key={index} data={item} />);
-
-  useEffect(() => {
-    getHouse();
-  }, []);
-
-  const getHouse = async () => {
-    const resp = await getProperty();
-    if (resp.msg === 'SUCCESS') {
-      resp.data.map((item) => {
-        item.btnList = ['拎包入住', '近地铁'];
-      });
-      setProperty(resp.data.concat()); // 合并mock数据
-    }
-  };
+  const house_list = list.map((item, index) => <HouseList key={index} data={item} />);
 
   return (
     <>
       <div className={style.show_result}>
-        已为您找到 <span>{propertyArr.length}</span> 套深圳房租
+        已为您找到 <span>{list.length}</span> 套深圳房租
       </div>
       <div className={style.list_contain}>
         <div className={style.list_check}>
@@ -95,7 +81,9 @@ const ConList = ({ visible }) => {
             ) : (
               <>
                 {house_list}
-                <Pagination total={propertyArr.length} size={10} className={style.pagination} />
+                {list.length ? (
+                  <Pagination total={list.length} size={10} className={style.pagination} />
+                ) : <Empty description="暂无房源"  />}
               </>
             )}
           </div>

@@ -38,8 +38,17 @@
   }
   .con .house_list {
     width: 800px;
-    min-height: 500px;
+    min-height: 800px;
     float: left;
+    position: relative;
+    :global {
+      .ant-empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
   .list_card {
     margin-bottom: 20px;

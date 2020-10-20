@@ -1,8 +1,9 @@
 import request from '@/utils/request';
+import qs from 'qs';
 
 // 条件查询房源信息
-export async function findPropertyByItems() {
-  return request('/back/houseManage/choice')
+export async function findPropertyByItems(data) {
+  return request(`/back/houseManage/choice?${qs.stringify(data)}`);
 }
 
 // 添加房源

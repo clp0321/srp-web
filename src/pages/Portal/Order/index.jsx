@@ -123,6 +123,7 @@ const Order = () => {
 
             <Form.List name="list">
               {(fields, { add, remove }) => {
+                console.log(fields)
                 return (
                   <>
                     {fields.map((field) => (

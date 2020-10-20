@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Input, Typography } from 'antd';
 import { findPropertyByItems } from '@/services/property';
 import style from './style.less';
+import component from '@/locales/zh-TW/component';
 
 const { Text } = Typography;
 
@@ -9,6 +11,11 @@ const mockLi = ['宝安', '南山', '龙华', '福田', '龙岗'];
 
 // 价格
 const priceList = [
+  {
+    value: '不限',
+    min: '',
+    high: '',
+  },
   {
     value: '1500元以下',
     min: 0,
@@ -44,29 +51,38 @@ const priceList = [
 // 户型
 const typeList = [
   {
+    value: '不限',
+    search: '',
+  },
+  {
     value: '一居室',
-    search: '1室',
+    search: '一',
   },
   {
     value: '二居室',
-    search: '2室',
+    search: '二',
   },
   {
     value: '三居室',
-    search: '3室',
+    search: '三',
   },
   {
     value: '四居室',
-    search: '4室',
+    search: '四',
   },
   {
-    value: '五居室',
-    search: '5室',
-  },
+    value: '五居及以上',
+    search: '五',
+  }
 ];
 
 // 面积
 const sizeList = [
+  {
+    value: '不限',
+    min: '',
+    high: '',
+  },
   {
     value: '50m²以下',
     min: 0,
@@ -95,33 +111,52 @@ const sizeList = [
 ];
 
 const SearchMultiple = ({ handle, setConList }) => {
+  const [selectOpt, setSelectedOpt] = useState({
+    position: '',
+    lowPrice: 0,
+    highPrice: 1500,
+    specify: '一',
+    lowSize: 0,
+    highSize: 50,
+    posIndex: 0,
+    priceIndex: 0,
+    specifyIndex: 0,
+    sizeIndex: 0,
+  });
   // 多条件查询
-  const handleQuery = async (item, opt) => {
+  const handleQuery = async (item, opt, index) => {
     let options;
+    // let posIndex, priceIndex, specifyIndex, sizeIndex;
     switch (opt) {
       case 1:
         options = { position: item };
+        selectOpt.posIndex = index;
         break;
       case 2:
         options = { lowPrice: item.min, highPrice: item.high };
+        selectOpt.priceIndex = index;
         break;
       case 3:
-        options = { specify: item };
+        options = { specify: item.search };
+        selectOpt.specifyIndex = index;
         break;
       case 4:
-        options = { lowSize: item.min, highPrice: item.max };
+        options = { lowSize: item.min, highSize: item.max };
+        selectOpt.sizeIndex = index;
         break;
       default:
         options = {};
     }
+    const newData = { ...selectOpt, ...options };
     handle(true);
-    const resp = await findPropertyByItems({ ...options });
+    const resp = await findPropertyByItems({ ...newData });
     setTimeout(() => {
       if (resp && resp.data) {
         setConList(resp.data);
         handle(false);
       }
     }, 500);
+    setSelectedOpt(newData);
   };
 
   return (
@@ -145,14 +180,19 @@ const SearchMultiple = ({ handle, setConList }) => {
           <div className={style.select_all}>
             {/* 区信息 */}
             <ul className={style.select_ul}>
-              <li>
-                <a>全部</a>
-              </li>
-              {mockLi.map((item) => (
-                <li key={item}>
-                  <a onClick={() => handleQuery(item, 1)}>{item}</a>
-                </li>
-              ))}
+              {mockLi.map((item, index) => {
+                item = index === 0 ? '' : item;
+                return (
+                  <li key={item}>
+                    <a
+                      onClick={() => handleQuery(item, 1, index)}
+                      className={index === selectOpt.posIndex ? style.selected : null}
+                    >
+                      {index === 0 ? '全部' : item}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div className={style.options}>
@@ -161,10 +201,15 @@ const SearchMultiple = ({ handle, setConList }) => {
               <li>
                 <Text strong>租金：</Text>
               </li>
-              {priceList.map((item) => {
+              {priceList.map((item, index) => {
                 return (
                   <li key={item.value}>
-                    <a onClick={() => handleQuery(item, 2)}>{item.value}</a>
+                    <a
+                      onClick={() => handleQuery(item, 2, index)}
+                      className={index === selectOpt.priceIndex ? style.selected : null}
+                    >
+                      {item.value}
+                    </a>
                   </li>
                 );
               })}
@@ -178,9 +223,14 @@ const SearchMultiple = ({ handle, setConList }) => {
               <li>
                 <Text strong>户型：</Text>
               </li>
-              {typeList.map((item) => (
-                <li key={item.value}>
-                  <a onClick={() => handleQuery(item.search, 3)}>{item.value}</a>
+              {typeList.map((item, index) => (
+                <li key={item}>
+                  <a
+                    onClick={() => handleQuery(item, 3, index)}
+                    className={index === selectOpt.specifyIndex ? style.selected : null}
+                  >
+                    {item.value}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -190,9 +240,14 @@ const SearchMultiple = ({ handle, setConList }) => {
               <li>
                 <Text strong>面积：</Text>
               </li>
-              {sizeList.map((item) => (
+              {sizeList.map((item, index) => (
                 <li key={item.value}>
-                  <a onClick={() => handleQuery(item, 4)}>{item.value}</a>
+                  <a
+                    onClick={() => handleQuery(item, 4, index)}
+                    className={index === selectOpt.sizeIndex ? style.selected : null}
+                  >
+                    {item.value}
+                  </a>
                 </li>
               ))}
             </ul>

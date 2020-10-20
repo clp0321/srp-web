@@ -24,10 +24,11 @@
   .payway {
     border: 1px solid rgb(24, 144, 255);
   }
-  .pay_btn {
-    width: 200px;
-    margin: 20px auto;
-    display: block;
+  .btn_list {
+    text-align: center;
+    & button:first-child {
+      margin-right: 10px;
+    }
   }
   .pay_name {
     width: 80px;
@@ -98,4 +99,28 @@
       margin: -3px 10px 0 0;
     }
   }
+}
+
+.paycon {
+  position: relative;
+  & p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  & p:nth-child(2) {
+    font-size: 18px;
+    float: right;
+  }
+  & p:last-child {
+    font-size: 18px;
+  }
+  .toPay {
+    margin: 20px 0;
+    font-size: 18px;
+  }
+}
+.pay {
+  font-size: 30px;
+  color: rgb(24, 144, 255);
+  font-weight: bold;
 }

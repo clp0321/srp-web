@@ -131,6 +131,7 @@ class Release extends React.Component {
         houseOwner: publisher,
         certNum: 1,
         description,
+        userId: localStorage.getItem('id')
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');

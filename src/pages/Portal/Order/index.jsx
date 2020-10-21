@@ -11,18 +11,19 @@ import {
   Button,
   Input,
   Space,
-  Radio,
   Divider,
   Modal,
   Descriptions,
   Badge,
   Tooltip,
+  message,
 } from 'antd';
 import { connect } from 'umi';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getHouseDetail } from '@/services/property';
-import zhifubao from '@/assets/introduce/zhifubao.png';
-import wechat from '@/assets/introduce/wechat.png';
+import { pushOrder } from '@/services/order';
+import PayWrapper from './component/PayWrapper';
+
 import trace_house from '@/assets/introduce/trace-house.png';
 
 import style from './style.less';
@@ -42,8 +43,6 @@ const TitleCon = ({ title }) => {
 };
 
 const Order = ({ currentUser }) => {
-  const [curKey, setKey] = useState(0);
-  const [payAbeld, setPayAbeld] = useState(true);
   const [modalVisible, setVisible] = useState(false);
   const [way, setWay] = useState(1);
   const [price, setPrice] = useState(0);
@@ -53,13 +52,77 @@ const Order = ({ currentUser }) => {
   const [visible, setPayVisible] = useState(true);
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(10);
+  const [lessor, setLessor] = useState('');
+  const [orderCon, setOrder] = useState({
+    id: '',
+    position: '',
+    orderCode: '',
+    startTime: '',
+    endTime: '',
+    payMoney: '',
+  });
 
   const { userName, phone, certId, id } = currentUser;
 
   const handlePay = (values) => {
     // todo 调用订单提交接口
     const { contactPersonList, numbers, time, type } = values;
-    setPayVisible(false);
+    if (!id || !lessor) {
+      message.error('订单提交失败');
+      return;
+    }
+    if (!contactPersonList) {
+      message.warning('请填写入住人信息');
+      return;
+    }
+    pushOrder({
+      lesseeId: id,
+      agencyId: '',
+      lessorId: lessor,
+      startTime: time[0],
+      endTime: time[1],
+      type, // 租赁方式：1 日租 2 月租
+      numbers,
+      rent: payMoney,
+      contactPersonList, // 入住人信息
+      orderStatus: 0,
+    })
+      .then(({ data }) => {
+        if (data) {
+          const { startTime, endTime, orderCode, rent, id } = data;
+          setOrder({ ...orderCon, startTime, endTime, orderCode, id, payMoney: rent });
+          setPayVisible(false);
+          timeWork();
+        } else {
+          message.error('订单提交失败');
+        }
+      })
+      .catch((err) => {
+        console.log('pushOrder-error', err.toString());
+      });
+  };
+
+  useEffect(() => {
+    const house_id = location.search.split('=')[1];
+    getHouseDetail(house_id).then((values) => {
+      if (values && values.data) {
+        const { price, userId, position } = values.data;
+        setLessor(userId);
+        setPrice(price);
+        const data = { ...orderCon, position };
+        setOrder(data);
+        const val = Math.floor(values.data.price / 30); // 默认 每天房租
+        form.setFields([{ name: ['rent'], value: val }]);
+      }
+    });
+  }, []);
+
+  const showTrace = () => {
+    setVisible(true);
+  };
+
+  // 开启定时任务
+  const timeWork = () => {
     let minute = 10; // 10分结束
     let second = 59; // 60 秒倒计时
     let interval = window.setInterval(() => {
@@ -83,31 +146,6 @@ const Order = ({ currentUser }) => {
         return second - 1 < 9 ? `0${second}` : second;
       });
     }, 1000);
-    // pushOrder({
-    //   lesseeId: '', // 出租人
-    //   lessorId: '',
-    //   startTime: time[0],
-    //   endTime: time[1],
-    //   type, // 租赁方式：1 日租 2 月租
-    //   numbers, // 入住人数
-    //   rent, // 租金
-    //   contactPersonList, // 入住人信息
-    // });
-  };
-
-  useEffect(() => {
-    const house_id = location.search.split('=')[1];
-    getHouseDetail(house_id).then((values) => {
-      if (values && values.data) {
-        setPrice(values.data.price);
-        const val = Math.floor(values.data.price / 30); // 默认 每天房租
-        form.setFields([{ name: ['rent'], value: val }]);
-      }
-    });
-  }, []);
-
-  const showTrace = () => {
-    setVisible(true);
   };
 
   // 切换方式
@@ -145,7 +183,7 @@ const Order = ({ currentUser }) => {
                 <Item
                   label="租赁方式"
                   name="type"
-                  required={{ required: true, message: '选择租赁方式' }}
+                  rules={[{ required: true, message: '选择租赁方式' }]}
                 >
                   <Select placeholder="选择租赁方式" style={{ width: 200 }} onChange={handleSelect}>
                     <Option value={1}>日租</Option>
@@ -155,7 +193,7 @@ const Order = ({ currentUser }) => {
                 <Item
                   label="入住时间"
                   name="time"
-                  rules={[{ required: true, message: '选择入住时间' }]}
+                  rules={[{ required: true, message: '请补充完整入住的起始和截至时间' }]}
                 >
                   <RangePicker onChange={handleDateChange} />
                 </Item>
@@ -173,7 +211,7 @@ const Order = ({ currentUser }) => {
               <Item
                 label="入住人数"
                 name="numbers"
-                required={{ required: true, message: '选择入住人数' }}
+                rules={[{ required: true, message: '选择入住人数' }]}
               >
                 <Select style={{ width: 200 }} placeholder="选择入住人数">
                   <Option value={1}>1人</Option>
@@ -203,7 +241,7 @@ const Order = ({ currentUser }) => {
                             name={[field.name, 'contactName']}
                             fieldKey={[field.fieldKey, 'contactName']}
                             rules={[{ required: true, message: '请输入联系人' }]}
-                            initialValue={userName}
+                            initialValue={field.fieldKey === 0 ? userName : ''}
                           >
                             <Input placeholder="输入联系人" />
                           </Item>
@@ -212,8 +250,14 @@ const Order = ({ currentUser }) => {
                             label="联系号码"
                             name={[field.name, 'cellPhoneNumber']}
                             fieldKey={[field.fieldKey, 'cellPhoneNumber']}
-                            rules={[{ required: true, message: '请输入联系号码' }]}
-                            initialValue={phone}
+                            rules={[
+                              { required: true, message: '请输入联系号码' },
+                              {
+                                pattern: /^1\d{10}$/,
+                                message: '联系方式不正确',
+                              },
+                            ]}
+                            initialValue={field.fieldKey === 0 ? phone : ''}
                           >
                             <Input placeholder="输入联系号码" />
                           </Item>
@@ -229,7 +273,7 @@ const Order = ({ currentUser }) => {
                                 message: '身份证信息不正确',
                               },
                             ]}
-                            initialValue={certId}
+                            initialValue={field.fieldKey === 0 ? certId : ''}
                           >
                             <Input
                               style={{ width: '60%' }}
@@ -303,78 +347,7 @@ const Order = ({ currentUser }) => {
           </Col>
         </Row>
       ) : (
-        <>
-          {/* 支付订单 */}
-          <Card hoverable>
-            <div className={style.paycon}>
-              <p>钟鼓楼/回民街</p>
-              <p>
-                支付剩余时间 <span>{minutes}</span> 分 <span>{seconds}</span> 秒
-              </p>
-              <p>10月20日-10月21日</p>
-            </div>
-          </Card>
-          <Card style={{ marginTop: 20 }} title={<Text strong>订单信息</Text>} hoverable>
-            <p className={style.toPay}>
-              待支付金额：<Text className={style.pay}>¥ {payMoney}</Text>
-            </p>
-            <div>
-              <p>选择支付方式</p>
-              <div
-                className={[curKey === 1 ? style.payway : '', style.pay].join(' ')}
-                onClick={() => {
-                  setKey(1);
-                  setPayAbeld(false);
-                }}
-              >
-                <Radio.Group value={curKey}>
-                  <Radio value={1}>
-                    <Text className={style.pay_name}>
-                      <img src={zhifubao} />
-                      支付宝
-                    </Text>
-                    <Text disabled className={style.pay_desc}>
-                      安全支付，推荐使用
-                    </Text>
-                  </Radio>
-                </Radio.Group>
-              </div>
-              <div
-                className={[curKey === 2 ? style.payway : '', style.pay].join(' ')}
-                onClick={() => {
-                  setKey(2);
-                  setPayAbeld(false);
-                }}
-              >
-                <Radio.Group value={curKey}>
-                  <Radio value={2}>
-                    <Text className={style.pay_name}>
-                      <img src={wechat} />
-                      微信
-                    </Text>
-                    <Text disabled className={style.pay_desc}>
-                      微信安全支付
-                    </Text>
-                  </Radio>
-                </Radio.Group>
-              </div>
-              <div className={style.btn_list}>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={handlePay}
-                  htmlType="submit"
-                  disabled={payAbeld}
-                >
-                  确认支付 ¥1750元
-                </Button>
-                <Button type="danger" size="large">
-                  取消订单
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </>
+        <PayWrapper minutes={minutes} seconds={seconds} orderCon={orderCon} />
       )}
       {/* 房源溯源信息 */}
       <Modal

@@ -2,14 +2,14 @@ import request from '@/utils/request';
 
 // 提交订单
 export const pushOrder = function (data) {
-  return request.post('/back/order', {
+  return request.post('/back/order/', {
     data,
   });
 };
 
 // 取消订单
 export const cancelOrder = function (id) {
-  return request.delete(`/back/order?id=${id}`);
+  return request.delete(`/back/order/${id}`);
 };
 
 // 付款

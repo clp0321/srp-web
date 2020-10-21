@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input, Typography } from 'antd';
 import { findPropertyByItems } from '@/services/property';
 import style from './style.less';
@@ -73,7 +73,7 @@ const typeList = [
   {
     value: '五居及以上',
     search: '五',
-  }
+  },
 ];
 
 // 面积
@@ -110,19 +110,7 @@ const sizeList = [
   },
 ];
 
-const SearchMultiple = ({ handle, setConList }) => {
-  const [selectOpt, setSelectedOpt] = useState({
-    position: '',
-    lowPrice: 0,
-    highPrice: 1500,
-    specify: '一',
-    lowSize: 0,
-    highSize: 50,
-    posIndex: 0,
-    priceIndex: 0,
-    specifyIndex: 0,
-    sizeIndex: 0,
-  });
+const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt }) => {
   // 多条件查询
   const handleQuery = async (item, opt, index) => {
     let options;
@@ -224,7 +212,7 @@ const SearchMultiple = ({ handle, setConList }) => {
                 <Text strong>户型：</Text>
               </li>
               {typeList.map((item, index) => (
-                <li key={item}>
+                <li key={item.value}>
                   <a
                     onClick={() => handleQuery(item, 3, index)}
                     className={index === selectOpt.specifyIndex ? style.selected : null}

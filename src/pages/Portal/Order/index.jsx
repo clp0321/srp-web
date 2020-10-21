@@ -51,8 +51,8 @@ const Order = ({ currentUser }) => {
   const [payMoney, setPay] = useState(0);
   const [form] = Form.useForm();
   const [visible, setPayVisible] = useState(true);
-  const [seconds, setSeconds] = useState(5);
-  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(59);
+  const [minutes, setMinutes] = useState(10);
 
   const { userName, phone, certId, id } = currentUser;
 
@@ -60,21 +60,27 @@ const Order = ({ currentUser }) => {
     // todo 调用订单提交接口
     const { contactPersonList, numbers, time, type } = values;
     setPayVisible(false);
-    let minute = 1;
+    let minute = 10; // 10分结束
+    let second = 59; // 60 秒倒计时
     let interval = window.setInterval(() => {
-      if (minute < 0) {
-        clearInterval(interval);
-        return;
-      }
-      setSeconds((seconds) => {
-        if (seconds <= 1) {
-          setSeconds(5);
-          --minute;
-          setMinutes((minutes) => {
-            return minutes - 1;
-          });
+      setSeconds(() => {
+        if (minute === 0 && second === 1) {
+          setSeconds(0);
+          clearInterval(interval);
+          minute = null; // 清空闭包
+          second = null;
+          // 时间到达未支付订单
+          return;
         }
-        return seconds - 1;
+        if (second <= 0) {
+          setSeconds(59);
+          second = 59;
+          --minute;
+          setMinutes((minutes) => minutes - 1);
+        } else {
+          second--;
+        }
+        return second - 1 < 9 ? `0${second}` : second;
       });
     }, 1000);
     // pushOrder({
@@ -303,7 +309,7 @@ const Order = ({ currentUser }) => {
             <div className={style.paycon}>
               <p>钟鼓楼/回民街</p>
               <p>
-                支付剩余时间 {minutes} 分 {seconds} 秒
+                支付剩余时间 <span>{minutes}</span> 分 <span>{seconds}</span> 秒
               </p>
               <p>10月20日-10月21日</p>
             </div>

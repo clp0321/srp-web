@@ -11,8 +11,10 @@ import {
   Form,
   Row,
   Col,
+  Cascader,
 } from 'antd';
 import UploadComponent from '@/components/Upload';
+import position from '../doc/position';
 import style from '../style.less';
 
 const { Item } = Form;
@@ -75,14 +77,28 @@ const BaseInfo = () => {
       sm: { span: 17 },
     },
   };
+  const handlePositionChange = (value) => {
+  };
   return (
     <>
       <TitleCon title="基础信息" />
+      <Item
+        name="location"
+        label="所在位置"
+        rules={[
+          {
+            required: true,
+            message: '请选择所在位置',
+          },
+        ]}
+      >
+        <Cascader options={position} onChange={handlePositionChange} placeholder="选择所在位置" style={{ width: 400 }} />
+      </Item>
       <Row>
         <Col>
           <Item
             name="position"
-            label="所在区域"
+            label="详细区域"
             {...baseLayout}
             rules={[
               {

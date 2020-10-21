@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Input, Typography } from 'antd';
 import { findPropertyByItems } from '@/services/property';
 import style from './style.less';
-import component from '@/locales/zh-TW/component';
 
 const { Text } = Typography;
 
@@ -110,11 +109,10 @@ const sizeList = [
   },
 ];
 
-const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt }) => {
+const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt, curTab }) => {
   // 多条件查询
   const handleQuery = async (item, opt, index) => {
     let options;
-    // let posIndex, priceIndex, specifyIndex, sizeIndex;
     switch (opt) {
       case 1:
         options = { position: item };
@@ -135,7 +133,8 @@ const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt }) => {
       default:
         options = {};
     }
-    const newData = { ...selectOpt, ...options };
+    const order = curTab === 'default' ? "''" : curTab;
+    const newData = { ...selectOpt, ...options, order };
     handle(true);
     const resp = await findPropertyByItems({ ...newData });
     setTimeout(() => {

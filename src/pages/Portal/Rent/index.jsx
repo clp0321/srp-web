@@ -7,11 +7,11 @@ import { Search, SearchMultiple, ConList } from './component';
 // 默认属性值
 const defaultProps = {
   position: '',
-  lowPrice: 0,
-  highPrice: 1500,
-  specify: '一',
-  lowSize: 0,
-  highSize: 50,
+  lowPrice: '',
+  highPrice: '',
+  specify: '',
+  lowSize: '',
+  highSize: '',
   posIndex: 0,
   priceIndex: 0,
   specifyIndex: 0,
@@ -25,13 +25,14 @@ class Rent extends Component {
       visible: false,
       constList: [],
       fresh: false,
+      tab: 'default', // tab页
       selectOpt: {
         position: '',
-        lowPrice: 0,
-        highPrice: 1500,
-        specify: '一',
-        lowSize: 0,
-        highSize: 50,
+        lowPrice: '',
+        highPrice: '',
+        specify: '',
+        lowSize: '',
+        highSize: '',
         posIndex: 0,
         priceIndex: 0,
         specifyIndex: 0,
@@ -55,6 +56,13 @@ class Rent extends Component {
     }
   };
 
+  // 切换tab页
+  handleChangeTab = (val) => {
+    this.setState({
+      tab: val,
+    });
+  };
+
   // 显示loading状态
   handleVisible = (visible) => {
     this.setState({
@@ -72,7 +80,7 @@ class Rent extends Component {
   // 设置重新刷新
   setRefresh = () => {
     this.setState({
-      selectOpt: defaultProps,
+      selectOpt: Object.assign({}, defaultProps),
     });
   };
 
@@ -84,7 +92,7 @@ class Rent extends Component {
   };
 
   render() {
-    const { visible, constList, selectOpt } = this.state;
+    const { visible, constList, selectOpt, tab } = this.state;
     return (
       <div className={style.contain}>
         {/* 内容索引 */}
@@ -92,6 +100,7 @@ class Rent extends Component {
           handle={this.handleVisible}
           setConList={this.setConList}
           setRefresh={this.setRefresh}
+          curTab={tab}
         />
         {/* 条件搜搜 */}
         <SearchMultiple
@@ -99,9 +108,18 @@ class Rent extends Component {
           setConList={this.setConList}
           selectOpt={selectOpt}
           setSelectedOpt={this.handleSelect}
+          curTab={tab}
         />
         {/* 内容选择 */}
-        <ConList handle={this.handleVisible} visible={visible} list={constList} />
+        <ConList
+          handle={this.handleVisible}
+          setConList={this.setConList}
+          selectOpt={selectOpt}
+          visible={visible}
+          list={constList}
+          changeTab={this.handleChangeTab}
+          curTab={tab}
+        />
         {/* 页面底部 */}
       </div>
     );

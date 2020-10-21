@@ -12,12 +12,26 @@ const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 const TagColor = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 
-const ConList = ({ visible, list }) => {
-  const [key, setKey] = useState('1');
+const ConList = ({ visible, list, changeTab, curTab, selectOpt, handle, setConList }) => {
   // 点击跳转至房源详情页
   const handleClick = (houseId) => {
     const w = window.open('about:blank');
     w.location.href = `/srp/detail?houseId=${houseId}`;
+  };
+
+  // tab切换触发请求事件
+  const handleTabChange = async (value) => {
+    const order = value === 'default' ? "''" : value;
+    const newData = { ...selectOpt, order };
+    handle(true);
+    const resp = await findPropertyByItems({ ...newData });
+    setTimeout(() => {
+      if (resp && resp.data) {
+        setConList(resp.data);
+        handle(false);
+      }
+    }, 500);
+    changeTab(value);
   };
 
   // 房屋展示组件
@@ -66,11 +80,11 @@ const ConList = ({ visible, list }) => {
       </div>
       <div className={style.list_contain}>
         <div className={style.list_check}>
-          <Tabs defaultActiveKey={key} onChange={(val) => setKey(val)}>
-            <TabPane tab="默认排序" key="1"></TabPane>
-            <TabPane tab="房屋租金" key="2"></TabPane>
-            <TabPane tab="房屋面积" key="3"></TabPane>
-            <TabPane tab="上架时间" key="4"></TabPane>
+          <Tabs defaultActiveKey={curTab} onChange={handleTabChange}>
+            <TabPane tab="默认排序" key="default"></TabPane>
+            <TabPane tab="房屋租金" key="price"></TabPane>
+            <TabPane tab="房屋面积" key="size"></TabPane>
+            <TabPane tab="上架时间" key="update_time"></TabPane>
           </Tabs>
         </div>
         <div className={[style.con, style.clearfix].join(' ')}>
@@ -83,7 +97,9 @@ const ConList = ({ visible, list }) => {
                 {house_list}
                 {list.length ? (
                   <Pagination total={list.length} size={10} className={style.pagination} />
-                ) : <Empty description="暂无房源"  />}
+                ) : (
+                  <Empty description="暂无房源" />
+                )}
               </>
             )}
           </div>

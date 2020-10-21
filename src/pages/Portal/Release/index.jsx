@@ -104,6 +104,7 @@ class Release extends React.Component {
         return;
       }
       const {
+        location,
         method,
         price,
         phone,
@@ -118,6 +119,9 @@ class Release extends React.Component {
         description,
       } = values; // 房源 + 房产
       const resp = await addProperty({
+        province: location[0],
+        city: location[1],
+        country: location[2],
         method,
         price,
         phone,
@@ -131,7 +135,7 @@ class Release extends React.Component {
         houseOwner: publisher,
         certNum: 1,
         description,
-        userId: localStorage.getItem('id')
+        userId: localStorage.getItem('id'),
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');

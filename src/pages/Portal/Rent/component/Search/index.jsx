@@ -12,7 +12,7 @@ const { confirm } = Modal;
 
 const hotSearchList = ['民治', '大剧院', '坪山', '会展中心', '固戍', '老街', '田贝'];
 
-const SearchBar = ({ currentUser, handle, setConList, setRefresh }) => {
+const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
   const { role, userName } = currentUser;
 
   const showModal = (roles) => {
@@ -36,12 +36,13 @@ const SearchBar = ({ currentUser, handle, setConList, setRefresh }) => {
 
   const handleSearch = async (values) => {
     handle(true);
-    setRefresh();
-    const resp = await findPropertyByItems({ position: values });
+    const order = curTab === 'default' ? '""' : curTab;
+    const resp = await findPropertyByItems({ position: values, order });
     setTimeout(() => {
       if (resp && resp.data) {
         setConList(resp.data);
         handle(false);
+        setRefresh();
       }
     }, 500);
   };

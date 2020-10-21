@@ -49,7 +49,7 @@ const Order = ({ currentUser }) => {
   const [totalTime, setTotalTime] = useState(0);
   const [payMoney, setPay] = useState(0);
   const [form] = Form.useForm();
-  const [visible, setPayVisible] = useState(true);
+  const [visible, setPayVisible] = useState(false);
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(10);
   const [lessor, setLessor] = useState('');
@@ -132,7 +132,6 @@ const Order = ({ currentUser }) => {
           clearInterval(interval);
           minute = null; // 清空闭包
           second = null;
-          // 时间到达未支付订单
           return;
         }
         if (second <= 0) {
@@ -312,7 +311,7 @@ const Order = ({ currentUser }) => {
                 待支付金额：<Text className={style.rent}>¥ {payMoney}</Text>
               </Title>
               <Divider />
-              <Button type="primary" size="large" className={style.pay_btn} htmlType="submit">
+              <Button  type="primary" size="large" className={style.pay_btn} htmlType="submit">
                 提交订单
               </Button>
             </Form>
@@ -347,7 +346,12 @@ const Order = ({ currentUser }) => {
           </Col>
         </Row>
       ) : (
-        <PayWrapper minutes={minutes} seconds={seconds} orderCon={orderCon} />
+        <PayWrapper
+          minutes={minutes}
+          seconds={seconds}
+          orderCon={orderCon}
+          cancel={setPayVisible}
+        />
       )}
       {/* 房源溯源信息 */}
       <Modal

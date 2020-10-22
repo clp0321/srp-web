@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Input, Typography } from 'antd';
+import { Input, Typography, Form, Button } from 'antd';
 import { findPropertyByItems } from '@/services/property';
 import style from './style.less';
 
@@ -110,6 +110,9 @@ const sizeList = [
 ];
 
 const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt, curTab }) => {
+  const [visible, setVisible] = useState(false);
+  const [input_arr, setInput] = useState(['', '']);
+
   // 多条件查询
   const handleQuery = async (item, opt, index) => {
     let options;
@@ -135,15 +138,65 @@ const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt, curTab 
     }
     const order = curTab === 'default' ? "''" : curTab;
     const newData = { ...selectOpt, ...options, order };
+    handleSearch(newData);
+  };
+
+  // 发起多条件查询
+  const handleSearch = async (data) => {
     handle(true);
-    const resp = await findPropertyByItems({ ...newData });
+    const resp = await findPropertyByItems({ ...data });
     setTimeout(() => {
       if (resp && resp.data) {
         setConList(resp.data);
         handle(false);
       }
     }, 500);
-    setSelectedOpt(newData);
+    setSelectedOpt(data);
+  };
+
+  // 更改input值
+  const handleInput = (e, opt) => {
+    e.persist(); // 保留原始合成事件
+    let data = e.target.value;
+    if (opt === 1) {
+      if (isNaN(data)) {
+        data = 0;
+      }
+      setInput((input) => {
+        input[0] = data;
+        return input;
+      });
+    } else if (opt === 2) {
+      if (isNaN(data)) {
+        data = 0;
+      }
+      setInput((input) => {
+        input[1] = data;
+        return input;
+      });
+    }
+  };
+
+  // 显示button
+  const showButton = () => {
+    setVisible(true);
+  };
+
+  // 隐藏button
+  const hideButton = () => {
+    setVisible(false);
+  };
+
+  // 查询金额
+  const handleFilter = async () => {
+    let options;
+    let [data1, data2] = input_arr;
+    options = { lowPrice: data1, highPrice: data2 };
+    selectOpt.priceIndex = 0;
+    const order = curTab === 'default' ? "''" : curTab;
+    const newData = { ...selectOpt, ...options, order };
+    handleSearch(newData);
+    hideButton();
   };
 
   return (
@@ -201,7 +254,29 @@ const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt, curTab 
                 );
               })}
               <li>
-                <Input className={style.rent_search} /> - <Input className={style.rent_search} /> 元
+                <Input
+                  className={style.rent_search}
+                  onFocus={showButton}
+                  onChange={(e) => handleInput(e, 1)}
+                  defaultValue={input_arr[0]}
+                />{' '}
+                -{' '}
+                <Input
+                  className={style.rent_search}
+                  onFocus={showButton}
+                  onChange={(e) => handleInput(e, 2)}
+                  defaultValue={input_arr[1]}
+                />
+                {visible ? (
+                  <Button
+                    className={style.filter_btn}
+                    size="small"
+                    type="primary"
+                    onClick={handleFilter}
+                  >
+                    价格筛选
+                  </Button>
+                ) : null}
               </li>
             </ul>
           </div>

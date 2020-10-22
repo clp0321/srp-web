@@ -77,8 +77,7 @@ const BaseInfo = () => {
       sm: { span: 17 },
     },
   };
-  const handlePositionChange = (value) => {
-  };
+  const handlePositionChange = (value) => {};
   return (
     <>
       <TitleCon title="基础信息" />
@@ -92,7 +91,12 @@ const BaseInfo = () => {
           },
         ]}
       >
-        <Cascader options={position} onChange={handlePositionChange} placeholder="选择所在位置" style={{ width: 400 }} />
+        <Cascader
+          options={position}
+          onChange={handlePositionChange}
+          placeholder="选择所在位置"
+          style={{ width: 400 }}
+        />
       </Item>
       <Row>
         <Col>
@@ -249,7 +253,7 @@ const Detail = ({
         <Item name="enterTime">
           <DatePicker className={style.margin} />
         </Item>
-        <Item name="fitPeople" rules={[{ required: true, message: '请输入室', ...numberRegex }]}>
+        <Item name="fitPeople" rules={[{ ...numberRegex }]}>
           <Input addonAfter="人" placeholder="宜住" className={style.margin} />
         </Item>
       </Item>

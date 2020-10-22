@@ -1,6 +1,7 @@
 import { Row, Col, message, Card, Alert, Timeline, Affix, Form } from 'antd';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
 import { addProperty } from '@/services/property';
+import Map from 'react-bmapgl/Map';
 import { SoundOutlined } from '@ant-design/icons';
 import style from './style.less';
 
@@ -49,6 +50,7 @@ const formItemLayout = {
 };
 
 class Release extends React.Component {
+  myGeo = null;
   formRef = React.createRef();
   constructor(props) {
     super(props);
@@ -69,6 +71,17 @@ class Release extends React.Component {
 
   componentDidMount() {
     document.title = '区块链共享租赁平台-房源发布';
+    this.initMap();
+  }
+
+  initMap = () => {
+    if (BMapGL) {
+      this.myGeo = new BMapGL.Geocoder({ extensions_town: true });
+    }
+  };
+
+  componentWillMount() {
+    this.map = null;
   }
 
   checkAllChange = (checked) => {
@@ -103,6 +116,12 @@ class Release extends React.Component {
         message.warning('请至少上传一张房源图片');
         return;
       }
+      const returnData = await this.getLngAndLat();
+      if (!returnData) {
+        message.warning('错误地址，无法正常解析经纬度');
+        return;
+      }
+      const { lng, lat } = returnData;
       const {
         location,
         method,
@@ -116,9 +135,16 @@ class Release extends React.Component {
         room,
         hall,
         guard,
+        watchTime, // 看房时间
+        configurate, // 房屋配置
+        enterTime, // 最早入住时间
+        fitPeople, // 宜住几人
+        contain, // 租金包括
         description,
       } = values; // 房源 + 房产
       const resp = await addProperty({
+        lng, // 经度
+        lat, // 纬度
         province: location[0],
         city: location[1],
         country: location[2],
@@ -147,6 +173,36 @@ class Release extends React.Component {
         message.error('房源发布失败');
       }
     });
+  };
+
+  // 获取经纬度值
+  getLngAndLat = () => {
+    let lng, lat;
+    const curForm = this.formRef.current;
+    if (this.myGeo) {
+      const location = curForm.getFieldValue('location');
+      const position = curForm.getFieldValue('position') || '';
+      const keyword = location.map((pre, cur) => pre + cur, '') + position;
+      return new Promise((resolve, reject) => {
+        this.myGeo.getPoint(
+          keyword,
+          (point) => {
+            if (point) {
+              lng = point.lng; // 经度
+              lat = point.lat; // 纬度
+              resolve({
+                lng,
+                lat,
+              });
+            } else {
+              reject('未获取经纬度');
+              message.error('未找到合适得经纬度');
+            }
+          },
+          '深圳市',
+        );
+      }).catch((err) => console.log(err));
+    }
   };
 
   handleReset = () => {

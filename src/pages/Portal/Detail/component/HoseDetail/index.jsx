@@ -150,9 +150,9 @@ const HouseDetail = ({ houseDetail }) => {
         deviceNum: '23',
       });
       if (resp.msg === 'SUCCESS') {
-        message.success('申请看房请求发送成功');
+        message.success('看房请求发送成功');
       } else {
-        message.error('申请看房请求发送失败');
+        message.error('看房请求发送失败');
       }
     });
     form.resetFields();
@@ -269,15 +269,14 @@ const HouseDetail = ({ houseDetail }) => {
       {/* 地理位置 */}
       <div className={style.lbs}>
         <Title level={4}>地理位置</Title>
-        <div>
-          <Map center={{ lng, lat }} zoom="11">
-            <Marker position={{ lng, lat }} />
-            <NavigationControl />
-            <InfoWindow position={{ lng, lat }} title={title}>
-              <Text>{text}</Text>
-            </InfoWindow>
-          </Map>
-        </div>
+        <Map center={{ lng, lat }} zoom="11">
+          <Marker position={{ lng, lat }} />
+          <NavigationControl />
+          <InfoWindow position={{ lng, lat }} title={title}>
+            <Text>{text}</Text>
+          </InfoWindow>
+        </Map>
+        
       </div>
       {/* 房屋描述 */}
       <div className={style.describe}>

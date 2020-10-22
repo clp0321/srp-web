@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Typography,
   Tag,
@@ -10,6 +10,7 @@ import {
   DatePicker,
   Input,
   message,
+  Space,
 } from 'antd';
 import { history } from 'umi';
 import { KeyOutlined, DollarOutlined } from '@ant-design/icons';
@@ -57,6 +58,7 @@ const TooltipList = ({ data }) => {
   );
 };
 
+// 设备状态
 const facilityMock = [
   {
     lock: true,
@@ -80,6 +82,7 @@ const facilityMock = [
   },
 ];
 
+// 基础设备
 const facilityNameMock = [
   '智能门锁',
   '床',
@@ -133,18 +136,8 @@ const HouseDetail = ({ houseDetail }) => {
   const { lng, lat, title, text } = lanLat;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
-  const [bookVisible, setBookVisible] = useState(false);
-  // useEffect(() => {
-  //   const house_id = location.search.split('=')[1];
-  //   getHouseDetail(house_id)
-  //     .then((value) => {
-  //       if (value.msg === 'SUCCESS') {
-  //         setHouseDetail(value.data);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  //   // 获取当前房源的详细内容
-  // }, []);
+
+  // 申请看房
   const handleApply = () => {
     form.validateFields().then(async (values) => {
       const { houseId } = houseDetail;
@@ -185,7 +178,6 @@ const HouseDetail = ({ houseDetail }) => {
     size,
     price,
     payway,
-    description,
   } = houseDetail;
   let pays;
   switch (payway) {
@@ -204,6 +196,8 @@ const HouseDetail = ({ houseDetail }) => {
     default:
       pays = '';
   }
+
+  // 设备加密
   let equipId = '';
   if (deviceId && deviceId.length > 0) {
     equipId = deviceId.replace(deviceId.substring(1, deviceId.length - 1), '***');
@@ -317,11 +311,11 @@ const HouseDetail = ({ houseDetail }) => {
             user_name: localStorage.getItem('name'),
           }}
         >
-          <Item label="房主" name="houser_name">
-            <Text strong>{houseOwner}</Text>
-          </Item>
-          <Item label="预约人" name="user_name">
-            <Text strong>{localStorage.getItem('name')}</Text>
+          <Item label="人员信息" className={style.people_detail}>
+            <Space size="large">
+              <Text strong>房主: {houseOwner}</Text>
+              <Text strong>申请人: {localStorage.getItem('name')}</Text>
+            </Space>
           </Item>
           <Item
             label="联系方式"

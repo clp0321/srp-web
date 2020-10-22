@@ -3,7 +3,6 @@ import { getProperty } from '@/services/property';
 import style from './style.less';
 
 import { Search, SearchMultiple, ConList } from './component';
-import { Input } from 'antd';
 
 // 默认属性值
 const defaultProps = {

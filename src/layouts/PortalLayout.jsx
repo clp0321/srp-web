@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, connect } from 'umi';
-import { Typography, Modal, message } from 'antd';
+import { Typography } from 'antd';
 import RentHome from '@/components/RentHome';
 import logUrl from '@/assets/images/yzl_logo.png';
 import trace from '@/assets/introduce/trace.png';
@@ -29,6 +29,8 @@ const WelcomeHeader = () => {
 
 const PortalLayout = (props) => {
   const { children, dispatch } = props;
+  
+  // 保存当前身份用户
   useEffect(() => {
     if (dispatch) {
       dispatch({
@@ -36,8 +38,10 @@ const PortalLayout = (props) => {
       });
     }
   });
-
-  let header = location.pathname === '/srp/welcome' ? <WelcomeHeader /> : <RentHome />;
+  
+  const path = location.pathname;
+ 
+  let header = path === '/srp/welcome' ? <WelcomeHeader /> : <RentHome pathname={path} />;
 
   return (
     <div className={style.layout_contain}>

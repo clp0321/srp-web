@@ -7,7 +7,7 @@ import search_home from '@/assets/introduce/search_home.png';
 import trace from '@/assets/introduce/trace.png';
 import style from './style.less';
 
-const RentHome = ({ currentUser }) => {
+const RentHome = ({ currentUser, pathname }) => {
   // 登入
   const handleLogin = () => {
     // 判断当前是否登入
@@ -32,7 +32,7 @@ const RentHome = ({ currentUser }) => {
       onCancel: () => {},
     });
   };
-  const path = location.pathname;
+
   return (
     <>
       <div className={style.header_l}>
@@ -43,22 +43,23 @@ const RentHome = ({ currentUser }) => {
           </h3>
         </div>
         <h3>
-          {path.includes('/blockmessage') ? (
+          {/* 信息溯源=>深圳租房 租房=>信息溯源 */}
+          {pathname.includes('/blockmessage') ? (
             <>
               <img src={search_home} />
               <Link to="/srp/rent">深圳租房</Link>
             </>
-          ) : path.includes('/release') ? (
+          ) : pathname.includes('/rent') ? (
             <>
-              <img src={search_home} />
-              <Link to="/srp/rent" style={{ marginRight: 10 }}>
-                深圳租房
-              </Link>
               <img src={trace} />
               <Link to="/srp/blockmessage">信息溯源</Link>
             </>
           ) : (
             <>
+              <img src={search_home} />
+              <Link to="/srp/rent" style={{ marginRight: 10 }}>
+                深圳租房
+              </Link>
               <img src={trace} />
               <Link to="/srp/blockmessage">信息溯源</Link>
             </>

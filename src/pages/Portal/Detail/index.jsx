@@ -4,19 +4,18 @@ import { getHouseDetail } from '@/services/property';
 import HouseDetail from './component/HoseDetail';
 import HouseTrace from './component/HouseTrace';
 import HouseComment from './component/HouseComment';
-import { LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
+import Carousel from '@/components/Carousel';
 import imgUrl1 from '@/assets/house/house1.jpg';
-import imgUrl2 from '@/assets/house/house2.jpg';
-import imgUrl3 from '@/assets/house/house3.jpg';
-import imgUrl4 from '@/assets/house/house4.jpg';
-
 import style from './style.less';
 
 const { TabPane } = Tabs;
 
 const Detail = () => {
   const [key, setKey] = useState('1');
-  const [maskVisible, showMask] = useState(false);
+  const [maskVisible, showMask] = useState(true);
+  const [curImg, changeImg] = useState(imgUrl1); // 当前图片
+  const [imgSize] = useState(4); // 图片总数
+  const [curIndex, changeIndex] = useState(1); // 当前图片位置
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',
@@ -46,44 +45,22 @@ const Detail = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const showImgList = () => {
-    showMask(true);
-  };
-  const { picUrl } = detail;
+ 
+  const handleMask = val => {
+    showMask(val)
+  }
+
+  const { picUrl } = detail; // 背景图片
+
   return (
+    // 图片详情
     <div className={style.contain}>
+      <Carousel maskVisible={maskVisible} handleMask={handleMask} />
       {/* 背景图  */}
-      <div className={style.mask}>
-        <div className={style.showImg}>
-          <img src={imgUrl1} />
-        </div>
-        <div className={style.img_contain}>
-          <p>1/4 卧室</p>
-          <div className={style.img_list}>
-            <ul>
-              <li>
-                <img src={imgUrl1} />
-              </li>
-              <li>
-                <img src={imgUrl2} />
-              </li>
-              <li>
-                <img src={imgUrl3} />
-              </li>
-              <li>
-                <img src={imgUrl4} />
-              </li>
-            </ul>
-          </div>
-        </div>
-        <LeftOutlined className={[style.row, style.left].join(' ')} />
-        <RightOutlined className={[style.row, style.right].join(' ')} />
-        <CloseOutlined className={style.close_label} />
-      </div>
       <div
         style={{ backgroundImage: `url(${picUrl})` }}
         className={style.carousel}
-        onClick={showImgList}
+        onClick={() => handleMask(true)}
       />
       <div className={style.top}>
         <Tabs defaultActiveKey={key} onChange={(val) => setKey(val)}>

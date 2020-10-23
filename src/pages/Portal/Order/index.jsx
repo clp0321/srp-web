@@ -49,7 +49,7 @@ const Order = ({ currentUser }) => {
   const [totalTime, setTotalTime] = useState(0);
   const [payMoney, setPay] = useState(0);
   const [form] = Form.useForm();
-  const [visible, setPayVisible] = useState(false);
+  const [visible, setPayVisible] = useState(true); // 页面状态
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(10);
   const [lessor, setLessor] = useState('');

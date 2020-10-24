@@ -186,6 +186,7 @@ const BaseInfo = () => {
     </>
   );
 };
+
 // rentInfo 租金信息
 const RentInfo = () => {
   return (

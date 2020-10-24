@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Upload, message, Modal } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
-const UploadComponent = ({ form, fileList, handleFile }) => {
+const UploadComponent = ({ form }) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [house_id, setHouse_id] = useState('');
+  const [files, setFiles] = useState([]);
   const handlePreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -21,14 +22,13 @@ const UploadComponent = ({ form, fileList, handleFile }) => {
   const data = {
     house_id,
     username: localStorage.getItem('name'),
-    files: fileList,
+    files,
   };
   const props = {
     action: '/back/housePic',
     method: 'post',
     multiple: true,
     data,
-    fileList,
     beforeUpload: (file) => {
       // 文件上传需绑定设备编号信息
       const newForm = form.current || form;
@@ -50,11 +50,13 @@ const UploadComponent = ({ form, fileList, handleFile }) => {
         message.error('图片必须小于1M!');
         return false;
       }
+      const newFile = files.slice();
+      newFile.push(file); // 添加新的文件对象
+      setFiles(newFile);
       setHouse_id(cur_id); // 更新当前house_id值
       return isJpgOrPng && isLt1M;
     },
     onChange: (info) => {
-      handleFile(info);
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 图片上传成功`);
       } else if (info.file.status === 'error') {

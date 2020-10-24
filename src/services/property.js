@@ -79,3 +79,13 @@ export async function getApply(user) {
 export async function getUserAccept(user) {
   return request(`/back/apply/userAccept?userName=${user}`);
 }
+
+// 根据房源id查询图片集合
+export async function getPicListById() {
+  return request()
+}
+
+// 删除特定图片
+export async function deletePicById() {
+  return request.delete();
+}

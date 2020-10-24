@@ -14,8 +14,8 @@ const last = mockPic[mockPic.length - 1];
 mockPic.unshift(last);
 mockPic.push(first);
 
-const PicList = () => {
-  return mockPic.map((item, index) => {
+const PicList = ({ list }) => {
+  return list.map((item, index) => {
     return <img src={item} key={`${item}${index}`} />;
   });
 };
@@ -23,22 +23,30 @@ const PicList = () => {
 export default class Carousel extends Component {
   static propTypes = {
     visible: PropTypes.bool,
+    picList: PropTypes.array,
   };
 
   static defaultProps = {
     visible: false,
+    picList: [],
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      picSize: mockPic.length - 2,
       curIndex: 1,
+      picList: [],
+      picSize: 0,
     };
   }
 
   componentDidMount() {
     // @todo 获取图片集
+    const { picList } = this.props;
+    this.setState({
+      picSize: picList.length,
+      picList,
+    });
   }
 
   // 前一个
@@ -84,7 +92,13 @@ export default class Carousel extends Component {
 
   render() {
     const { maskVisible } = this.props;
-    const { picSize, curIndex } = this.state;
+    const { picSize, curIndex, picList } = this.state;
+    const first = picList[0];
+    const last = picList[picList.length - 1];
+    picList.unshift(last);
+    picList.push(first);
+    const picArray = <PicList list={picList} />;
+
     return (
       <div className={[style.mask, maskVisible ? style.mask_show : style.mask_hide].join(' ')}>
         <div className={style.contain}>

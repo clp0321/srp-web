@@ -5,17 +5,15 @@ import HouseDetail from './component/HoseDetail';
 import HouseTrace from './component/HouseTrace';
 import HouseComment from './component/HouseComment';
 import Carousel from '@/components/Carousel';
-import imgUrl1 from '@/assets/house/house1.jpg';
+import { getPicListById } from '@/services/property';
 import style from './style.less';
 
 const { TabPane } = Tabs;
 
 const Detail = () => {
   const [key, setKey] = useState('1');
-  const [maskVisible, showMask] = useState(true);
-  const [curImg, changeImg] = useState(imgUrl1); // 当前图片
-  const [imgSize] = useState(4); // 图片总数
-  const [curIndex, changeIndex] = useState(1); // 当前图片位置
+  const [maskVisible, showMask] = useState(false);
+  const [picList, setPicList] = useState([]);
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',
@@ -36,6 +34,7 @@ const Detail = () => {
   useEffect(() => {
     document.title = '区块链共享租赁平台-房源详情';
     const house_id = location.search.split('=')[1];
+    // 查询房源详情
     getHouseDetail(house_id)
       .then((value) => {
         if (value.msg === 'SUCCESS') {
@@ -43,19 +42,25 @@ const Detail = () => {
         }
       })
       .catch((err) => console.log(err));
+    // 获取图片集
+    getPicListById(house_id)
+      .then((value) => {
+        setPicList(value)
+      })
+      .catch((err) => console.log(err));
   }, []);
 
- 
-  const handleMask = val => {
-    showMask(val)
-  }
+  const handleMask = (val) => {
+    // 查看图片集
+    showMask(val);
+  };
 
   const { picUrl } = detail; // 背景图片
 
   return (
     // 图片详情
     <div className={style.contain}>
-      <Carousel maskVisible={maskVisible} handleMask={handleMask} />
+      <Carousel maskVisible={maskVisible} handleMask={handleMask} picList={picList} />
       {/* 背景图  */}
       <div
         style={{ backgroundImage: `url(${picUrl})` }}

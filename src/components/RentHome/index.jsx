@@ -15,8 +15,7 @@ const RentHome = ({ currentUser, pathname }) => {
     if (!user) {
       message.warning('请先登入本系统');
     }
-    const w = window.open('about:blank');
-    w.location.href = '/';
+    window.open('/');
   };
 
   // 退出

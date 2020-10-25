@@ -15,8 +15,8 @@ const TagColor = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 const ConList = ({ visible, list, changeTab, curTab, selectOpt, handle, setConList }) => {
   // 点击跳转至房源详情页
   const handleClick = (houseId) => {
-    const w = window.open('about:blank');
-    w.location.href = `/srp/detail?houseId=${houseId}`;
+    // 跳转新得房屋详情页
+    window.open(`/srp/detail?houseId=${houseId}`);
   };
 
   // tab切换触发请求事件

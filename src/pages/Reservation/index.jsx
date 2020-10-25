@@ -1,5 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Table, Card, Input, Radio, Badge, Divider, Modal, Form, Select, message } from 'antd';
+import {
+  Table,
+  Card,
+  Input,
+  Radio,
+  Badge,
+  Divider,
+  Modal,
+  Form,
+  Select,
+  message,
+  Popconfirm,
+} from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import {
   agreeApply,
@@ -20,6 +32,7 @@ const Reservation = () => {
   const [loading, setLoading] = useState(true);
   const [dataSource, setData] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [curkey, setKey] = useState(0);
   const [form] = Form.useForm();
   const username = localStorage.getItem('name');
   const role = localStorage.getItem('role');
@@ -86,16 +99,16 @@ const Reservation = () => {
         let time;
         const { passwordTime } = record;
         switch (passwordTime) {
-          case "0":
+          case '0':
             time = '2小时';
             break;
-          case "1":
+          case '1':
             time = '4小时';
             break;
-          case "2":
+          case '2':
             time = '6小时';
             break;
-          case "3":
+          case '3':
             time = '8小时';
             break;
         }
@@ -117,15 +130,20 @@ const Reservation = () => {
               同意
             </a>
             <Divider type="vertical" />
-            <a style={{ color: 'red' }} onClick={() => handleRefuse(id)}>
-              拒绝
-            </a>
+            <Popconfirm
+              title="确认拒绝？"
+              okText="确认"
+              cancelText="取消"
+              onConfirm={() => handleRefuse(id)}
+            >
+              <a style={{ color: 'red' }}>拒绝</a>
+            </Popconfirm>
           </>
         );
       },
     },
   ];
-  
+
   useEffect(() => {
     // 区分当前登陆用户身份
     if (role === '0') {
@@ -196,11 +214,13 @@ const Reservation = () => {
   // 选项切换
   const handleChange = (e) => {
     setLoading(true);
-    if (e.target.value === 0) {
+    const key = e.target.value;
+    if (key === 0) {
       getRoom();
     } else {
       getRooms();
     }
+    setKey(key);
   };
 
   // 房东切换
@@ -222,12 +242,21 @@ const Reservation = () => {
   };
 
   // 处理拒绝
-  const handleRefuse = () => {};
+  const handleRefuse = (id) => {
+    refuseApply(id).then((values) => {
+      if (values.data === 1) {
+        message.success('拒绝成功');
+      } else {
+        message.error('拒绝失败');
+      }
+    });
+  };
+
   return (
     <PageContainer>
       <Card style={{ marginBottom: 24 }}>
         <Radio.Group
-          defaultValue={0}
+          defaultValue={curkey}
           optionType="button"
           buttonStyle="solid"
           onChange={handleChange}
@@ -252,7 +281,7 @@ const Reservation = () => {
       </Card>
       <Table
         loading={loading}
-        columns={role === '0' ? columns.splice(0, columns.length - 1) : columns}
+        columns={role === '0' || curkey === 1 ? columns.splice(0, columns.length - 1) : columns}
         dataSource={dataSource}
         pagination={false}
         rowKey="id"

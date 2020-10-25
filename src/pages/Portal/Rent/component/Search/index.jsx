@@ -14,6 +14,7 @@ const hotSearchList = ['民治', '大剧院', '坪山', '会展中心', '固戍'
 
 const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
   const { role, userName } = currentUser;
+  console.log(role)
 
   const showModal = (roles) => {
     // 判断当前用户的登陆身份
@@ -53,13 +54,13 @@ const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
         <div className={style.search_l}>
           <Link to="/srp/welcome">
             <img src={logUrl} height={40} />
-            <Text strong style={{ fontSize: 18 }}>
+            <Text strong style={{ fontSize: 20, marginLeft: 10 }}>
               共享房屋租赁平台
             </Text>
           </Link>
         </div>
         {/* 查询条件 */}
-        <div>
+        <div style={{ marginLeft: 25 }}>
           <Search
             icon={<SearchOutlined />}
             placeholder="请输入区域、商圈或小区名开始找房"
@@ -77,9 +78,11 @@ const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
             ))}
           </ul>
         </div>
-        <Button className={style.realase} type="primary" onClick={() => showModal(role)}>
-          {role === 1 ? '发布房源' : '需求发布'}
-        </Button>
+        {typeof role !== 'number'   ? null : (
+          <Button className={style.realase} type="primary" onClick={() => showModal(role)}>
+            {role === 1 ? '发布房源' : '需求发布'}
+          </Button>
+        )}
       </div>
     </div>
   );

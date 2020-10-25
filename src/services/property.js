@@ -55,9 +55,7 @@ export async function agreeApply(data) {
 
 // 拒绝看房
 export async function refuseApply(data) {
-  return request.put('/back/apply/refuse', {
-    data,
-  });
+  return request.put(`/back/apply/refuse?Id=${data}`);
 }
 
 // 根据房东姓名查询需要处理的申请看房信息

@@ -53,6 +53,7 @@ const Order = ({ currentUser }) => {
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(10);
   const [lessor, setLessor] = useState('');
+  const [house_detail, setHouse] = useState({});
   const [orderCon, setOrder] = useState({
     id: '',
     position: '',
@@ -109,6 +110,7 @@ const Order = ({ currentUser }) => {
         const { price, userId, position } = values.data;
         setLessor(userId);
         setPrice(price);
+        setHouse(values.data);
         const data = { ...orderCon, position };
         setOrder(data);
         const val = Math.floor(values.data.price / 30); // 默认 每天房租
@@ -168,6 +170,8 @@ const Order = ({ currentUser }) => {
       setPay(num * moneyItem);
     }
   };
+
+  const { picUrl, province, city, country, position, price: money, specify, method } = house_detail;
 
   return (
     <div className={style.contain}>
@@ -311,30 +315,26 @@ const Order = ({ currentUser }) => {
                 待支付金额：<Text className={style.rent}>¥ {payMoney}</Text>
               </Title>
               <Divider />
-              <Button  type="primary" size="large" className={style.pay_btn} htmlType="submit">
+              <Button type="primary" size="large" className={style.pay_btn} htmlType="submit">
                 提交订单
               </Button>
             </Form>
           </Col>
-          {/* 房源信息 */}
+          {/* 右侧房源信息 */}
           <Col span={7}>
             <Affix offsetTop={0}>
-              <Card
-                hoverable
-                className={style.card}
-                cover={
-                  <img src="https://pic.tujia.com/upload/qualifiedpics/day_200710/thumb/202007101849199578_700_467.jpg" />
-                }
-              >
-                <Paragraph className={style.house_title}>整租</Paragraph>
-                <Paragraph>塘朗</Paragraph>
+              <Card hoverable className={style.card} cover={<img src={picUrl} />}>
+                <Paragraph className={style.house_title}>
+                  {method === 0 ? '整租' : method == 1 ? '合租' : null}
+                </Paragraph>
+              <Paragraph>{province} {city} {country} {position}</Paragraph>
                 <img src={trace_house} className={style.trace_log} />
                 <Text strong className={style.traced_con}>
                   房源已溯源
                 </Text>
                 <Paragraph>
-                  1室1厅1卫
-                  <Text className={style.money}>¥ 2000 / 月</Text>
+                  {specify}
+                  <Text className={style.money}>¥ {money} / 月</Text>
                 </Paragraph>
                 <Paragraph>
                   <a className={style.ellipsis} onClick={showTrace}>

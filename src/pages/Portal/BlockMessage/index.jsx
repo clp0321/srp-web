@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Typography, Input, Table, Badge, Button, Divider } from 'antd';
 import CountUp from 'react-countup';
 import moment from 'moment';
+import { queryInfo } from '@/services/block'
 import peerUrl from '@/assets/images/peer.png';
 import blockHeightUrl from '@/assets/images/block_height.png';
 import certificate from '@/assets/images/certificate.png';
@@ -126,9 +127,17 @@ const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} dat
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
   const [curBlock, setCurBlock] = useState([]);
+  const [blockInfo, setBlock] = useState({
+    block_height: 0,
+    tx_count: 0,
+    contracts: 0,
+    peer_num: 0,
+  })
+  
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
-  });
+    queryBlocksInfo();
+  }, []);
 
   // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作
   const columns = [
@@ -231,6 +240,16 @@ const BlockMessage = () => {
       ),
     },
   ];
+
+  // 获取区块信息
+  const queryBlocksInfo = () => {
+    queryInfo().then(values => {
+      if(values.msg === 'SUCCESS' && values.data) {
+        const response = JSON.parse(values.data);
+
+      }
+    })
+  }
 
   const showDetail = (block) => {
     setCurBlock(block);

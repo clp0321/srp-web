@@ -118,7 +118,7 @@ const LoginItem = (props) => {
                   onGetCaptcha(value);
                 }}
               >
-                {timing ? `${count} 秒` : '获取验证码'}
+                <span>{timing ? `${count} 秒` : '获取验证码'}</span>
               </Button>
             </Col>
           </Row>

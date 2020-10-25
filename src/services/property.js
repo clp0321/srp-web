@@ -81,8 +81,8 @@ export async function getUserAccept(user) {
 }
 
 // 根据房源id查询图片集合
-export async function getPicListById() {
-  return request()
+export async function getPicListById(house_id) {
+  return request(`/back/housePic/url?house_id=${house_id}`);
 }
 
 // 删除特定图片

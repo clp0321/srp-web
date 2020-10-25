@@ -116,6 +116,10 @@ class Release extends React.Component {
         message.warning('请至少上传一张房源图片');
         return;
       }
+      if (fileList.length > 12) {
+        message.warning('最大上传12张房源图片');
+        return;
+      }
       const returnData = await this.getLngAndLat();
       if (!returnData) {
         message.warning('错误地址，无法正常解析经纬度');

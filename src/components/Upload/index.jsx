@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Upload, message, Modal } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
-const UploadComponent = ({ form }) => {
+const UploadComponent = ({ form, handleFile }) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [house_id, setHouse_id] = useState('');
@@ -57,6 +57,7 @@ const UploadComponent = ({ form }) => {
       return isJpgOrPng && isLt1M;
     },
     onChange: (info) => {
+      handleFile(info);
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 图片上传成功`);
       } else if (info.file.status === 'error') {

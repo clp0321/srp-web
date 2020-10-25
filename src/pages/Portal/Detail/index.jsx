@@ -5,7 +5,6 @@ import HouseDetail from './component/HoseDetail';
 import HouseTrace from './component/HouseTrace';
 import HouseComment from './component/HouseComment';
 import Carousel from '@/components/Carousel';
-import { getPicListById } from '@/services/property';
 import style from './style.less';
 
 const { TabPane } = Tabs;
@@ -13,7 +12,6 @@ const { TabPane } = Tabs;
 const Detail = () => {
   const [key, setKey] = useState('1');
   const [maskVisible, showMask] = useState(false);
-  const [picList, setPicList] = useState([]);
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',
@@ -42,12 +40,6 @@ const Detail = () => {
         }
       })
       .catch((err) => console.log(err));
-    // 获取图片集
-    getPicListById(house_id)
-      .then((value) => {
-        setPicList(value)
-      })
-      .catch((err) => console.log(err));
   }, []);
 
   const handleMask = (val) => {
@@ -60,7 +52,7 @@ const Detail = () => {
   return (
     // 图片详情
     <div className={style.contain}>
-      <Carousel maskVisible={maskVisible} handleMask={handleMask} picList={picList} />
+      <Carousel maskVisible={maskVisible} handleMask={handleMask} />
       {/* 背景图  */}
       <div
         style={{ backgroundImage: `url(${picUrl})` }}

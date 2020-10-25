@@ -1,18 +1,7 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import style from './style.less';
+import { getPicListById } from '@/services/property';
 import { LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
-import imgUrl1 from '@/assets/house/house1.jpg';
-import imgUrl2 from '@/assets/house/house2.jpg';
-import imgUrl3 from '@/assets/house/house3.jpg';
-import imgUrl4 from '@/assets/house/house4.jpg';
-import imgUrl5 from '@/assets/house/house5.jpg';
-
-const mockPic = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
-const first = mockPic[0];
-const last = mockPic[mockPic.length - 1];
-mockPic.unshift(last);
-mockPic.push(first);
 
 const PicList = ({ list }) => {
   return list.map((item, index) => {
@@ -21,15 +10,6 @@ const PicList = ({ list }) => {
 };
 
 export default class Carousel extends Component {
-  static propTypes = {
-    visible: PropTypes.bool,
-    picList: PropTypes.array,
-  };
-
-  static defaultProps = {
-    visible: false,
-    picList: [],
-  };
 
   constructor(props) {
     super(props);
@@ -37,25 +17,47 @@ export default class Carousel extends Component {
       curIndex: 1,
       picList: [],
       picSize: 0,
+      preLeft: '',
+      nextLeft: '',
     };
   }
 
   componentDidMount() {
-    // @todo 获取图片集
-    const { picList } = this.props;
-    this.setState({
-      picSize: picList.length,
-      picList,
-    });
+    this.getAllPicList();
   }
+
+  // 获取图片集合
+  getAllPicList = () => {
+    const house_id = location.search.split('=')[1];
+    // 获取图片集
+    getPicListById(house_id)
+      .then((value) => {
+        if (value.msg === 'SUCCESS') {
+          let list = value.data;
+          const oldLen = list.length;
+          const first = list[0];
+          const last = list[list.length - 1];
+          list.unshift(last);
+          list.push(first); // 首尾添加对应房源
+          const len = list.length;
+          this.setState({
+            picSize: oldLen,
+            picList: list,
+            preLeft: `-${(len - 3) * 1000}px`,
+            nextLeft: `-${(len - 1) * 1000}px`,
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   // 前一个
   onPrev = () => {
     let newLeft = 1000;
-    let { curIndex, picSize } = this.state;
+    let { curIndex, picSize, preLeft } = this.state;
     if (this.wrapper.style.left === '0px') {
       this.wrapper.style.transition = 'left 0s';
-      this.wrapper.style.left = '-4000px';
+      this.wrapper.style.left = preLeft;
     } else {
       this.move(newLeft);
     }
@@ -69,8 +71,8 @@ export default class Carousel extends Component {
   // 下一个
   onNext = () => {
     let newLeft = -1000;
-    let { curIndex, picSize } = this.state;
-    if (this.wrapper.style.left === '-6000px') {
+    let { curIndex, picSize, nextLeft } = this.state;
+    if (this.wrapper.style.left === nextLeft) {
       this.wrapper.style.transition = 'left 0s';
       this.wrapper.style.left = '-2000px';
     } else {
@@ -93,10 +95,6 @@ export default class Carousel extends Component {
   render() {
     const { maskVisible } = this.props;
     const { picSize, curIndex, picList } = this.state;
-    const first = picList[0];
-    const last = picList[picList.length - 1];
-    picList.unshift(last);
-    picList.push(first);
     const picArray = <PicList list={picList} />;
 
     return (
@@ -105,9 +103,9 @@ export default class Carousel extends Component {
           <div
             className={style.wrapper}
             ref={(node) => (this.wrapper = node)}
-            style={{ left: -1000 }}
+            style={{ left: -1000, width: picList.length * 1000 }}
           >
-            <PicList />
+            {picArray}
           </div>
         </div>
         <div className={style.img_contain}>
@@ -115,8 +113,12 @@ export default class Carousel extends Component {
             第 {curIndex} 张 / 共 {picSize} 张
           </p>
         </div>
-        <LeftOutlined className={[style.row, style.left].join(' ')} onClick={this.onPrev} />
-        <RightOutlined className={[style.row, style.right].join(' ')} onClick={this.onNext} />
+        {picSize <= 1 ? null : (
+          <>
+            <LeftOutlined className={[style.row, style.left].join(' ')} onClick={this.onPrev} />
+            <RightOutlined className={[style.row, style.right].join(' ')} onClick={this.onNext} />
+          </>
+        )}
         <CloseOutlined className={style.close_label} onClick={() => this.props.handleMask(false)} />
       </div>
     );

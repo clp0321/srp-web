@@ -35,6 +35,36 @@ const configuration = [
   '燃气社',
 ];
 
+// 房屋配置请求参数
+const configObj = {
+  空调: 'airCond',
+  阳台: 'balcony',
+  床: 'bed',
+  宽带: 'broadband',
+  可做饭: 'cooking',
+  冰箱: 'fridge',
+  燃气灶: 'gasStove',
+  热水器: 'heater',
+  暖气: 'heating',
+  智能门锁: 'intelLock',
+  油烟机: 'lampblackMachine',
+  沙发: 'sofa',
+  卫生间: 'toilet',
+  电视: 'tv',
+  衣柜: 'wardrobe',
+  洗衣机: 'washM',
+};
+
+// 价格包括请求参数
+const priceObj = {
+  电费: 'electric',
+  燃气费: 'gas',
+  贷款费: 'loan',
+  停车费: 'parking',
+  物业费: 'property',
+  水费: 'water',
+};
+
 const warningMessage =
   '为共建真实可信的生活服务平台，所有新发布的信息需要进行认证才能展现，请如实填写信息，如有虚假会有账号封禁及扣除用户积分等处罚';
 
@@ -139,16 +169,30 @@ class Release extends React.Component {
         room,
         hall,
         guard,
-        watchTime, // 看房时间
-        configurate, // 房屋配置
-        enterTime, // 最早入住时间
-        fitPeople, // 宜住几人
-        contain, // 租金包括
+        seeTime, // 看房时间
+        configlist, // 房屋配置
+        earlyTime, // 最早入住时间
+        numbers, // 宜住几人
+        pricelist, // 租金包括
         description,
       } = values; // 房源 + 房产
+      const houseConfiglist = [];
+      const priceContentlist = [];
+      let house_obj = {},
+        price_obj = {};
+      configlist.map((item) => {
+        if (configObj[item]) house_obj[configObj[item]] = item;
+      });
+      console.log(pricelist);
+      pricelist.map((item) => {
+        if (priceObj[item]) price_obj[priceObj[item]] = item;
+      });
+      houseConfiglist.push(house_obj);
+      priceContentlist.push(price_obj);
+
       const resp = await addProperty({
-        lng, // 经度
-        lat, // 纬度
+        houseLng: lng, // 经度
+        houseLat: lat, // 纬度
         province: location[0],
         city: location[1],
         country: location[2],
@@ -166,6 +210,11 @@ class Release extends React.Component {
         certNum: 1,
         description,
         userId: localStorage.getItem('id'),
+        seeTime,
+        earlyTime,
+        numbers,
+        houseConfiglist,
+        priceContentlist,
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');

@@ -22,14 +22,6 @@ import style from './style.less';
 
 const { Item } = Form;
 
-// mock经纬度
-const lanLat = {
-  lng: 114.006482,
-  lat: 22.596454,
-  title: '塘朗城',
-  text: '深圳市南山区西丽镇塘朗社区留仙大道3333号',
-};
-
 const mockTool = [
   {
     title: '无接触入住',
@@ -59,26 +51,26 @@ const TooltipList = ({ data }) => {
 };
 
 // 设备状态
-const facilityMock = [
+const facilityList = [
   {
-    lock: true,
-    bed: true,
-    air: true,
-    ward: true,
-    tv: true,
-    hot_air: true,
-    balcony: true,
-    bathroom: true,
+    intelLock: false,
+    bed: false,
+    airCond: false,
+    wardrobe: false,
+    tv: false,
+    heating: false,
+    balcony: false,
+    toilet: false,
   },
   {
-    refrigerator: true,
-    wash_clothes: true,
-    sofa: true,
-    range_hood: true,
-    cook: true,
-    network: true,
-    hotwater: true,
-    gas: true,
+    fridge: false,
+    washM: false,
+    sofa: false,
+    lampblackMachine: false,
+    cooking: false,
+    broadband: false,
+    heater: false,
+    gasStove: false,
   },
 ];
 
@@ -102,6 +94,7 @@ const facilityNameMock = [
   '煤气罩',
 ];
 
+// 设备组件
 const Facility = ({ name, status, index }) => {
   return (
     <>
@@ -113,27 +106,11 @@ const Facility = ({ name, status, index }) => {
   );
 };
 
-const bed_facility = facilityMock[0];
-const pulic_facility = facilityMock[1];
-const bedFacilityList = [];
-const publicFacilityList = [];
-let index = 0;
-for (let i in bed_facility) {
-  bedFacilityList.push(<Facility key={i} name={i} status={bed_facility[i]} index={index++} />);
-}
-let startIndex = 8;
-for (let i in pulic_facility) {
-  publicFacilityList.push(
-    <Facility key={i} name={i} status={pulic_facility[i]} index={startIndex++} />,
-  );
-}
-
 const toolList = mockTool.map((item, index) => <TooltipList key={index} data={item} />);
 
 const { Paragraph, Text, Title } = Typography;
 
 const HouseDetail = ({ houseDetail }) => {
-  const { lng, lat, title, text } = lanLat;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
 
@@ -171,15 +148,80 @@ const HouseDetail = ({ houseDetail }) => {
     method,
     position,
     specify,
-    deviceId,
+    houseId,
     updateTime,
-    houseOwner,
+    publisher,
     phone,
     size,
     price,
     payway,
+    province,
+    city,
+    country,
+    houseLat,
+    houseLng,
+    earlyTime,
+    numbers,
+    houseConfiglist,
   } = houseDetail;
   let pays;
+
+  // 地图经纬度
+  const lanLat = {
+    lng: houseLng,
+    lat: houseLat,
+  };
+  // 地图title与text
+  const title = position;
+  const text = `${province}${city}${country}`;
+  let map_component;
+  if (houseLat && houseLng) {
+    map_component = (
+      <Map center={lanLat} zoom="11">
+        <Marker position={lanLat} />
+        <NavigationControl />
+        <InfoWindow position={lanLat} title={title}>
+          <Text>{text}</Text>
+        </InfoWindow>
+      </Map>
+    );
+  }
+
+  // 房屋配置信息渲染
+  const bed_facility = facilityList[0];
+  const pulic_facility = facilityList[1];
+
+  let configArr = [];
+
+  if (houseConfiglist.length) {
+    configArr = houseConfiglist[0];
+    for (let i in bed_facility) {
+      if (configArr[i]) {
+        bed_facility[i] = true;
+      }
+    }
+
+    for (let j in pulic_facility) {
+      if (configArr[j]) {
+        pulic_facility[j] = true;
+      }
+    }
+  }
+
+  const bedFacilityList = [];
+  const publicFacilityList = [];
+
+  let index = 0;
+  for (let i in bed_facility) {
+    bedFacilityList.push(<Facility key={i} name={i} status={bed_facility[i]} index={index++} />);
+  }
+  let startIndex = 8;
+  for (let i in pulic_facility) {
+    publicFacilityList.push(
+      <Facility key={i} name={i} status={pulic_facility[i]} index={startIndex++} />,
+    );
+  }
+
   switch (payway) {
     case 0:
       pays = '押一付一';
@@ -199,8 +241,8 @@ const HouseDetail = ({ houseDetail }) => {
 
   // 设备加密
   let equipId = '';
-  if (deviceId && deviceId.length > 0) {
-    equipId = deviceId.replace(deviceId.substring(1, deviceId.length - 1), '***');
+  if (houseId && houseId.length > 0) {
+    equipId = houseId.replace(houseId.substring(1, houseId.length - 1), '***');
   }
 
   // 处理修改
@@ -225,7 +267,7 @@ const HouseDetail = ({ houseDetail }) => {
         </Title>
         <Paragraph>
           <img src={certification} height={30} />
-          智能门锁编号: {equipId}
+          智能门锁编号: {houseId}
           <Text className={style.watch_room}>
             <Button type="primary" icon={<KeyOutlined />} onClick={() => setVisible(true)}>
               申请看房
@@ -244,11 +286,15 @@ const HouseDetail = ({ houseDetail }) => {
           title={<Title level={4}>房屋信息</Title>}
           extra={`发布时间：${moment(updateTime).format('YYYY-MM-DD hh:mm:ss')}`}
         >
-          <Descriptions.Item label="房主">{houseOwner}</Descriptions.Item>
+          <Descriptions.Item label="房主">{publisher}</Descriptions.Item>
           <Descriptions.Item label="联系方式">{phone}</Descriptions.Item>
           <Descriptions.Item label="面积">{size} m²</Descriptions.Item>
           <Descriptions.Item label="价格">{price}</Descriptions.Item>
           <Descriptions.Item label="支付方式">{pays}</Descriptions.Item>
+          <Descriptions.Item label="宜住">{numbers} 人</Descriptions.Item>
+          <Descriptions.Item label="最早入住时间">
+            {moment(new Date(earlyTime)).format('YYYY-MM-DD')}
+          </Descriptions.Item>
         </Descriptions>
       </div>
       {/* 设施信息 */}
@@ -269,14 +315,7 @@ const HouseDetail = ({ houseDetail }) => {
       {/* 地理位置 */}
       <div className={style.lbs}>
         <Title level={4}>地理位置</Title>
-        <Map center={{ lng, lat }} zoom="11">
-          <Marker position={{ lng, lat }} />
-          <NavigationControl />
-          <InfoWindow position={{ lng, lat }} title={title}>
-            <Text>{text}</Text>
-          </InfoWindow>
-        </Map>
-        
+        {map_component}
       </div>
       {/* 房屋描述 */}
       <div className={style.describe}>
@@ -306,13 +345,13 @@ const HouseDetail = ({ houseDetail }) => {
           form={form}
           {...formLayout}
           initialValues={{
-            houser_name: houseOwner,
+            houser_name: publisher,
             user_name: localStorage.getItem('name'),
           }}
         >
           <Item label="人员信息" className={style.people_detail}>
             <Space size="large">
-              <Text strong>房主: {houseOwner}</Text>
+              <Text strong>房主: {publisher}</Text>
               <Text strong>申请人: {localStorage.getItem('name')}</Text>
             </Space>
           </Item>

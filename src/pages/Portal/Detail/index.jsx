@@ -20,7 +20,7 @@ const Detail = () => {
     position: '',
     specify: '',
     //  房屋信息
-    houseOwner: '',
+    publisher: '',
     phone: '',
     size: 0,
     price: '',
@@ -28,6 +28,14 @@ const Detail = () => {
     type: '普通住宅',
     description: '',
     picUrl: '',
+    province: '',
+    city: '',
+    country: '',
+    houseLat: '',
+    houseLng: '',
+    earlyTime: '',
+    numbers: 0,
+    houseConfiglist: [],
   });
   useEffect(() => {
     document.title = '区块链共享租赁平台-房源详情';
@@ -35,6 +43,7 @@ const Detail = () => {
     // 查询房源详情
     getHouseDetail(house_id)
       .then((value) => {
+        console.log(value)
         if (value.msg === 'SUCCESS') {
           setHouseDetail(value.data);
         }

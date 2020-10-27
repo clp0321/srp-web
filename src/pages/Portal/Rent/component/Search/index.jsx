@@ -14,7 +14,6 @@ const hotSearchList = ['民治', '大剧院', '坪山', '会展中心', '固戍'
 
 const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
   const { role, userName } = currentUser;
-  console.log(role)
 
   const showModal = (roles) => {
     // 判断当前用户的登陆身份

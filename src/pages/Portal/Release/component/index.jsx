@@ -218,7 +218,7 @@ const RentInfo = () => {
           </Select>
         </Item>
       </Item>
-      <Item label="租金包含" name="contain">
+      <Item label="租金包含" name="pricelist">
         <Checkbox.Group className={style.rent_contain} options={rentContain} />
       </Item>
     </>
@@ -237,9 +237,9 @@ const Detail = ({
   const handleCheck = (e) => {
     onCheckAllChange(e.target.checked);
     if (e.target.checked) {
-      form.current.setFields([{ name: ['configurate'], value: configuration }]);
+      form.current.setFields([{ name: ['configlist'], value: configuration }]);
     } else {
-      form.current.setFields([{ name: ['configurate'], value: [] }]);
+      form.current.setFields([{ name: ['configlist'], value: [] }]);
     }
   };
 
@@ -251,14 +251,14 @@ const Detail = ({
     <>
       <TitleCon title="详细介绍" className={style.sub_title} />
       <Item label="最早入住" className={style.flex_item}>
-        <Item name="enterTime">
+        <Item name="earlyTime">
           <DatePicker className={style.margin} />
         </Item>
-        <Item name="fitPeople" rules={[{ ...numberRegex }]}>
+        <Item name="numbers" rules={[{ ...numberRegex }]}>
           <Input addonAfter="人" placeholder="宜住" className={style.margin} />
         </Item>
       </Item>
-      <Item label="看房时间" name="watchTime">
+      <Item label="看房时间" name="seeTime">
         <Radio.Group>
           <Radio value={1}>仅周末</Radio>
           <Radio value={2}>仅工作日</Radio>
@@ -270,7 +270,7 @@ const Detail = ({
         <Checkbox indeterminate={indeterminate} onChange={handleCheck} checked={checkAll}>
           全选
         </Checkbox>
-        <Item name="configurate">
+        <Item name="configlist">
           <CheckboxGroup options={configuration} value={checkedList} onChange={handleChange} />
         </Item>
       </Item>

@@ -136,7 +136,7 @@ const BlockMessage = () => {
   
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
-    queryBlocksInfo();
+    // queryBlocksInfo();
   }, []);
 
   // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作

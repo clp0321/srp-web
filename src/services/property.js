@@ -32,7 +32,7 @@ export async function getProperty() {
   return request('/back/houseManage/houseManages');
 }
 
-// houst_id产看具体存证信息
+// houst_id获取房源详情信息
 export async function getHouseDetail(id) {
   return request(`/back/houseManage?house_id=${id}`);
 }

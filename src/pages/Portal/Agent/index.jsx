@@ -11,20 +11,22 @@ import {
   InputNumber,
   Table,
   message,
-  Modal,
   Popconfirm,
+  Skeleton,
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { addDemands, deleteDemand, getDemands, updateDemands } from '@/services/demand';
 import { ReloadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { getProperty } from '@/services/property';
 import house1 from '@/assets/house/house1.jpg';
 import house2 from '@/assets/house/house2.jpg';
 import house3 from '@/assets/house/house3.jpg';
 import house4 from '@/assets/house/house4.jpg';
+import trace_house from '@/assets/introduce/trace-house.png';
 
 import style from './style.less';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const { Item } = Form;
 const { Option } = Select;
 
@@ -73,9 +75,13 @@ const Agent = () => {
   const [status, setStatus] = useState(true);
   const [list, setList] = useState([]);
   const [id, setId] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [cardLoading, setCardLoading] = useState(true);
+  const [propertyList, setProppety] = useState([]);
 
   useEffect(() => {
     getAllDemands();
+    getHoueses();
   }, []);
 
   const handleUpdate = (record) => {
@@ -94,7 +100,7 @@ const Agent = () => {
     });
   };
 
-  // 新增
+  // 新增需求
   const addOneDemand = async (data) => {
     let demands;
     if (status) {
@@ -103,8 +109,8 @@ const Agent = () => {
       demands = await updateDemands({ id, ...data });
     }
     if (demands && demands.data > 0) {
+      await getAllDemands();
       message.success(status ? '发布需求成功' : '更改需求成功');
-      getAllDemands();
       form.resetFields();
       setStatus(true);
     } else {
@@ -112,23 +118,42 @@ const Agent = () => {
     }
   };
 
-  // 删除
+  // 删除需求
   const deleteById = async (id) => {
     const resp = await deleteDemand(id);
     if (resp.data > 0) {
+      await getAllDemands();
       message.success('删除成功');
-      getAllDemands();
     } else {
       message.error('删除失败');
     }
   };
 
-  // 获取
+  // 获取当前用户全部需求
   const getAllDemands = async () => {
     const demands = await getDemands(userId);
-    if (demands && demands.data) {
-      setList(demands.data);
-    }
+    setLoading(true);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (demands && demands.data) {
+          setList(demands.data);
+          setLoading(false);
+          resolve();
+        }
+      }, 500);
+    });
+  };
+
+  // 获取房源信息
+  const getHoueses = async () => {
+    const houses = await getProperty();
+    setCardLoading(true);
+    setTimeout(() => {
+      if (houses && houses.data) {
+        setCardLoading(false);
+        setProppety(houses.data);
+      }
+    }, 500);
   };
 
   const columns = [
@@ -186,11 +211,27 @@ const Agent = () => {
     },
   ];
 
+  // 重置信息
+  const handleFresh = () => {
+    form.resetFields();
+  };
+
+  // 换一批
+  const changeBatch = () => {
+    setCardLoading(false);
+  };
+
+  console.log(cardLoading);
   return (
     <div className={style.contain}>
       <Title level={4} className={style.related_house}>
         发布新需求
-        <Button size="small" icon={<DeleteOutlined />} className={style.reload}>
+        <Button
+          size="small"
+          icon={<DeleteOutlined />}
+          className={style.reload}
+          onClick={handleFresh}
+        >
           清空
         </Button>
       </Title>
@@ -249,7 +290,11 @@ const Agent = () => {
         >
           <Select placeholder="选择房屋租赁的类型">
             {methodType.map((item, index) => {
-              return <Option value={index}>{item}</Option>;
+              return (
+                <Option value={index} key={item}>
+                  {item}
+                </Option>
+              );
             })}
           </Select>
         </Item>
@@ -268,20 +313,49 @@ const Agent = () => {
         需求列表
       </Title>
       <Divider />
-      <Table rowKey="id" dataSource={list} columns={columns} pagination={false} />
+      <Table rowKey="id" dataSource={list} columns={columns} pagination={false} loading={loading} />
       <Title level={4} className={style.related_house}>
         相关房源
-        <Button icon={<ReloadOutlined />} className={style.reload} size="small">
+        <Button
+          icon={<ReloadOutlined />}
+          className={style.reload}
+          size="small"
+          onClick={changeBatch}
+        >
           换一批
         </Button>
       </Title>
       <List
         grid={{ gutter: 16, column: 4 }}
-        dataSource={data}
+        dataSource={propertyList}
+        style={{ marginBottom: 20 }}
+        loading={cardLoading}
         renderItem={(item) => (
-          <List.Item>
-            <Card hoverable cover={<img src={item.pic} alt="房源图片" />}>
-              {item.con}
+          <List.Item key={item.houseId}>
+            <Card
+              cover={!cardLoading && <img src={item.picUrl} alt="房源图片" />}
+              hoverable
+              className={style.card}
+            >
+              <Paragraph className={style.house_title}>
+                {item.method === 0 ? '整租' : item.method == 1 ? '合租' : null}
+              </Paragraph>
+              <Paragraph>
+                {item.province} {item.city} {item.country} {item.position}
+              </Paragraph>
+              <img src={trace_house} className={style.trace_log} />
+              <Text strong className={style.traced_con}>
+                房源已溯源
+              </Text>
+              <Paragraph>
+                {item.specify}
+                <Text className={style.money}>¥ {item.price} / 月</Text>
+              </Paragraph>
+              <Paragraph>
+                <a className={style.ellipsis}>
+                  6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
+                </a>
+              </Paragraph>
             </Card>
           </List.Item>
         )}

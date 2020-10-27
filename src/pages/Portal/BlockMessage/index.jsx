@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Typography, Input, Table, Badge, Button, Divider } from 'antd';
 import CountUp from 'react-countup';
 import moment from 'moment';
-import { queryInfo } from '@/services/block'
+import { queryInfo } from '@/services/block';
 import peerUrl from '@/assets/images/peer.png';
 import blockHeightUrl from '@/assets/images/block_height.png';
 import certificate from '@/assets/images/certificate.png';
@@ -12,30 +12,6 @@ import webank from '@/assets/images/webank.jpg';
 import style from './style.less';
 
 const { Title, Text, Paragraph } = Typography;
-
-// mock区块节点信息
-const mockData = [
-  {
-    title: '当前节点数',
-    imgUrl: peerUrl,
-    num: 4,
-  },
-  {
-    title: '区块高度',
-    imgUrl: blockHeightUrl,
-    num: 468,
-  },
-  {
-    title: '总交易数',
-    imgUrl: transaction,
-    num: 468,
-  },
-  {
-    title: '已部署合约',
-    imgUrl: certificate,
-    num: 49,
-  },
-];
 
 // mock节点信息数
 const dataSource = [
@@ -78,23 +54,6 @@ const peerList = [
   },
 ];
 
-// mock 详细信息内容
-const detailCon = [
-  {
-    title: '溯源状态',
-    con: '数据已验证成功',
-    status: true,
-  },
-  {
-    title: '时间戳',
-    con: '1575425643740',
-  },
-  {
-    title: '区块高度 ',
-    con: '220',
-  },
-];
-
 // 区块节点组件
 const BlockItem = ({ data }) => {
   const { title, imgUrl, num } = data;
@@ -111,32 +70,19 @@ const BlockItem = ({ data }) => {
   );
 };
 
-// 区块详细信息组件
-const BlockDetial = ({ data }) => {
-  return (
-    <Paragraph>
-      <Text className={style.start_title}>{data.title}</Text>
-      <Text className={[style.desc, data.status ? style.success : ''].join(' ')}>{data.con}</Text>
-    </Paragraph>
-  );
-};
-
-const blockContents = mockData.map((item, index) => <BlockItem key={index} data={item} />);
-const blockDetails = detailCon.map((item, index) => <BlockDetial key={index} data={item} />);
-
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
   const [curBlock, setCurBlock] = useState([]);
   const [blockInfo, setBlock] = useState({
-    block_height: 0,
-    tx_count: 0,
-    contracts: 0,
-    peer_num: 0,
-  })
-  
+    nodeCnt: 0,
+    blockHeight: 0,
+    txCnt: 0,
+    contractCnt: 0,
+  });
+
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
-    // queryBlocksInfo();
+    queryBlocksInfo();
   }, []);
 
   // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作
@@ -243,18 +189,42 @@ const BlockMessage = () => {
 
   // 获取区块信息
   const queryBlocksInfo = () => {
-    queryInfo().then(values => {
-      if(values.msg === 'SUCCESS' && values.data) {
-        const response = JSON.parse(values.data);
-
+    queryInfo().then((values) => {
+      if (values.msg === 'SUCCESS' && values.data) {
+        setBlock(values.data)
       }
-    })
-  }
+    });
+  };
 
   const showDetail = (block) => {
     setCurBlock(block);
     handleShowAll(true);
   };
+
+  const mockData = [
+    {
+      title: '当前节点数',
+      imgUrl: peerUrl,
+      num: blockInfo.nodeCnt,
+    },
+    {
+      title: '区块高度',
+      imgUrl: blockHeightUrl,
+      num: blockInfo.blockHeight,
+    },
+    {
+      title: '总交易数',
+      imgUrl: transaction,
+      num: blockInfo.txCnt,
+    },
+    {
+      title: '部署合约数',
+      imgUrl: certificate,
+      num: blockInfo.contractCnt,
+    },
+  ];
+
+  const blockContents = mockData.map((item, index) => <BlockItem key={index} data={item} />);
 
   return (
     <>

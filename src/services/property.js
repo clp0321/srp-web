@@ -20,14 +20,14 @@ export async function updateProperty(data) {
   });
 }
 
-// 添加房产
+// 添加房源
 export async function addEstate(data) {
   return request.post('/back/houseManage', {
     data,
   });
 }
 
-// 获取房产存证信息
+// 获取全部房源信息
 export async function getProperty() {
   return request('/back/houseManage/houseManages');
 }

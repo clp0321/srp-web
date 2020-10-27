@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Typography, Input, Table, Badge, Button, Divider } from 'antd';
 import CountUp from 'react-countup';
 import moment from 'moment';
-import { queryInfo } from '@/services/block';
+import { queryInfo, getAllnodes, frontNode } from '@/services/block';
 import peerUrl from '@/assets/images/peer.png';
 import blockHeightUrl from '@/assets/images/block_height.png';
 import certificate from '@/assets/images/certificate.png';
@@ -73,6 +73,8 @@ const BlockItem = ({ data }) => {
 const BlockMessage = () => {
   const [showAll, handleShowAll] = useState(false);
   const [curBlock, setCurBlock] = useState([]);
+  const [nodeList, setNodeList] = useState([]);
+  const [frontNodeList, setFrontNode] = useState([]);
   const [blockInfo, setBlock] = useState({
     nodeCnt: 0,
     blockHeight: 0,
@@ -83,22 +85,19 @@ const BlockMessage = () => {
   useEffect(() => {
     document.title = '区块链共享租赁平台-信息溯源';
     queryBlocksInfo();
+    getAllNodesList();
+    getFrontNode();
   }, []);
 
-  // 前置编号、ip、前置端口、节点id、节点版本、所述机构、创建时间、修改时间、状态、操作
   const columns = [
     {
       title: 'ip',
-      dataIndex: 'ip',
-    },
-    {
-      title: '前置端口',
-      dataIndex: 'prePort',
+      dataIndex: 'frontIp',
     },
     {
       title: '节点id',
       width: 250,
-      dataIndex: 'node_id',
+      dataIndex: 'nodeId',
       render: (text) => (
         <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
           <Text ellipsis copyable>
@@ -110,7 +109,7 @@ const BlockMessage = () => {
     {
       title: 'IPFS节点Id',
       width: 250,
-      dataIndex: 'cid',
+      dataIndex: 'ipfsNodeId',
       render: (text) => (
         <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
           <Text ellipsis copyable>
@@ -121,32 +120,32 @@ const BlockMessage = () => {
     },
     {
       title: '所属机构',
-      dataIndex: 'argnization',
+      dataIndex: 'agency',
     },
     {
       title: '创建时间',
-      dataIndex: 'creatTime',
+      dataIndex: 'createTime',
     },
     {
       title: '状态',
       dataIndex: 'status',
-      render: (_, record) => (
+      render: (text) => (
         <>
-          <Badge status="success" /> 正在运行
+          <Badge status={text === 1 ? 'success' : 'error'} /> {text === 1 ? '运行' : '异常'}
         </>
       ),
     },
-    {
-      title: '操作',
-      render: () => <a>切换</a>,
-    },
   ];
-  // 节点ID、节点类型、块高、pbftView、状态、操作
   const txColumns = [
     {
-      title: '节点ID',
-      dataIndex: 'peer_id',
-      render: (text, record) => (
+      title: '块高度',
+      dataIndex: 'blockNumber',
+    },
+    {
+      title: 'ID',
+      width: 250,
+      dataIndex: 'nodeId',
+      render: (text) => (
         <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
           <Text ellipsis={true} copyable>
             {text}
@@ -155,20 +154,28 @@ const BlockMessage = () => {
       ),
     },
     {
-      title: '节点类型',
-      dataIndex: 'peer_type',
+      title: '名称',
+      dataIndex: 'nodeName',
+      width: 250,
+      render: (text) => (
+        <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+          <Text ellipsis={true} copyable>
+            {text}
+          </Text>
+        </div>
+      ),
     },
     {
-      title: '块高',
-      dataIndex: 'block_height',
+      title: 'IP',
+      dataIndex: 'nodeIp',
     },
     {
-      title: 'pbftView',
-      dataIndex: 'pbftView',
+      title: '端口',
+      dataIndex: 'p2pPort',
     },
     {
       title: '状态',
-      dataIndex: 'cerficate_status',
+      dataIndex: 'nodeActive',
       render: () => (
         <>
           <Badge status="success" />
@@ -176,22 +183,40 @@ const BlockMessage = () => {
         </>
       ),
     },
-    {
-      title: '操作',
-      dataIndex: 'opt',
-      render: (_, record) => (
-        <Button type="primary" onClick={() => showDetail(record)}>
-          详情
-        </Button>
-      ),
-    },
+    // {
+    //   title: '操作',
+    //   dataIndex: 'opt',
+    //   render: (_, record) => (
+    //     <Button type="primary" onClick={() => showDetail(record)}>
+    //       详情
+    //     </Button>
+    //   ),
+    // },
   ];
 
-  // 获取区块信息
+  // 获取状态信息
   const queryBlocksInfo = () => {
     queryInfo().then((values) => {
-      if (values.msg === 'SUCCESS' && values.data) {
-        setBlock(values.data)
+      if (values && values.data) {
+        setBlock(values.data);
+      }
+    });
+  };
+
+  // 获取全部节点信息
+  const getAllNodesList = () => {
+    getAllnodes().then((values) => {
+      if (values && values.data) {
+        setNodeList(values.data);
+      }
+    });
+  };
+
+  // 获取前置节点信息
+  const getFrontNode = () => {
+    frontNode().then((values) => {
+      if (values && values.data) {
+        setFrontNode(values.data);
       }
     });
   };
@@ -249,9 +274,14 @@ const BlockMessage = () => {
         {!showAll ? (
           <>
             <Text className={style.table_title}>节点前置</Text>
-            <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="node_id" />
+            <Table
+              columns={columns}
+              dataSource={frontNodeList}
+              pagination={false}
+              rowKey="node_id"
+            />
             <Text className={[style.table_title, style.trans].join(' ')}>节点列表</Text>
-            <Table columns={txColumns} dataSource={peerList} pagination={false} rowKey="peer_id" />
+            <Table columns={txColumns} dataSource={nodeList} pagination={false} rowKey="peer_id" />
           </>
         ) : (
           <>

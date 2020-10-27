@@ -165,7 +165,7 @@ const Agent = () => {
       title: '租赁方式',
       dataIndex: 'method',
       render: (text) => {
-        return <Text>{text === 0 ? '整租' : '出租'}</Text>;
+        return <Text>{text === 0 ? '整租' : '合租'}</Text>;
       },
     },
     {

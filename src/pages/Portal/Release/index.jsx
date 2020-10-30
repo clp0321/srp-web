@@ -11,8 +11,8 @@ import {
   Button,
   Divider,
   Typography,
-} from 'antd'
-import Map from 'react-bmapgl/Map';
+  Modal
+} from 'antd';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
 import { addProperty } from '@/services/property';
 import lock1 from '@/assets/lock/lock1.png';
@@ -274,6 +274,16 @@ class Release extends React.Component {
     this.formRef.current.resetFields();
   };
 
+  // 认证房源
+  handleAuthorize = () => {
+    Modal.success({
+      title: '设备已认证通过,请补充相关房源内容!',
+    })
+    this.setState({
+      visible: false,
+    });
+  };
+
   render() {
     const { indeterminate, checkAll, checkedList, fileList, visible } = this.state;
     const userName = localStorage.getItem('name');
@@ -287,7 +297,11 @@ class Release extends React.Component {
               <Title level={2}>门锁设备认证</Title>
               <img src={smartLock} />
               <Input style={{ width: 300 }} placeholder="请输入待认证的设备编号" />
-              <Button type="primary" style={{ marginLeft: 10, width: 150 }}>
+              <Button
+                type="primary"
+                style={{ marginLeft: 10, width: 150 }}
+                onClick={this.handleAuthorize}
+              >
                 认证
               </Button>
             </div>
@@ -300,19 +314,19 @@ class Release extends React.Component {
             <div className={style.product}>
               <Title level={4}>相关产品</Title>
               <ul>
-                <li>
+                <li key="house1">
                   <img src={lock1} width={250} />
                   <p>公寓/公租房NB-IoT智能锁</p>
                 </li>
-                <li>
+                <li key="house2">
                   <img src={lock2} width={250} />
                   <p>高校会议室/宿舍NB-IoT联网锁</p>
                 </li>
-                <li>
+                <li key="house3">
                   <img src={lock3} width={250} />
                   <p>医院陪护床NB-IoT智能锁</p>
                 </li>
-                <li>
+                <li key="house4">
                   <img src={lock4} width={250} />
                   <p>工业光交箱NB-IoT智能锁</p>
                 </li>

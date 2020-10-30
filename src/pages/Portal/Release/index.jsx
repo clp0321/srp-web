@@ -1,19 +1,30 @@
-import { Row, Col, message, Card, Alert, Timeline, Affix, Form } from 'antd';
+import {
+  Row,
+  Col,
+  message,
+  Card,
+  Alert,
+  Timeline,
+  Affix,
+  Form,
+  Input,
+  Button,
+  Divider,
+  Typography,
+} from 'antd'
+import Map from 'react-bmapgl/Map';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
 import { addProperty } from '@/services/property';
-import Map from 'react-bmapgl/Map';
+import lock1 from '@/assets/lock/lock1.png';
+import lock2 from '@/assets/lock/lock2.png';
+import lock3 from '@/assets/lock/lock3.png';
+import lock4 from '@/assets/lock/lock4.png';
+import smartLock from '@/assets/house/smartLock.png';
+import tianwang from '@/assets/lock/tianwang.png';
 import { SoundOutlined } from '@ant-design/icons';
 import style from './style.less';
 
-// 随机产生一个mockHash
-const randomHash = () => {
-  const word = '0123456789abcdefghijklmnopqrstuvwxyz';
-  let output = '';
-  for (let i = 0; i < 5; i++) {
-    output += word[Math.floor(Math.random() * word.length)];
-  }
-  return output;
-};
+const { Paragraph, Title, Text } = Typography;
 
 // Mock房屋配置信息
 const configuration = [
@@ -32,7 +43,7 @@ const configuration = [
   '阳台',
   '智能门锁',
   '油烟机',
-  '燃气社',
+  '煤气灶',
 ];
 
 // 房屋配置请求参数
@@ -43,7 +54,7 @@ const configObj = {
   宽带: 'broadband',
   可做饭: 'cooking',
   冰箱: 'fridge',
-  燃气灶: 'gasStove',
+  煤气灶: 'gasStove',
   热水器: 'heater',
   暖气: 'heating',
   智能门锁: 'intelLock',
@@ -96,6 +107,7 @@ class Release extends React.Component {
         currentUser: '',
         role: '',
       },
+      visible: true,
     };
   }
 
@@ -263,69 +275,117 @@ class Release extends React.Component {
   };
 
   render() {
-    const { indeterminate, checkAll, checkedList, fileList } = this.state;
+    const { indeterminate, checkAll, checkedList, fileList, visible } = this.state;
     const userName = localStorage.getItem('name');
     const role = localStorage.getItem('role');
 
     return (
       <div className={style.contain}>
-        <Alert
-          className={style.alert}
-          message={warningMessage}
-          type="warning"
-          closable
-          showIcon
-          icon={<SoundOutlined />}
-        />
-        <Row gutter={24}>
-          <Col span={20}>
-            <Form
-              {...formItemLayout}
-              ref={this.formRef}
-              initialValues={{
-                publisher: userName,
-                role: role === '0' ? '租客' : role === '1' ? '房东' : null,
-              }}
-            >
-              {/* 基础信息 */}
-              <BaseInfo />
-              {/* 租金信息 */}
-              <RentInfo />
-              {/* 详细介绍 */}
-              <Detail
-                form={this.formRef}
-                indeterminate={indeterminate}
-                checkAll={checkAll}
-                onCheckAllChange={(checked) => this.checkAllChange(checked)}
-                checkedList={checkedList}
-                changeCheckList={(list) => this.handleCheckList(list)}
-              />
-              {/* 房源图片 */}
-              <HousePic
-                form={this.formRef}
-                fileList={fileList}
-                handleFile={(info) => this.handleFileList(info)}
-              />
-              {/* 联系信息 */}
-              <ContactInfo />
-              {/* 按钮集 */}
-              <ButtonList handleSubmit={this.handlePublish} resetData={this.handleReset} />
-            </Form>
-          </Col>
-          <Col span={4}>
-            <Affix offsetTop={0}>
-              <Card>
-                <Timeline>
-                  <Timeline.Item>基础信息</Timeline.Item>
-                  <Timeline.Item>租金信息</Timeline.Item>
-                  <Timeline.Item>详细介绍</Timeline.Item>
-                  <Timeline.Item>房源图片</Timeline.Item>
-                  <Timeline.Item>联系信息</Timeline.Item>
-                </Timeline>
-              </Card>
-            </Affix>
-          </Col>
-        </Row>
+        {visible ? (
+          <div className={style.inner_block}>
+            <div className={style.lock}>
+              <Title level={2}>门锁设备认证</Title>
+              <img src={smartLock} />
+              <Input style={{ width: 300 }} placeholder="请输入待认证的设备编号" />
+              <Button type="primary" style={{ marginLeft: 10, width: 150 }}>
+                认证
+              </Button>
+            </div>
+            <Divider />
+            <Paragraph className={style.desc}>说明</Paragraph>
+            <Paragraph className={style.p}>房源发布前，需认证门锁设备</Paragraph>
+            <Paragraph className={style.p}>
+              门锁设备编号由运营商提供，将作为房源绑定的可靠凭证
+            </Paragraph>
+            <div className={style.product}>
+              <Title level={4}>相关产品</Title>
+              <ul>
+                <li>
+                  <img src={lock1} width={250} />
+                  <p>公寓/公租房NB-IoT智能锁</p>
+                </li>
+                <li>
+                  <img src={lock2} width={250} />
+                  <p>高校会议室/宿舍NB-IoT联网锁</p>
+                </li>
+                <li>
+                  <img src={lock3} width={250} />
+                  <p>医院陪护床NB-IoT智能锁</p>
+                </li>
+                <li>
+                  <img src={lock4} width={250} />
+                  <p>工业光交箱NB-IoT智能锁</p>
+                </li>
+              </ul>
+            </div>
+            <div className={style.tianwang_base}>
+              <Divider />
+              <Text strong>生态技术支持</Text>
+              <Divider />
+              <img src={tianwang} />
+            </div>
+          </div>
+        ) : (
+          <>
+            <Alert
+              className={style.alert}
+              message={warningMessage}
+              type="warning"
+              closable
+              showIcon
+              icon={<SoundOutlined />}
+            />
+            <Row gutter={24}>
+              <Col span={20}>
+                <Form
+                  {...formItemLayout}
+                  ref={this.formRef}
+                  initialValues={{
+                    publisher: userName,
+                    role: role === '0' ? '租客' : role === '1' ? '房东' : null,
+                  }}
+                >
+                  {/* 基础信息 */}
+                  <BaseInfo />
+                  {/* 租金信息 */}
+                  <RentInfo />
+                  {/* 详细介绍 */}
+                  <Detail
+                    form={this.formRef}
+                    indeterminate={indeterminate}
+                    checkAll={checkAll}
+                    onCheckAllChange={(checked) => this.checkAllChange(checked)}
+                    checkedList={checkedList}
+                    changeCheckList={(list) => this.handleCheckList(list)}
+                  />
+                  {/* 房源图片 */}
+                  <HousePic
+                    form={this.formRef}
+                    fileList={fileList}
+                    handleFile={(info) => this.handleFileList(info)}
+                  />
+                  {/* 联系信息 */}
+                  <ContactInfo />
+                  {/* 按钮集 */}
+                  <ButtonList handleSubmit={this.handlePublish} resetData={this.handleReset} />
+                </Form>
+              </Col>
+              <Col span={4}>
+                <Affix offsetTop={0}>
+                  <Card>
+                    <Timeline>
+                      <Timeline.Item>基础信息</Timeline.Item>
+                      <Timeline.Item>租金信息</Timeline.Item>
+                      <Timeline.Item>详细介绍</Timeline.Item>
+                      <Timeline.Item>房源图片</Timeline.Item>
+                      <Timeline.Item>联系信息</Timeline.Item>
+                    </Timeline>
+                  </Card>
+                </Affix>
+              </Col>
+            </Row>
+          </>
+        )}
       </div>
     );
   }

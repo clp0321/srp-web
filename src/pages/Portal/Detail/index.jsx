@@ -43,8 +43,8 @@ const Detail = () => {
     // 查询房源详情
     getHouseDetail(house_id)
       .then((value) => {
-        console.log(value)
         if (value.msg === 'SUCCESS') {
+          console.log(value.data)
           setHouseDetail(value.data);
         }
       })

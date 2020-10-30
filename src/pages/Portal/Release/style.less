@@ -2,6 +2,29 @@
   width: 1190px;
   margin: auto;
   margin-top: 20px;
+  .product {
+    margin-top: 40px;
+    ul {
+      display: flex;
+      justify-content: space-between;
+      p {
+        text-align: center;
+        line-height: 40px;
+      }
+      img:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .lock {
+    text-align: center;
+  }
+  .desc {
+    font-size: 20px;
+  }
+  .p {
+    font-size: 16px;
+  }
   .margin {
     display: inline-block;
     width: 200px;
@@ -64,5 +87,34 @@
         }
       }
     }
+  }
+}
+
+.tianwang_base {
+  width: 400px;
+  margin: 20px auto;
+  text-align: center;
+  :global {
+    .ant-divider-horizontal {
+      display: inline-block;
+      margin: 24px 0;
+      width: 100px;
+      height: 1px;
+      min-width: 0;
+      vertical-align: middle;
+      background: #ccc;
+    }
+  }
+  span {
+    display: inline-block;
+    font-size: 16px;
+    width: 120px;
+    text-align: center;
+  }
+  img {
+    width: 120px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
   }
 }

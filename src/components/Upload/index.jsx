@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { Upload, message, Modal } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
-const UploadComponent = ({ form, handleFile }) => {
+const UploadComponent = ({ handleFile, house_id }) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const [house_id, setHouse_id] = useState('');
   const [files, setFiles] = useState([]);
   const handlePreview = async (file) => {
     let src = file.url;
@@ -30,16 +29,7 @@ const UploadComponent = ({ form, handleFile }) => {
     multiple: true,
     data,
     beforeUpload: (file) => {
-      // 文件上传需绑定设备编号信息
-      const newForm = form.current || form;
-      const cur_id = newForm.getFieldValue('deviceId');
-      if (!cur_id) {
-        message.error('请首先完善门锁编号信息');
-        newForm.setFields([
-          { name: ['deviceId'], value: '', errors: ['上传图片前，请完善设备信息！'] },
-        ]);
-        return false;
-      }
+      // @todo 文件上传 断点续传
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
         message.error(`只能上传JPG/PNG上传图片`);
@@ -53,7 +43,6 @@ const UploadComponent = ({ form, handleFile }) => {
       const newFile = files.slice();
       newFile.push(file); // 添加新的文件对象
       setFiles(newFile);
-      setHouse_id(cur_id); // 更新当前house_id值
       return isJpgOrPng && isLt1M;
     },
     onChange: (info) => {

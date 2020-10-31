@@ -116,22 +116,6 @@ const BaseInfo = () => {
         </Col>
         <Col>
           <Item
-            label="设备编号"
-            name="deviceId"
-            {...baseLayout}
-            rules={[
-              {
-                required: true,
-                message: '请输入设备编号',
-              },
-            ]}
-            style={{ marginLeft: 8 }}
-          >
-            <Input style={{ display: 'inline-block', width: 200 }} placeholder="输入设备编号" />
-          </Item>
-        </Col>
-        <Col>
-          <Item
             {...baseLayout}
             name="direction"
             label="房屋朝向"
@@ -285,9 +269,8 @@ const Detail = ({
 };
 
 // houstpic 房源图片
-const HousePic = ({ form, fileList, handleFile }) => {
+const HousePic = ({ handleFile, house_id }) => {
   return (
-    
     <>
       <TitleCon title="房源图片" className={style.sub_title} />
       <Item
@@ -300,7 +283,7 @@ const HousePic = ({ form, fileList, handleFile }) => {
           请上传清晰、实拍的室内图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照、风景照等与房源无关的图片，最多上传12张，每张最大1M
         </Paragraph>
         <Item noStyle>
-          <UploadComponent form={form} fileList={fileList} handleFile={handleFile} />
+          <UploadComponent house_id={house_id}  handleFile={handleFile} />
         </Item>
       </Item>
     </>

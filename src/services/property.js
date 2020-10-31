@@ -87,3 +87,8 @@ export async function getPicListById(house_id) {
 export async function deletePicById() {
   return request.delete();
 }
+
+// 获取系统生成houseID
+export async function getHouseId(id) {
+  return request(`/back/houseManage/houseId?userId=${id}`);
+}

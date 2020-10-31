@@ -62,5 +62,6 @@ Login.UserName = LoginItem.UserName;
 Login.Password = LoginItem.Password;
 Login.Mobile = LoginItem.Mobile;
 Login.Captcha = LoginItem.Captcha;
+Login.Cert = LoginItem.Cert;
 Login.RoleSelect = LoginItem.RoleSelect;
 export default Login;

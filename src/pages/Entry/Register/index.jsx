@@ -5,7 +5,7 @@ import FormWraper from '@/components/FormWraper';
 import { findSomeOne } from '@/services/login';
 import styles from './style.less';
 
-const { UserName, Password, Mobile, Submit, RoleSelect } = FormWraper;
+const { UserName, Password, Mobile, Submit, Cert, RoleSelect } = FormWraper;
 
 const FormItem = Form.Item;
 
@@ -42,10 +42,10 @@ const Register = (props) => {
   // 注册用户
   const handleSubmit = (values, form) => {
     const { dispatch } = props;
-    const { userName, password, phone, role } = values;
+    const { userName, password, phone, role, cerId, addressName } = values;
     dispatch({
       type: 'login/register',
-      payload: { userName, password, phone, role },
+      payload: values,
     }).then((res) => {
       if (res) {
         message.success('注册成功');
@@ -74,6 +74,7 @@ const Register = (props) => {
         {registerStatus === 'error' && loginType === 'username' && !submitting && (
           <RegisterMessage content="注册失败" />
         )}
+        <UserName name="addressName" placeholder="姓名" />
         <UserName
           name="userName"
           placeholder="用户名"
@@ -110,6 +111,7 @@ const Register = (props) => {
           ]}
         />
         <Mobile name="phone" placeholder="手机号" />
+        <Cert name="certId" placeholder="身份证号" />
         <RoleSelect name="role" />
         <Submit loading={submitting} type="primary">
           注册

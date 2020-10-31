@@ -1,4 +1,10 @@
-import { LockTwoTone, MailTwoTone, MobileTwoTone, UserOutlined } from '@ant-design/icons';
+import {
+  LockTwoTone,
+  MailTwoTone,
+  MobileTwoTone,
+  UserOutlined,
+  IdcardTwoTone,
+} from '@ant-design/icons';
 import React from 'react';
 import styles from './index.less';
 
@@ -60,6 +66,19 @@ export default {
       {
         required: true,
         message: '请输入验证码！',
+      },
+    ],
+  },
+  Cert: {
+    props: {
+      size: 'large',
+      prefix: <IdcardTwoTone className={styles.prefixIcon} />,
+      placeholder: 'certId',
+    },
+    rules: [
+      {
+        pattern: /^(\d{18,18}|\d{15,15}|\d{17,17}X)$/,
+        message: '身份证信息不正确',
       },
     ],
   },

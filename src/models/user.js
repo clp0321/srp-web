@@ -16,7 +16,7 @@ const UserModel = {
     },
 
     *fetchCurrent(_, { call, put }) {
-      const username = localStorage.getItem('name')
+      const username = localStorage.getItem('name');
       if (username) {
         const resp = yield call(getCurrentUser, username);
         yield put({

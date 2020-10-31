@@ -11,10 +11,10 @@ import {
   Button,
   Divider,
   Typography,
-  Modal
+  Modal,
 } from 'antd';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
-import { addProperty } from '@/services/property';
+import { getHouseId, addProperty } from '@/services/property';
 import lock1 from '@/assets/lock/lock1.png';
 import lock2 from '@/assets/lock/lock2.png';
 import lock3 from '@/assets/lock/lock3.png';
@@ -108,6 +108,7 @@ class Release extends React.Component {
         role: '',
       },
       visible: true,
+      returnId: '',
     };
   }
 
@@ -152,7 +153,7 @@ class Release extends React.Component {
   };
 
   handlePublish = async () => {
-    const { fileList } = this.state;
+    const { fileList, returnId, deviceId } = this.state;
     this.formRef.current.validateFields().then(async (values) => {
       if (fileList.length === 0) {
         message.warning('请至少上传一张房源图片');
@@ -175,7 +176,6 @@ class Release extends React.Component {
         phone,
         payway,
         publisher,
-        deviceId,
         size,
         position,
         room,
@@ -201,7 +201,6 @@ class Release extends React.Component {
       });
       houseConfiglist.push(house_obj);
       priceContentlist.push(price_obj);
-
       const resp = await addProperty({
         houseLng: lng, // 经度
         houseLat: lat, // 纬度
@@ -213,7 +212,6 @@ class Release extends React.Component {
         phone,
         payway,
         publisher,
-        houseId: deviceId,
         size,
         position,
         specify: `${room}室${hall}厅${guard}卫`,
@@ -227,6 +225,7 @@ class Release extends React.Component {
         numbers,
         houseConfiglist,
         priceContentlist,
+        houseId: returnId,
       });
       if (resp.msg === 'SUCCESS') {
         message.success('房源发布成功');
@@ -274,18 +273,38 @@ class Release extends React.Component {
     this.formRef.current.resetFields();
   };
 
-  // 认证房源
-  handleAuthorize = () => {
-    Modal.success({
-      title: '设备已认证通过,请补充相关房源内容!',
-    })
+  handleInputChange = (e) => {
     this.setState({
-      visible: false,
+      deviceId: e.target.value,
     });
   };
 
+  // 认证房源
+  handleAuthorize = () => {
+    const userId = localStorage.getItem('id');
+    const { deviceId } = this.state;
+    if (!deviceId) {
+      message.warning('请补充设备信息');
+      return;
+    }
+    getHouseId(userId)
+      .then((values) => {
+        if (values && values.data) {
+          this.setState({
+            returnId: values.data,
+            visible: false,
+            deviceId,
+          });
+        }
+        Modal.success({
+          title: '设备已认证通过,请补充相关房源内容!',
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
   render() {
-    const { indeterminate, checkAll, checkedList, fileList, visible } = this.state;
+    const { indeterminate, checkAll, checkedList, fileList, visible, returnId } = this.state;
     const userName = localStorage.getItem('name');
     const role = localStorage.getItem('role');
 
@@ -296,7 +315,11 @@ class Release extends React.Component {
             <div className={style.lock}>
               <Title level={2}>门锁设备认证</Title>
               <img src={smartLock} />
-              <Input style={{ width: 300 }} placeholder="请输入待认证的设备编号" />
+              <Input
+                style={{ width: 300 }}
+                placeholder="请输入待认证的设备编号"
+                onChange={this.handleInputChange}
+              />
               <Button
                 type="primary"
                 style={{ marginLeft: 10, width: 150 }}
@@ -374,7 +397,7 @@ class Release extends React.Component {
                   />
                   {/* 房源图片 */}
                   <HousePic
-                    form={this.formRef}
+                    house_id={returnId}
                     fileList={fileList}
                     handleFile={(info) => this.handleFileList(info)}
                   />

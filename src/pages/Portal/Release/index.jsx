@@ -192,11 +192,12 @@ class Release extends React.Component {
       const priceContentlist = [];
       let house_obj = {},
         price_obj = {};
-      configlist.map((item) => {
+      const configArr = configlist || [];
+      const priceArr = pricelist || [];
+      configArr.map((item) => {
         if (configObj[item]) house_obj[configObj[item]] = item;
       });
-      console.log(pricelist);
-      pricelist.map((item) => {
+      priceArr.map((item) => {
         if (priceObj[item]) price_obj[priceObj[item]] = item;
       });
       houseConfiglist.push(house_obj);

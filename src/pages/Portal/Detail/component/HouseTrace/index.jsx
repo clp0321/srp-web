@@ -108,7 +108,7 @@ const mockOrderList = [
   },
 ];
 
-const HouseTrace = ({ picUrl }) => {
+const HouseTrace = ({ picUrl, detail }) => {
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(stateArr);
   const [picVisible, setPicVisible] = useState(false);
@@ -184,44 +184,6 @@ const HouseTrace = ({ picUrl }) => {
     );
   };
 
-  // 时间溯源界面
-  const TimeTraceLine = ({ data }) => {
-    return (
-      <Descriptions title="房源记录" bordered>
-        <Item label="产权人">daqing</Item>
-        <Item label="房屋状态">
-          <Badge status="processing" />
-          出租中
-        </Item>
-        <Item label="代理人">李明</Item>
-        <Item label="设备Id">
-          <Tooltip title="6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12">
-            <Text ellipsis={true} style={{ width: 200 }}>
-              6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12
-            </Text>
-          </Tooltip>
-        </Item>
-        <Item label="认证等级">4</Item>
-        <Item label="信息摘要">
-          <Text ellipsis={true} copyable>
-            34ec33c44d2344f426ab653d7863a0ff928b605f87b60541fb6195fcabe913a2
-          </Text>
-        </Item>
-        <Item label="房源Id" span={3}>
-          <Text ellipsis={true} copyable>
-            6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
-          </Text>
-        </Item>
-        <Item label="图片Cid" span={3}>
-          <a onClick={showPic}>QmdAj1dEFJv1ABAgJYxpU6xZcwcGy563nXF1cfiP64Xpwz</a>
-        </Item>
-        <Item label="时间戳" span={3}>
-          2020-10-07 08:11:14
-        </Item>
-      </Descriptions>
-    );
-  };
-
   // 看房记录
   const watch_all = mockWathRoom
     .reverse()
@@ -231,6 +193,9 @@ const HouseTrace = ({ picUrl }) => {
   const record_all = mockOrderList.map((item, index) => (
     <OrderComponent index={index} data={item} />
   ));
+
+  // 获取详情信息
+  const { publisher, agency, device, grade, digest, houseId, timestamp, cid } = detail;
 
   return (
     <>
@@ -251,72 +216,34 @@ const HouseTrace = ({ picUrl }) => {
       {/* 房源溯源记录 */}
       <Timeline reverse className={style.timeline}>
         <Timeline.Item>
-          <Descriptions title="房源记录-1" bordered>
-            <Item label="产权人">daqing</Item>
+          <Descriptions title="房源记录" bordered>
+            <Item label="产权人">{publisher}</Item>
             <Item label="房屋状态" style={{ width: 110 }}>
               <Badge status="default" />
-              未出租
+              {detail.status}
             </Item>
-            <Item label="代理人">无</Item>
+            <Item label="代理人">{agency}</Item>
             <Item label="设备Id">
               <Tooltip title="6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12">
                 <Text ellipsis={true} style={{ width: 200 }}>
-                  6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12
+                  {device}
                 </Text>
               </Tooltip>
             </Item>
             <Item label="认证等级" style={{ width: 110 }}>
-              2
+              {grade}
             </Item>
             <Item label="信息摘要">
-              <Text ellipsis={true} copyable>
-                2fb48ee814269fb67e2987659e0792ae2f378eba54cd141bbdc021da5a811c2
-              </Text>
+              <Text ellipsis={true}>{digest}</Text>
             </Item>
             <Item label="房源Id" span={3}>
-              <Text ellipsis={true} copyable>
-                6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
-              </Text>
+              <Text ellipsis={true}>{houseId}</Text>
             </Item>
             <Item label="图片Cid" span={3}>
-              <a onClick={showPic}>QmTq99WTkcgvDQ8F4sQGf6kBhmaQoo9mpod9kp4Rf51N5T</a>
+              <a onClick={showPic}>{cid}</a>
             </Item>
             <Item label="时间戳" span={3}>
-              2020-10-01 08:11:14
-            </Item>
-          </Descriptions>
-        </Timeline.Item>
-        <Timeline.Item>
-          <Descriptions title="房源记录-2" bordered>
-            <Item label="产权人">daqing</Item>
-            <Item label="房屋状态">
-              <Badge status="processing" />
-              出租中
-            </Item>
-            <Item label="代理人">李明</Item>
-            <Item label="设备Id">
-              <Tooltip title="6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12">
-                <Text ellipsis={true} style={{ width: 200 }}>
-                  6b4840f6fb1ae572669e68f04fe83c509f752925c88d75f5e19894f8158a4d12
-                </Text>
-              </Tooltip>
-            </Item>
-            <Item label="认证等级">4</Item>
-            <Item label="信息摘要">
-              <Text ellipsis={true} copyable>
-                34ec33c44d2344f426ab653d7863a0ff928b605f87b60541fb6195fcabe913a2
-              </Text>
-            </Item>
-            <Item label="房源Id" span={3}>
-              <Text ellipsis={true} copyable>
-                6241e7d6fead6d95b9f84c4c7921966fc354730858630fa55a08eeba38c9fd547e3060d37c6e79d7c8a830ccfa79b05501ff734cf8d0cabf146da6c3e4ea414f
-              </Text>
-            </Item>
-            <Item label="图片Cid" span={3}>
-              <a onClick={showPic}>QmdAj1dEFJv1ABAgJYxpU6xZcwcGy563nXF1cfiP64Xpwz</a>
-            </Item>
-            <Item label="时间戳" span={3}>
-              2020-10-07 08:11:14
+              {timestamp}
             </Item>
           </Descriptions>
         </Timeline.Item>

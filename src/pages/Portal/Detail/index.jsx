@@ -12,6 +12,7 @@ const { TabPane } = Tabs;
 const Detail = () => {
   const [key, setKey] = useState('1');
   const [maskVisible, showMask] = useState(false);
+  const [traceDetail, setTrace] = useState({});
   const [detail, setHouseDetail] = useState({
     houseId: '',
     deviceId: '',
@@ -44,8 +45,19 @@ const Detail = () => {
     getHouseDetail(house_id)
       .then((value) => {
         if (value.msg === 'SUCCESS') {
-          console.log(value.data)
           setHouseDetail(value.data);
+          const {
+            publisher,
+            status,
+            agency,
+            device,
+            grade,
+            digest,
+            houseId,
+            timestamp,
+            cid,
+          } = value.data;
+          setTrace({ publisher, status, agency, device, grade, digest, houseId, timestamp, cid });
         }
       })
       .catch((err) => console.log(err));
@@ -74,7 +86,7 @@ const Detail = () => {
             <HouseDetail houseDetail={detail} />
           </TabPane>
           <TabPane tab="信息溯源" key="2">
-            <HouseTrace picUrl={picUrl} />
+            <HouseTrace picUrl={picUrl} detail={traceDetail} />
           </TabPane>
           <TabPane tab="房屋点评" key="3">
             <HouseComment />

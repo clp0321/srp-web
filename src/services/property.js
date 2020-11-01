@@ -3,7 +3,7 @@ import qs from 'qs';
 
 // 条件查询房源信息
 export async function findPropertyByItems(data) {
-  return request(`/back/houseManage/choice?${qs.stringify(data)}`);
+  return request(`/back/houseManage/choice?${qs.stringify(data)}&pageNum=1&pageSize=10`);
 }
 
 // 添加房源
@@ -28,8 +28,8 @@ export async function addEstate(data) {
 }
 
 // 获取全部房源信息
-export async function getProperty() {
-  return request('/back/houseManage/houseManages');
+export async function getProperty(curpage, size) {
+  return request(`/back/houseManage/houseManages?pageNum=${curpage}&pageSize=${size}`);
 }
 
 // houst_id获取房源详情信息

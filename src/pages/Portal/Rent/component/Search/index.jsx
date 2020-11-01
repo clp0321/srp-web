@@ -40,7 +40,7 @@ const SearchBar = ({ currentUser, handle, setConList, setRefresh, curTab }) => {
     const resp = await findPropertyByItems({ position: values, order });
     setTimeout(() => {
       if (resp && resp.data) {
-        setConList(resp.data);
+        setConList(resp.data.list);
         handle(false);
         setRefresh();
       }

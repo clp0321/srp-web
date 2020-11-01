@@ -27,7 +27,7 @@ const ConList = ({ visible, list, changeTab, curTab, selectOpt, handle, setConLi
     const resp = await findPropertyByItems({ ...newData });
     setTimeout(() => {
       if (resp && resp.data) {
-        setConList(resp.data);
+        setConList(resp.data.list);
         handle(false);
       }
     }, 500);

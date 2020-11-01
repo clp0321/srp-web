@@ -148,7 +148,7 @@ const SearchMultiple = ({ handle, setConList, selectOpt, setSelectedOpt, curTab 
     const resp = await findPropertyByItems({ ...data });
     setTimeout(() => {
       if (resp && resp.data) {
-        setConList(resp.data);
+        setConList(resp.data.list);
         handle(false);
       }
     }, 500);

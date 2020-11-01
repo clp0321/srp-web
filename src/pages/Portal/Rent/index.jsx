@@ -26,6 +26,8 @@ class Rent extends Component {
       constList: [],
       fresh: false,
       tab: 'default', // tab页
+      curpage: 1,
+      pagesize: 10,
       selectOpt: {
         position: '',
         lowPrice: '',
@@ -48,10 +50,11 @@ class Rent extends Component {
 
   // 获取所有房源信息
   getAllProperty = async () => {
-    const resp = await getProperty();
+    const { curpage, pagesize } = this.state;
+    const resp = await getProperty(curpage, pagesize);
     if (resp.msg === 'SUCCESS') {
       this.setState({
-        constList: resp.data,
+        constList: resp.data.list,
       });
     }
   };

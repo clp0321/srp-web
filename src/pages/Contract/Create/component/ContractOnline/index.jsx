@@ -10,6 +10,7 @@ import {
   InputNumber,
   Button,
   Popconfirm,
+  message,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import BaseInfo from '@/components/BaseInfo';
@@ -63,6 +64,10 @@ const ContractOnline = ({ opt = 1 }) => {
 
   const handleConfirm = () => {
     const key = form.getFieldValue('item');
+    if (!key) {
+      message.warning('请选择新增项目');
+      return false;
+    }
     // 深拷贝
     const arr = JSON.parse(JSON.stringify(addCon));
     arr.push(optionBySelect[key]);
@@ -121,10 +126,7 @@ const ContractOnline = ({ opt = 1 }) => {
               </Item>
             </Col>
             <Col span={8}>
-              <Item
-                label="代理"
-                name="agency"
-              >
+              <Item label="代理" name="agency">
                 <Input placeholder="输入代理" />
               </Item>
             </Col>
@@ -140,7 +142,7 @@ const ContractOnline = ({ opt = 1 }) => {
                 <DatePicker />
               </Item>
             </Col>
-          </Row>{' '}
+          </Row>
           <Item label="备注信息" name="info">
             <Input.TextArea rows={3} placeholder="输入备注信息" />
           </Item>
@@ -166,7 +168,7 @@ const ContractOnline = ({ opt = 1 }) => {
                 name="late_fee"
                 rules={[{ required: true, message: '请输入滞纳金' }]}
               >
-                <InputNumber min={1} placeholder="输入滞纳金"  />
+                <InputNumber min={1} placeholder="输入滞纳金" />
               </Item>
             </Col>
             <Col span={12}>
@@ -175,36 +177,38 @@ const ContractOnline = ({ opt = 1 }) => {
                 name="grace"
                 rules={[{ required: true, message: '请输入宽限期' }]}
               >
-                <InputNumber min={1} placeholder="输入宽限期"  />
+                <InputNumber min={1} placeholder="输入宽限期" />
               </Item>
             </Col>
             {addField}
           </Row>
-          <div style={{ textAlign: 'center' }}>
-            <div className={style.addItem}>
-              <Item name="item">
-                <Select
-                  inputValue=""
-                  placeholder="请输入其他收费项目"
-                  style={{ width: 300, marginRight: 10 }}
-                  allowClear
-                >
-                  {filterOpt.map((item, index) => {
-                    return (
-                      <Option key={index} value={item.value}>
-                        {item.data}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Item>
-              <Popconfirm title="确认新增该项目？" onConfirm={handleConfirm} onCancel={() => {}}>
-                <Button type="dashed">
-                  <PlusOutlined /> 新增
-                </Button>
-              </Popconfirm>
+          {addCon.length === 3 ? null : (
+            <div style={{ textAlign: 'center' }}>
+              <div className={style.addItem}>
+                <Item name="item">
+                  <Select
+                    inputValue=""
+                    placeholder="请输入其他收费项目"
+                    style={{ width: 300, marginRight: 10 }}
+                    allowClear
+                  >
+                    {filterOpt.map((item, index) => {
+                      return (
+                        <Option key={index} value={item.value}>
+                          {item.data}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </Item>
+                <Popconfirm title="确认新增该项目？" onConfirm={handleConfirm} onCancel={() => {}}>
+                  <Button type="dashed">
+                    <PlusOutlined /> 新增
+                  </Button>
+                </Popconfirm>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </Form>
       <div className={style.button}>

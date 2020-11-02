@@ -108,11 +108,6 @@ export default defineConfig({
               redirect: '/welcome',
             },
             {
-              path: '/monitor',
-              component: './Dashboard',
-              authority: ['landlord'],
-            },
-            {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',

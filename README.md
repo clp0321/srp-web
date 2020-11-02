@@ -40,6 +40,8 @@ yarn build
 │   │   ├─ config.js                           # 基础启动配置、路由
 │   │   ├─ defaultsetting.js                   # 默认设置项
 │   │   ├─ proxy.js                            # 代理配置
+│   ├─ dist/                                   # 模拟数据和接口，本地开发使用
+│   ├─ images/                                 # 项目依赖
 │   ├─ mock/                                   # 模拟数据和接口，本地开发使用
 │   ├─ node_modules/                           # 项目依赖
 │   ├─ public/                                 # 项目公共图标、图片
@@ -74,14 +76,20 @@ yarn build
 
 ## 项目截图
 
+> **门户首页**
 ![门户首页](./images/home.png)
 
+> **搜房找房**
 ![搜房找房](./images/search.png)
 
+> **房源详情**
 ![房源详情](./images/detail.png)
 
+> **房源记录&认证评级**
 ![房源记录&认证评级](./images/list_comment.png)
 
+> **租屋管理**
 ![租屋管理](./images/rent.png)
 
+> **信息溯源**
 ![信息溯源](./images/trace.png)

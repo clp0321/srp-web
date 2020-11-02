@@ -74,14 +74,14 @@ yarn build
 
 ## 项目截图
 
-![门户首页](./images/screenshot/home.png)
+![门户首页](./images/home.png)
 
-![搜房找房](./images/screenshot/search.png)
+![搜房找房](./images/search.png)
 
-![房源详情](./images/screenshot/detail.png)
+![房源详情](./images/detail.png)
 
-![房源记录&认证评级](./images/screenshot/list_comment.png)
+![房源记录&认证评级](./images/list_comment.png)
 
-![租屋管理](./images/screenshot/rent.png)
+![租屋管理](./images/rent.png)
 
-![信息溯源](./images/screenshot/trace.png)
+![信息溯源](./images/trace.png)

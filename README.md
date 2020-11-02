@@ -36,7 +36,7 @@ yarn start
 yarn build
 ```
 
-## 项目架构
+## 目录结构
 
 ```
 ├─ srp-web/

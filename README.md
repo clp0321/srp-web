@@ -2,7 +2,11 @@
 
 > 基于 5G、物联网以及区块链技术，为租客、房东打造一个交易费用低廉、房源信息真实、违约纠纷少、租务管理智能的可信租赁管理平台。 本仓库为项目前端源代码仓库，基于[React.JS](https://reactjs.org/)开发，使用[Ant Design Pro](https://pro.ant.design)企业级前端/设计解决方案。
 
-**本地环境需要安装 yarn、node 和 git**
+## 所需运行环境
+
+- [yarn](https://classic.yarnpkg.com/en/docs/install#windows-stable)
+- [node.js](https://nodejs.org/en/) 
+- [git](https://git-scm.com/downloads)
 
 ## 启动前准备
 

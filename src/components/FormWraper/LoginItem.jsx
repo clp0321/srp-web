@@ -103,12 +103,12 @@ const LoginItem = (props) => {
       <FormItem shouldUpdate noStyle>
         {({ getFieldValue }) => (
           <Row gutter={8}>
-            <Col span={16}>
+            <Col span={14}>
               <FormItem name={name} {...options}>
                 <Input {...customProps} {...inputProps} />
               </FormItem>
             </Col>
-            <Col span={8}>
+            <Col span={10}>
               <Button
                 disabled={timing}
                 className={styles.getCaptcha}

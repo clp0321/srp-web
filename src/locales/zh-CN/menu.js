@@ -78,5 +78,6 @@ export default {
 
   'menu.user.manage': '管理',
 
-  'menu.person': '用户'
+  'menu.person': '用户',
+  'menu.authority': '权限'
 };

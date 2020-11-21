@@ -15,11 +15,11 @@ export default {
       },
     },
     '/user': {
-      target: 'http://10.113.8.184:8989',
+      target: 'http://202.193.60.4:8989',
       changeOrigin: true,
     },
     '/back': {
-      target: 'http://10.113.8.184:8989',
+      target: 'http://202.193.60.4:8989',
       changeOrigin: true,
       pathRewrite: {
         '/back': '',

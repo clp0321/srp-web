@@ -11,7 +11,6 @@ export default defineConfig({
     hmr: true,
   },
   locale: {
-    // default zh-CN
     default: 'zh-CN',
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
@@ -254,6 +253,12 @@ export default defineConfig({
               icon: 'user',
               path: '/account',
               component: './Center',
+            },
+            {
+              name: 'authority',
+              icon: 'highlight',
+              path: '/authority',
+              component: './Authority'
             },
             {
               component: './404',

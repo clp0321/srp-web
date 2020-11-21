@@ -25,13 +25,6 @@ const Register = (props) => {
   const [form] = Form.useForm();
   const [userError, setError] = useState('');
   const [help, setHelp] = useState(null);
-  const [initialValue] = useState({
-    userName: '',
-    password: '',
-    rePassword: '',
-    phone: '',
-    role: '',
-  });
   const { userRegister = {}, submitting } = props;
   const { registerStatus, type: loginType } = userRegister;
 
@@ -42,7 +35,7 @@ const Register = (props) => {
   // 注册用户
   const handleSubmit = (values, form) => {
     const { dispatch } = props;
-    const { userName, password, phone, role, cerId, addressName } = values;
+    values.enabled = true; // 添加unabled属性
     dispatch({
       type: 'login/register',
       payload: values,

@@ -27,7 +27,7 @@ yarn install
 ### 启动
 
 ```
-yarn start
+yarn run con-start
 ```
 
 ### 项目打包

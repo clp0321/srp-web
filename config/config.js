@@ -258,7 +258,23 @@ export default defineConfig({
               name: 'authority',
               icon: 'highlight',
               path: '/authority',
-              component: './Authority'
+              routes: [
+                {
+                  name: 'permission',
+                  path: '/authority/permission',
+                  component: './Authority/Permission',
+                },
+                {
+                  name: 'requset',
+                  path: '/authority/requset',
+                  component: './Authority/Request',
+                },
+                {
+                  name: 'manage',
+                  path: '/authority/manage',
+                  component: './Authority/Manage',
+                },
+              ],
             },
             {
               component: './404',

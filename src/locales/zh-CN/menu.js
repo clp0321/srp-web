@@ -79,5 +79,10 @@ export default {
   'menu.user.manage': '管理',
 
   'menu.person': '用户',
-  'menu.authority': '权限'
+  'menu.authority': '超管',
+  
+  'menu.authority.permission': '权限管理',
+  'menu.authority.requset': '路径管理',
+  'menu.authority.manage': '角色管理',
+
 };

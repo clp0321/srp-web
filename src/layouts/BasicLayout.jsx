@@ -28,7 +28,6 @@ const noMatch = (
 
 const menuDataRender = (menuList) =>
   menuList.map((item) => {
-    console.log(menuList)
     const localItem = {
       ...item,
       children: item.children ? menuDataRender(item.children) : undefined,

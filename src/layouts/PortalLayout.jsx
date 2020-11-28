@@ -17,19 +17,19 @@ const WelcomeHeader = () => {
       <img src={logUrl} className={style.home_logo} />
       <Text strong className={style.log_list}>
         <img src={search_home} />
-        <Link to="/srp/rent" className={style.search_home}>深圳租房</Link>
-        <img src={trace} />
-        <Link to="/srp/blockmessage" >
-          信息溯源
+        <Link to="/srp/rent" className={style.search_home}>
+          深圳租房
         </Link>
+        <img src={trace} />
+        <Link to="/srp/blockmessage">信息溯源</Link>
       </Text>
     </div>
   );
 };
 
 const PortalLayout = (props) => {
-  const { children, dispatch } = props;
-  
+  const { children, dispatch, currentUser } = props;
+
   // 保存当前身份用户
   useEffect(() => {
     if (dispatch) {
@@ -38,9 +38,9 @@ const PortalLayout = (props) => {
       });
     }
   });
-  
+
   const path = location.pathname;
- 
+
   let header = path === '/srp/welcome' ? <WelcomeHeader /> : <RentHome pathname={path} />;
 
   return (
@@ -56,4 +56,7 @@ const PortalLayout = (props) => {
   );
 };
 
-export default connect((global) => ({ collapsed: global.collapsed }))(PortalLayout);
+export default connect(({ global, login }) => ({
+  collapsed: global.collapsed,
+  currentUser: login.currentUser,
+}))(PortalLayout);

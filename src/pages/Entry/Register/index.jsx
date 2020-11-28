@@ -42,7 +42,6 @@ const Register = (props) => {
     }).then((res) => {
       if (res) {
         message.success('注册成功');
-        console.log(form);
         form.resetFields();
       } else {
         message.error('注册失败');

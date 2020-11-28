@@ -1,7 +1,7 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
+import { notification } from 'antd';
 import { userLogin, userAdd } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
 const Model = {
@@ -9,22 +9,21 @@ const Model = {
   state: {
     status: undefined,
     registerStatus: undefined,
+    currentUser: {},
   },
   effects: {
     // 用户登入
     *login({ payload }, { call, put }) {
       const response = yield call(userLogin, payload);
-      const { msg } = response;
-      if (msg === '登录成功！') {
-        // 将返回登入用户信息存入缓存中
-        localStorage.setItem('name', payload.username);
-        
+      const { code, data, msg } = response;
+      if (code === 200) {
+        // 用户信息存储浏览器
+        localStorage.setItem('username', data.userName);
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
-
           if (redirectUrlParams.origin === urlParams.origin) {
             redirect = redirect.substr(urlParams.origin.length);
 
@@ -37,11 +36,16 @@ const Model = {
           }
         }
         history.replace('/srp/rent');
+        return {};
       } else {
         yield put({
           type: 'changeLoginStatus',
-          payload: { currentAuthority: 'guest', status: 'error' },
+          payload: { status: 'error' },
         });
+        return {
+          code,
+          msg,
+        };
       }
     },
     // 用户注册
@@ -73,7 +77,6 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
       return { ...state, status: payload.status };
     },
     changeRegisterStatus(state, { payload }) {

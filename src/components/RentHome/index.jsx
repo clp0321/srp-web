@@ -1,7 +1,6 @@
 import { connect, Link } from 'umi';
-import { Avatar, Modal } from 'antd';
+import { Avatar, Modal, message } from 'antd';
 import { MacCommandOutlined, LogoutOutlined } from '@ant-design/icons';
-import { getAuthority, setAuthority } from '@/utils/authority';
 import home_new from '@/assets/introduce/home-new.png';
 import search_home from '@/assets/introduce/search_home.png';
 import trace from '@/assets/introduce/trace.png';
@@ -11,7 +10,7 @@ const RentHome = ({ currentUser, pathname }) => {
   // 登入
   const handleLogin = () => {
     // 判断当前是否登入
-    const user = getAuthority()[0];
+    const user = localStorage.getItem('username');
     if (!user) {
       message.warning('请先登入本系统');
     }
@@ -23,8 +22,7 @@ const RentHome = ({ currentUser, pathname }) => {
     Modal.confirm({
       title: '确认退出本系统？',
       onOk: () => {
-        setAuthority('');
-        localStorage.removeItem('name');
+        localStorage.removeItem('username');
         window.location.reload();
       },
       onCancel: () => {},

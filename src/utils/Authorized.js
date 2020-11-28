@@ -1,18 +1,13 @@
 import RenderAuthorize from '@/components/Authorized';
-import { getAuthority } from './authority';
-/* eslint-disable eslint-comments/disable-enable-pair */
 
-/* eslint-disable import/no-mutable-exports */
+// const userLabel = ['tenant', 'landlord', 'agent', 'supervisor', 'platformer', 'superadmin'];
 
-let Authorized = RenderAuthorize(getAuthority()); // Reload the rights component
+// 获取当前登录用户身份
+let Authorized = RenderAuthorize(); // Reload the rights component
 
 const reloadAuthorized = () => {
-  Authorized = RenderAuthorize(getAuthority());
+  Authorized = RenderAuthorize();
 };
-/**
- * hard code
- * block need it。
- */
 
 window.reloadAuthorized = reloadAuthorized;
 export { reloadAuthorized };

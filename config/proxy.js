@@ -14,6 +14,13 @@ export default {
         '^': '',
       },
     },
+    '/users': {
+      target: 'http://202.193.60.4:8989',
+      changeOrigin: true,
+      pathRewrite: {
+        '/users': '',
+      },
+    },
     '/user': {
       target: 'http://202.193.60.4:8989',
       changeOrigin: true,

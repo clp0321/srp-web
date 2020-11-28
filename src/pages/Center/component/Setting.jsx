@@ -10,7 +10,6 @@ const { Option } = Select;
 
 const Setting = (props) => {
   const { dispatch, currentUser } = props;
-  console.log(currentUser);
   const [form] = Form.useForm();
   const {
     addressName,
@@ -19,8 +18,6 @@ const Setting = (props) => {
     certId,
     phone,
     address,
-    userHash,
-    credit_value,
     avatar,
     password,
     id,

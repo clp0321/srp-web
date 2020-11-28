@@ -1,4 +1,4 @@
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import { query as queryUsers } from '@/services/user';
 import { getCurrentUser } from '@/services/login';
 
 const UserModel = {
@@ -26,6 +26,7 @@ const UserModel = {
       }
     },
   },
+
   reducers: {
     saveCurrentUser(state, action) {
       return { ...state, currentUser: action.payload || {} };

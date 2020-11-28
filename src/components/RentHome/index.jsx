@@ -25,7 +25,6 @@ const RentHome = ({ currentUser, pathname }) => {
       onOk: () => {
         setAuthority('');
         localStorage.removeItem('name');
-        localStorage.removeItem('role');
         window.location.reload();
       },
       onCancel: () => {},

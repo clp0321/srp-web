@@ -14,33 +14,11 @@ const Model = {
     // 用户登入
     *login({ payload }, { call, put }) {
       const response = yield call(userLogin, payload);
-      const { data } = response;
-      if (data) {
+      const { msg } = response;
+      if (msg === '登录成功！') {
         // 将返回登入用户信息存入缓存中
-        localStorage.setItem('name', data.userName);
-        localStorage.setItem('role', data.role);
-        localStorage.setItem('id', data.id)
-        yield put({
-          type: 'user/saveCurrentUser',
-          payload: data,
-        });
-        // 设置登陆用户的身份信息 房东、租客、监管人员，分别对应landlord、tenant、supervisor
-        let role;
-        switch (data.role) {
-          case 0:
-            role = 'tenant';
-            break;
-          case 1:
-            role = 'landlord';
-            break;
-          case 2: 
-            role = 'supervisor';
-          default: ''
-        }
-        yield put({
-          type: 'changeLoginStatus',
-          payload: { currentAuthority: role, status: 'ok' },
-        });
+        localStorage.setItem('name', payload.username);
+        
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;

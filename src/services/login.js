@@ -13,9 +13,8 @@ export async function getFakeCaptcha(mobile) {
 
 // 用户登陆
 export async function userLogin(data) {
-  return request.post('/user/login', {
-    data,
-    requestType: 'form',
+  return request.post('/users/login', {
+    params: data,
   });
 }
 

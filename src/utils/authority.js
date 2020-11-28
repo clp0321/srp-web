@@ -1,5 +1,6 @@
 import { reloadAuthorized } from './Authorized'; // use localStorage to store the authority info, which might be sent from server in actual project.
 
+// 获取当前浏览器存储中的用户身份信息
 export function getAuthority(str) {
   const authorityString =
     typeof str === 'undefined' && localStorage ? localStorage.getItem('antd-pro-authority') : str; // authorityString could be admin, "admin", ["admin"]
@@ -25,6 +26,8 @@ export function getAuthority(str) {
 
   return authority;
 }
+
+// 设置当前浏览器存储的用户信息
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
   localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority)); // auto reload

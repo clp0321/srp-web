@@ -18,7 +18,7 @@ const AuthorizedRoute = ({ component: Component, render, authority, redirectPath
       />
     }
   >
-    <Route {...rest} render={props => (Component ? <Component {...props} /> : render(props))} />
+    <Route {...rest} render={(props) => (Component ? <Component {...props} /> : render(props))} />
   </Authorized>
 );
 

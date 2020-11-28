@@ -29,10 +29,10 @@ const Login = (props) => {
 
   const handleSubmit = (values) => {
     const { dispatch } = props;
-    const { userName, password } = values;
+    const { username, password } = values;
     dispatch({
       type: 'login/login',
-      payload: { userName, password },
+      payload: { username, password },
     });
   };
 
@@ -40,7 +40,7 @@ const Login = (props) => {
     <div className={styles.main}>
       <FormWraper onSubmit={handleSubmit}>
         {status === 'error' && !submitting && <LoginMessage content="登陆失败" />}
-        <UserName name="userName" placeholder="用户名" />
+        <UserName name="username" placeholder="用户名" />
         <Password
           name="password"
           placeholder="密码"

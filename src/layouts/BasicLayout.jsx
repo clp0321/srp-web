@@ -23,9 +23,12 @@ const noMatch = (
 
 /**
  * use Authorized check all menu item
+ * 路由 鉴权
  */
+
 const menuDataRender = (menuList) =>
   menuList.map((item) => {
+    console.log(menuList)
     const localItem = {
       ...item,
       children: item.children ? menuDataRender(item.children) : undefined,

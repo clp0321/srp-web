@@ -1,8 +1,8 @@
 import react from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Table, Card } from 'antd';
+import { Table, Card, Divider } from 'antd';
+import { getAllUser } from '@/services/login' 
 import style from '../style.less';
-
 
 export default class Manage extends React.PureComponent {
   columns = [
@@ -23,7 +23,16 @@ export default class Manage extends React.PureComponent {
       dataIndex: '',
     },
     {
-      
+      titlt: '操作',
+      render: (_, record) => {
+        return (
+          <>
+            <a>查询权限</a>
+            <Divider type="vertical" />
+            <a>删除权限</a>
+          </>
+        );
+      },
     },
   ];
 
@@ -32,6 +41,16 @@ export default class Manage extends React.PureComponent {
     this.state = {
       dataSource: [],
     };
+  }
+
+  componentDidMount() {
+    this.getAllUsers();
+  }
+
+  getAllUsers = () => {
+    getAllUser().then(data => {
+      console.log(data)
+    })
   }
 
   render() {

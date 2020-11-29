@@ -11,6 +11,8 @@ import {
   Input,
   Pagination,
   message,
+  Select,
+  Typography,
 } from 'antd';
 import {
   getAllPermissions,
@@ -21,6 +23,8 @@ import {
 import style from '../style.less';
 
 const { Item } = Form;
+const { Text } = Typography;
+const { Option } = Select;
 export default class Permission extends React.PureComponent {
   formRef = React.createRef();
 
@@ -58,6 +62,15 @@ export default class Permission extends React.PureComponent {
             >
               <a href="#">修改</a>
             </Popconfirm>
+            <Divider type="vertical" />
+            <Popconfirm
+              title="确认分配URL？"
+              onConfirm={() => this.addRoute(record.id)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a href="#">分配URL</a>
+            </Popconfirm>
           </>
         );
       },
@@ -72,9 +85,11 @@ export default class Permission extends React.PureComponent {
       current: 1,
       dataSource: [],
       modalVisible: false,
+      visible: false,
       modalTitle: '',
       loading: false,
       cur_id: 0,
+      selectOpt: '',
     };
   }
 
@@ -173,12 +188,52 @@ export default class Permission extends React.PureComponent {
     });
   };
 
+  addRoute = (rid) => {
+    this.setState({
+      cur_id: rid,
+      visible: true,
+    });
+  };
+
   handleOnPage = (page, pageSize) => {
     this.getPermissionsByItems(page, pageSize);
   };
 
+  handleAssignCancel = () => {
+    this.setState({
+      visible: false,
+      selectOpt: '',
+    });
+  };
+
+  handleAssinOk = () => {
+    // @todo 权限分配路由
+    const { cur_id, selectOpt } = this.state;
+  };
+
+  // 搜索框查询
+  handleSearch = () => {
+    // @todo 模糊查询请求路由
+  };
+
+  handleChange = (value) => {
+    this.setState({
+      selectOpt: value,
+    });
+  };
+
   render() {
-    const { dataSource, modalVisible, modalTitle, current, pageSize, total, loading } = this.state;
+    const {
+      dataSource,
+      modalVisible,
+      visible,
+      modalTitle,
+      current,
+      pageSize,
+      total,
+      loading,
+      urlData,
+    } = this.state;
 
     return (
       <PageContainer>
@@ -236,6 +291,30 @@ export default class Permission extends React.PureComponent {
               <Input placeholder="请输入新增权限描述，格式如：插入用户信息" />
             </Item>
           </Form>
+        </Modal>
+        <Modal
+          title="分配URL"
+          visible={visible}
+          onCancel={this.handleAssignCancel}
+          onOk={this.handleAssinOk}
+          okText="确认"
+          cancelText="取消"
+        >
+          <div className={style.select_flex}>
+            <Text className={style.text}>URL:</Text>
+            <Select
+              className={style.select}
+              showSearch
+              value={this.state.value}
+              placeholder="选择可用的URL"
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              filterOption={false}
+              onSearch={this.handleSearch}
+              onChange={this.handleChange}
+              notFoundContent={null}
+            ></Select>
+          </div>
         </Modal>
       </PageContainer>
     );

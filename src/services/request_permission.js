@@ -10,7 +10,7 @@ export async function deleteRequest(rid) {
 // 添加请求路径
 export async function addRequest(data) {
   return request.post('/users/request/addRequestPath', {
-    data,
+    params: data
   });
 }
 
@@ -28,7 +28,7 @@ export async function delRequestPermission(rpid) {
 
 // 获取全部请求路径
 export async function getAllrequest({ pageNum, pageSize }) {
-  return request('/back/order', {
+  return request('/users/request/requests', {
     params: {
       pageNum,
       pageSize,
@@ -38,8 +38,8 @@ export async function getAllrequest({ pageNum, pageSize }) {
 
 // 修改请求路径
 export async function updateRequest(data) {
-  return request.put('/back/order/', {
-    data,
+  return request.put('/users/request/updateRequestPath', {
+    params: {...data},
   });
 }
 
@@ -51,9 +51,9 @@ export async function deletePermission(aid) {
 }
 
 // 添加权限
-export async function addPermission(data) {
+export async function addPermission({ url, permissionName }) {
   return request.post('/users/permission/addPermission', {
-    data,
+    params: { permissionCode, permissionName },
   });
 }
 
@@ -92,6 +92,8 @@ export async function getAllPermissions({ pageNum, pageSize }) {
 // 修改权限
 export async function updatePermission(data) {
   return request.put('/users/permission/updatePermission', {
-    data,
+    params: {
+      ...data
+    },
   });
 }

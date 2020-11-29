@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Result, Button, Typography, Modal } from 'antd';
 import moment from 'moment';
-import { getAuthority } from '@/utils/authority';
 import Detail from './Detail';
 import style from './style.less';
 
 const { Paragraph, Text } = Typography;
-// const currentUser = getAuthority()[0];
 
 // mock返回数据
 const mockData = [

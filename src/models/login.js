@@ -1,7 +1,7 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
 import { notification } from 'antd';
-import { userLogin, userAdd } from '@/services/login';
+import { userLogin, userAdd, userLogout } from '@/services/login';
 import { getPageQuery } from '@/utils/utils';
 
 const Model = {
@@ -63,18 +63,24 @@ const Model = {
     },
 
     // 退出
-    logout() {
+    *logout({ payload }, { call }) {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-      if (window.location.pathname !== '/client/logining' && !redirect) {
-        history.replace({
-          pathname: '/client/logining',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        });
+      const resp = yield call(userLogout, payload) || {};
+      if (resp.code === 200) {
+        if (window.location.pathname !== '/client/logining' && !redirect) {
+          history.replace({
+            pathname: '/client/logining',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          });
+        }
+        return true;
       }
+      return false;
     },
   },
+
   reducers: {
     changeLoginStatus(state, { payload }) {
       return { ...state, status: payload.status };

@@ -23,8 +23,8 @@ import {
 import style from '../style.less';
 
 const { Item } = Form;
-const { Text } = Typography;
-const { Option } = Select;
+const { Text, Title } = Typography;
+
 export default class Permission extends React.PureComponent {
   formRef = React.createRef();
 
@@ -237,8 +237,8 @@ export default class Permission extends React.PureComponent {
 
     return (
       <PageContainer>
-        <Card className={style.authrity}>
-          <Button
+        <Card>
+          {/* <Button
             type="primary"
             className={style.btn}
             onClick={() => {
@@ -246,9 +246,19 @@ export default class Permission extends React.PureComponent {
             }}
           >
             新增权限
-          </Button>
-        </Card>
-        <Card>
+          </Button> */}
+          <div className={style.contain}>
+            <Title level={4}>新增权限</Title>
+            <Button
+              type="primary"
+              className={style.btn}
+              onClick={() => {
+                this.setState({ modalVisible: true, modalTitle: '新增路由' });
+              }}
+            >
+              新增路由
+            </Button>
+          </div>
           <Table
             rowKey="id"
             columns={this.columns}

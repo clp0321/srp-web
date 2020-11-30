@@ -1,5 +1,5 @@
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Menu, message, Spin } from 'antd';
 import React from 'react';
 import { history, connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
@@ -8,12 +8,19 @@ import styles from './index.less';
 class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
     const { key } = event;
-
+    const username = localStorage.getItem('username');
     if (key === 'logout') {
       const { dispatch } = this.props;
       if (dispatch) {
         dispatch({
           type: 'login/logout',
+          payload: { username },
+        }).then((data) => {
+          if (data) {
+            localStorage.removeItem('username');
+          } else {
+            message.error('退出失败');
+          }
         });
       }
     } else {

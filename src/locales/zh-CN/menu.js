@@ -82,7 +82,7 @@ export default {
   'menu.authority': '超管',
   
   'menu.authority.permission': '权限管理',
-  'menu.authority.requset': '路径管理',
-  'menu.authority.manage': '角色管理',
+  'menu.authority.requset': '路由管理',
+  'menu.authority.manage': '用户管理',
 
 };

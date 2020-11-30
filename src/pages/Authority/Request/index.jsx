@@ -11,6 +11,7 @@ import {
   Input,
   Pagination,
   message,
+  Typography,
 } from 'antd';
 import {
   addRequest,
@@ -21,6 +22,7 @@ import {
 import style from '../style.less';
 
 const { Item } = Form;
+const { Title } = Typography;
 
 export default class Request extends React.PureComponent {
   formRef = React.createRef();
@@ -122,7 +124,6 @@ export default class Request extends React.PureComponent {
 
   // 添加路由
   handleAddRequest = (value) => {
-    console.log(value)
     addRequest(value).then((data) => {
       if (data.code === 200) {
         message.success(data.msg);
@@ -183,18 +184,19 @@ export default class Request extends React.PureComponent {
     const { dataSource, modalVisible, modalTitle, current, pageSize, total, loading } = this.state;
     return (
       <PageContainer>
-        <Card className={style.authrity}>
-          <Button
-            type="primary"
-            className={style.btn}
-            onClick={() => {
-              this.setState({ modalVisible: true, modalTitle: '新增路由' });
-            }}
-          >
-            新增路由
-          </Button>
-        </Card>
         <Card>
+          <div className={style.contain}>
+            <Title level={4}>路由表</Title>
+            <Button
+              type="primary"
+              className={style.btn}
+              onClick={() => {
+                this.setState({ modalVisible: true, modalTitle: '新增路由' });
+              }}
+            >
+              新增路由
+            </Button>
+          </div>
           <Table
             rowKey="id"
             columns={this.columns}

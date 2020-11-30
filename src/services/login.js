@@ -18,6 +18,14 @@ export async function userLogin(data) {
   });
 }
 
+// 用户退出
+export async function userLogout({ username }) {
+  console.log(username)
+  return request.post('/users/logout', {
+    params: { username },
+  });
+}
+
 // 用户注册
 export async function userAdd(data) {
   return request.post('/user/register', {

@@ -51,7 +51,7 @@ export async function deletePermission(aid) {
 }
 
 // 添加权限
-export async function addPermission({ url, permissionName }) {
+export async function addPermission({ permissionCode, permissionName }) {
   return request.post('/users/permission/addPermission', {
     params: { permissionCode, permissionName },
   });

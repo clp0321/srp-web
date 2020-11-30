@@ -4,6 +4,9 @@ import { MacCommandOutlined, LogoutOutlined } from '@ant-design/icons';
 import home_new from '@/assets/introduce/home-new.png';
 import search_home from '@/assets/introduce/search_home.png';
 import trace from '@/assets/introduce/trace.png';
+import { 
+  userLogout
+} from '@/services/login';
 import style from './style.less';
 
 const RentHome = ({ currentUser, pathname }) => {
@@ -22,8 +25,15 @@ const RentHome = ({ currentUser, pathname }) => {
     Modal.confirm({
       title: '确认退出本系统？',
       onOk: () => {
-        localStorage.removeItem('username');
-        window.location.reload();
+        const username = localStorage.getItem('username');
+        console.log(username)
+        userLogout(username).then(data => {
+          if (data) {
+            localStorage.removeItem('username');
+          } else {
+            message.error('退出失败')
+          }
+        })
       },
       onCancel: () => {},
     });

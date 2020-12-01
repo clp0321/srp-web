@@ -124,11 +124,13 @@ export default class Role extends React.Component {
   // 权限弹窗
   permission_columns = [
     {
+      key: 'permission_code',
       title: '权限编码',
       dataIndex: 'permissionCode',
       align: 'center',
     },
     {
+      key: 'permission_name',
       title: '权限描述',
       dataIndex: 'permissionName',
       align: 'center',
@@ -313,7 +315,6 @@ export default class Role extends React.Component {
             <Title level={4}>{currentrole} - 权限表</Title>
             <Table
               loading={permission_loading}
-              rowKey="id"
               columns={this.permission_columns}
               dataSource={auth_datasource}
               pagination={false}

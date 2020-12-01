@@ -1,4 +1,4 @@
-import { connect, Link } from 'umi';
+import { connect, Link, history } from 'umi';
 import { Avatar, Modal, message } from 'antd';
 import { MacCommandOutlined, LogoutOutlined } from '@ant-design/icons';
 import home_new from '@/assets/introduce/home-new.png';
@@ -26,12 +26,14 @@ const RentHome = ({ currentUser, pathname }) => {
       title: '确认退出本系统？',
       onOk: () => {
         const username = localStorage.getItem('username');
-        console.log(username)
         userLogout(username).then(data => {
-          if (data) {
+          console.log(data)
+          if (data && data.code === 200) {
+            message.success(data.msg);
             localStorage.removeItem('username');
+            history.push('/client/logining')
           } else {
-            message.error('退出失败')
+            message.error('退出系统失败')
           }
         })
       },

@@ -14,6 +14,7 @@ import {
   Modal,
 } from 'antd';
 import { BaseInfo, RentInfo, Detail, HousePic, ContactInfo, ButtonList } from './component';
+import { connect } from 'umi';
 import { getHouseId, addProperty } from '@/services/property';
 import lock1 from '@/assets/lock/lock1.png';
 import lock2 from '@/assets/lock/lock2.png';
@@ -103,10 +104,6 @@ class Release extends React.Component {
       payway: 0,
       struct: 0,
       fileList: [],
-      formVal: {
-        currentUser: '',
-        role: '',
-      },
       visible: true,
       returnId: '',
     };
@@ -154,6 +151,7 @@ class Release extends React.Component {
 
   handlePublish = async () => {
     const { fileList, returnId, deviceId } = this.state;
+     const userId = this.props.currentUser.id;
     this.formRef.current.validateFields().then(async (values) => {
       if (fileList.length === 0) {
         message.warning('请至少上传一张房源图片');
@@ -220,7 +218,7 @@ class Release extends React.Component {
         houseOwner: publisher,
         certNum: 1,
         description,
-        userId: localStorage.getItem('id'),
+        userId,
         seeTime,
         earlyTime,
         numbers,
@@ -282,7 +280,7 @@ class Release extends React.Component {
 
   // 认证房源
   handleAuthorize = () => {
-    const userId = localStorage.getItem('id');
+    const userId = this.props.currentUser.id;
     const { deviceId } = this.state;
     if (!deviceId) {
       message.warning('请补充设备信息');
@@ -306,9 +304,30 @@ class Release extends React.Component {
 
   render() {
     const { indeterminate, checkAll, checkedList, fileList, visible, returnId } = this.state;
-    const userName = localStorage.getItem('name');
-    const role = localStorage.getItem('role');
-
+    const {
+      currentUser: { role, userName },
+    } = this.props;
+    let text;
+    switch (role) {
+      case 0:
+        text = '租客';
+        break;
+      case 1:
+        text = '房东';
+        break;
+      case 2:
+        text = '代理商';
+        break;
+      case 3:
+        text = '监管方';
+        break;
+      case 4:
+        text = '平台方';
+        break;
+      case 5:
+        text = '超管';
+        break;
+    }
     return (
       <div className={style.contain}>
         {visible ? (
@@ -380,7 +399,7 @@ class Release extends React.Component {
                   ref={this.formRef}
                   initialValues={{
                     publisher: userName,
-                    role: role === '0' ? '租客' : role === '1' ? '房东' : null,
+                    role: text
                   }}
                 >
                   {/* 基础信息 */}
@@ -429,4 +448,4 @@ class Release extends React.Component {
   }
 }
 
-export default Release;
+export default connect(({ user }) => ({ currentUser: user.currentUser }))(Release);

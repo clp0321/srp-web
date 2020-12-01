@@ -270,6 +270,11 @@ export default defineConfig({
                   component: './Authority/Request',
                 },
                 {
+                  name: 'role',
+                  path: '/authority/role',
+                  component: './Authority/Role'
+                },
+                {
                   name: 'manage',
                   path: '/authority/manage',
                   component: './Authority/Manage',

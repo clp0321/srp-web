@@ -13,10 +13,12 @@ const FormItem = Form.Item;
 const Selects = ({ name, initialValue }) => (
   <FormItem name={name} initialValue={initialValue}>
     <Select placeholder="请选择用户角色">
-      <Option value={0}>房东</Option>
-      <Option value={1}>租客</Option>
-      <Option value={2}>代理服务商</Option>
-      <Option value={3}>监管用户</Option>
+      <Option value={0}>租客</Option>
+      <Option value={1}>房东</Option>
+      <Option value={2}>代理商</Option>
+      <Option value={3}>监管方</Option>
+      <Option value={4}>平台方</Option>
+      <Option value={5}>超级管理员</Option>
     </Select>
   </FormItem>
 );
@@ -87,7 +89,7 @@ const UserManage = () => {
       hideInForm: formTitle == '新增用户' ? true : false,
       formItemProps: {
         initialValue: updateVals.id,
-        children: <Input disabled />
+        children: <Input disabled />,
       },
     },
     {
@@ -151,17 +153,22 @@ const UserManage = () => {
         let returnText;
         switch (role) {
           case 0:
-            returnText = '房东';
-            break;
-          case 1:
             returnText = '租客';
             break;
+          case 1:
+            returnText = '房东';
+            break;
           case 2:
-            returnText = '代理服务商';
+            returnText = '代理商';
             break;
           case 3:
-            returnText = '监管用户';
+            returnText = '监管方';
             break;
+          case 4:
+            returnText = '平台方';
+            break;
+          case 5:
+            returnText = '超级管理员';
         }
         return returnText;
       },
@@ -236,7 +243,7 @@ const UserManage = () => {
           <a
             onClick={() => {
               record.password = '****';
-              console.log(record)
+              console.log(record);
               setUpdateValues(record);
               setFormTitle('更新用户');
               handleModalVisible(true);

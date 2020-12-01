@@ -1,5 +1,4 @@
 import request from '@/utils/request';
-
 /** 请求路径 */
 
 // 根据id删除请求路径
@@ -17,7 +16,7 @@ export async function addRequest(data) {
 // 为权限分配url
 export async function assignRequest(data) {
   return request.post('/users/request/assignRequestPath', {
-    data,
+    data
   });
 }
 
@@ -34,6 +33,12 @@ export async function getAllrequest({ pageNum, pageSize }) {
       pageSize,
     },
   });
+}
+// 查看请求路径（模糊查询）
+export async function getRequestByUrl(url) {
+  return request('/users/request/getRequestsByUrl', {
+    params: url
+  })
 }
 
 // 修改请求路径

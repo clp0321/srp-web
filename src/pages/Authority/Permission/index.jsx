@@ -13,17 +13,22 @@ import {
   message,
   Select,
   Typography,
+  Spin,
 } from 'antd';
 import {
   getAllPermissions,
   addPermission,
   deletePermission,
   updatePermission,
+  getRequestByUrl,
+  assignRequest,
 } from '@/services/request_permission';
+import debouncs from 'lodash/debounce';
 import style from '../style.less';
 
 const { Item } = Form;
 const { Text, Title } = Typography;
+const { Option } = Select;
 
 export default class Permission extends React.PureComponent {
   formRef = React.createRef();
@@ -85,12 +90,16 @@ export default class Permission extends React.PureComponent {
       current: 1,
       dataSource: [],
       modalVisible: false,
+      fetching: false,
       visible: false,
       modalTitle: '',
       loading: false,
       cur_id: 0,
-      selectOpt: '',
+      selectOpt: [],
+      selectId: null,
+      urlData: [],
     };
+    this.getUser = debouncs(this.queryUrl, 800);
   }
 
   componentDidMount() {
@@ -209,16 +218,51 @@ export default class Permission extends React.PureComponent {
   handleAssinOk = () => {
     // @todo 权限分配路由
     const { cur_id, selectOpt } = this.state;
+    const userRequestPermissionList = [{ permissionId: cur_id, urlId: selectOpt.value }];
+    assignRequest({ userRequestPermissionList }).then((data) => {
+      if (data && data.code === 200) {
+        message.success(data.msg);
+        this.setState({
+          visible: false,
+        });
+      } else {
+        message.error(data.msg);
+      }
+    });
   };
 
   // 搜索框查询
-  handleSearch = () => {
-    // @todo 模糊查询请求路由
+  handleSearch = (value) => {
+    if (value) {
+      this.queryUrl(value);
+    } else {
+      this.setState({ urlData: [] });
+    }
+  };
+
+  //模糊查询
+  queryUrl = (value) => {
+    getRequestByUrl({ url: value }).then((data) => {
+      if (data.code === 200) {
+        const urlData = [];
+        data['data'].map((item) => {
+          urlData.push({
+            text: item.url,
+            value: item.id,
+          });
+        });
+        this.setState({
+          urlData,
+        });
+      }
+    });
   };
 
   handleChange = (value) => {
     this.setState({
       selectOpt: value,
+      fetching: false,
+      urlData: [],
     });
   };
 
@@ -232,23 +276,16 @@ export default class Permission extends React.PureComponent {
       pageSize,
       total,
       loading,
+      fetching,
       urlData,
+      selectOpt,
     } = this.state;
 
     return (
       <PageContainer>
         <Card>
-          {/* <Button
-            type="primary"
-            className={style.btn}
-            onClick={() => {
-              this.setState({ modalVisible: true, modalTitle: '新增权限' });
-            }}
-          >
-            新增权限
-          </Button> */}
           <div className={style.contain}>
-            <Title level={4}>新增权限</Title>
+            <Title level={4}>权限表</Title>
             <Button
               type="primary"
               className={style.btn}
@@ -313,17 +350,22 @@ export default class Permission extends React.PureComponent {
           <div className={style.select_flex}>
             <Text className={style.text}>URL:</Text>
             <Select
+              labelInValue
               className={style.select}
               showSearch
-              value={this.state.value}
-              placeholder="选择可用的URL"
+              value={selectOpt}
+              placeholder="选择需要分配的URL"
+              notFoundContent={fetching ? <Spin size="small" /> : null}
               defaultActiveFirstOption={false}
               showArrow={false}
               filterOption={false}
               onSearch={this.handleSearch}
               onChange={this.handleChange}
-              notFoundContent={null}
-            ></Select>
+            >
+              {urlData.map((d) => (
+                <Option key={d.value}>{d.text}</Option>
+              ))}
+            </Select>
           </div>
         </Modal>
       </PageContainer>

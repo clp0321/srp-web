@@ -1,8 +1,21 @@
 import react from 'react';
-import { Table, Card, Divider, Typography, Popconfirm, Modal, Pagination, Button } from 'antd';
+import {
+  Table,
+  Card,
+  Divider,
+  Typography,
+  Popconfirm,
+  Modal,
+  Pagination,
+  Button,
+  message,
+} from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
-import { getAllPermissions } from '@/services/request_permission';
-
+import {
+  getAllPermissions,
+  assignPermission,
+  getPermissionByRole,
+} from '@/services/request_permission';
 import style from '../style.less';
 
 const { Title } = Typography;
@@ -122,6 +135,21 @@ export default class Role extends React.Component {
     },
   ];
 
+  per_columns = [
+    {
+      key: 'per_Code',
+      title: '权限编码',
+      dataIndex: 'permissionCode',
+      align: 'center',
+    },
+    {
+      key: 'per_Name',
+      title: '权限描述',
+      dataIndex: 'permissionName',
+      align: 'center',
+    },
+  ];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -136,14 +164,36 @@ export default class Role extends React.Component {
       pageSize: 5,
       total: 0,
       current: 1,
+      role_id: null,
       selectedRowKeys: [],
+      permissionRole: {
+        per_pageSize: 5,
+        per_total: 0,
+        per_current: 0,
+      },
     };
   }
+
+  onSelectChange = (selectedRowKeys) => {
+    this.setState({
+      selectedRowKeys,
+    });
+  };
 
   handleCancel = () => {
     this.setState({
       visible: false,
     });
+  };
+
+  // 角色权限分页
+  handleOnPermisionPage = (page, pageSize) => {
+    this.getRolePermission(page, pageSize);
+  };
+
+  // 权限列表分页
+  handleOnPage = (page, pageSize) => {
+    this.getAllPermissions(page, pageSize);
   };
 
   // 查询权限信息
@@ -162,27 +212,69 @@ export default class Role extends React.Component {
     });
   };
 
+  // 查询角色权限
+  getRolePermission = (pageNum, pageSize, role_id) => {
+    const rid = typeof role_id === 'number' ? role_id : this.state.role_id;
+    getPermissionByRole({ rid, pageNum, pageSize }).then((value) => {
+      if (value && value.code === 200) {
+        const { total, list, pageNum, pageSize } = value.data;
+        const new_obj = { per_pageSize: pageSize, per_total: total, per_current: pageNum };
+        this.setState({
+          auth_datasource: list,
+          permissionRole: new_obj,
+          permission_loading: false,
+        });
+      }
+    });
+  };
+
   // 查询改用户权限信息
   queryPermissionByUser = (id) => {
     const { current, pageSize } = this.state;
     this.getPermissionsByItems(current, pageSize);
     this.setState({
       visible: true,
+      role_id: id,
     });
   };
 
   // 查询角色权限
   viewPermission = (role) => {
     let currentrole = getRole(role);
+    this.findRolePermission(role);
     this.setState({
       currentrole,
+      role_id: role,
       auth_visible: true,
     });
+  };
+
+  // 查询角色权限
+  findRolePermission = (role) => {
+    this.getRolePermission(1, 5, role);
   };
 
   // 角色添加权限
   assignPermission = () => {
     // @角色添加权限
+    const { selectedRowKeys, role_id } = this.state;
+    const userRolePermissionRelationList = [];
+    selectedRowKeys.map((id) => {
+      userRolePermissionRelationList.push({
+        permissionId: id,
+        roleId: role_id,
+      });
+    });
+    assignPermission({ userRolePermissionRelationList }).then((value) => {
+      if (value && value.code === 200) {
+        message.success(value.msg);
+        this.setState({
+          visible: false,
+        });
+      } else {
+        message.error('授权失败');
+      }
+    });
   };
 
   render() {
@@ -198,6 +290,7 @@ export default class Role extends React.Component {
       permission_loading,
       auth_loading,
       auth_visible,
+      permissionRole: { per_pageSize, per_total, per_current },
     } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -213,16 +306,26 @@ export default class Role extends React.Component {
       <PageContainer>
         <Card>
           <Title level={4}>角色表</Title>
-          <Table dataSource={roleData} columns={this.columns} pagination={false} />
+          <Table rowKey="id" dataSource={roleData} columns={this.columns} pagination={false} />
         </Card>
         {auth_visible ? (
           <Card className={style.table}>
-            <Title level={4}>{currentrole} - 权限</Title>
+            <Title level={4}>{currentrole} - 权限表</Title>
             <Table
               loading={permission_loading}
               rowKey="id"
-              columns={this.auth_columns}
+              columns={this.permission_columns}
               dataSource={auth_datasource}
+              pagination={false}
+            />
+            <Pagination
+              className={style.pagination}
+              current={per_current}
+              pageSize={per_pageSize}
+              total={per_total}
+              showSizeChanger
+              showTotal={(total) => `共 ${total} 项`}
+              onChange={this.handleOnPermisionPage}
             />
           </Card>
         ) : null}
@@ -237,10 +340,9 @@ export default class Role extends React.Component {
           <div className="clearfix">
             <SelectOpt />
             <Table
-              rowKey="id"
               loading={auth_loading}
               rowSelection={rowSelection}
-              columns={this.permission_columns}
+              columns={this.per_columns}
               dataSource={permission_data}
               pagination={false}
             />

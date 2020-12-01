@@ -9,14 +9,14 @@ export async function deleteRequest(rid) {
 // 添加请求路径
 export async function addRequest(data) {
   return request.post('/users/request/addRequestPath', {
-    params: data
+    params: data,
   });
 }
 
 // 为权限分配url
 export async function assignRequest(data) {
   return request.post('/users/request/assignRequestPath', {
-    data
+    data,
   });
 }
 
@@ -37,14 +37,14 @@ export async function getAllrequest({ pageNum, pageSize }) {
 // 查看请求路径（模糊查询）
 export async function getRequestByUrl(url) {
   return request('/users/request/getRequestsByUrl', {
-    params: url
-  })
+    params: url,
+  });
 }
 
 // 修改请求路径
 export async function updateRequest(data) {
   return request.put('/users/request/updateRequestPath', {
-    params: {...data},
+    params: { ...data },
   });
 }
 
@@ -98,7 +98,17 @@ export async function getAllPermissions({ pageNum, pageSize }) {
 export async function updatePermission(data) {
   return request.put('/users/permission/updatePermission', {
     params: {
-      ...data
+      ...data,
+    },
+  });
+}
+
+// 根据roleid查询权限
+export async function getPermissionByRole({ rid, pageNum, pageSize }) {
+  return request(`/users/permission/getPermissionByRole/${rid}`, {
+    params: {
+      pageNum,
+      pageSize,
     },
   });
 }

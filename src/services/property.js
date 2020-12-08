@@ -3,38 +3,43 @@ import qs from 'qs';
 
 // 条件查询房源信息
 export async function findPropertyByItems(data) {
-  return request(`/back/houseManage/choice?${qs.stringify(data)}&pageNum=1&pageSize=10`);
+  return request(`/back/house/choice?${qs.stringify(data)}&pageNum=1&pageSize=10`);
 }
 
 // 添加房源
 export async function addProperty(data) {
-  return request.post('/back/houseManage', {
+  return request.post('/back/house/info', {
     data,
   });
 }
 
-// 修改房源
+// 更新房源信息
 export async function updateProperty(data) {
-  return request.put('/back/houseMessage', {
+  return request.put('/back/info', {
     data,
   });
 }
 
 // 添加房源
 export async function addEstate(data) {
-  return request.post('/back/houseManage', {
+  return request.post('/back/house', {
     data,
   });
 }
 
 // 获取全部房源信息
 export async function getProperty(curpage, size) {
-  return request(`/back/houseManage/houseManages?pageNum=${curpage}&pageSize=${size}`);
+  return request(`/back/house/lists?pageNum=${curpage}&pageSize=${size}`);
 }
 
 // houst_id获取房源详情信息
 export async function getHouseDetail(id) {
-  return request(`/back/houseManage?house_id=${id}`);
+  return request(`/back/house/query?house_id=${id}`);
+}
+
+// 租客评级房源
+export async function voteHouese(grade, house_id, user_id) {
+  return request(`/back/house/vote?grade=${grade}&house_id=${house_id}&user_id=${user_id}`);
 }
 
 // 申请看房
@@ -80,7 +85,7 @@ export async function getUserAccept(user) {
 
 // 根据房源id查询图片集合
 export async function getPicListById(house_id) {
-  return request(`/back/housePic/url?house_id=${house_id}`);
+  return request(`/back/house/pic/url?house_id=${house_id}`);
 }
 
 // 删除特定图片
@@ -90,5 +95,5 @@ export async function deletePicById() {
 
 // 获取系统生成houseID
 export async function getHouseId(id) {
-  return request(`/back/houseManage/houseId?userId=${id}`);
+  return request(`/back/house/id?user_id=${id}`);
 }

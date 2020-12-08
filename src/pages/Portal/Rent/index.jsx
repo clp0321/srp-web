@@ -3,6 +3,7 @@ import { getProperty } from '@/services/property';
 import style from './style.less';
 
 import { Search, SearchMultiple, ConList } from './component';
+import { message } from 'antd';
 
 // 默认属性值
 const defaultProps = {
@@ -52,7 +53,7 @@ class Rent extends Component {
   getAllProperty = async () => {
     const { curpage, pagesize } = this.state;
     const resp = await getProperty(curpage, pagesize);
-    if (resp.msg === 'SUCCESS') {
+    if (resp && resp.code === 200) {
       this.setState({
         constList: resp.data.list,
       });

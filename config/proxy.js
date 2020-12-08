@@ -15,18 +15,18 @@ export default {
       },
     },
     '/users': {
-      target: 'http://202.193.60.134:8989',
+      target: 'http://202.193.60.59:8989',
       changeOrigin: true,
       pathRewrite: {
         '/users': '',
       },
     },
     '/user': {
-      target: 'http://202.193.60.134:8989',
+      target: 'http://202.193.60.59:8989',
       changeOrigin: true,
     },
     '/back': {
-      target: 'http://202.193.60.134:8989',
+      target: 'http://202.193.60.59:8989',
       changeOrigin: true,
       pathRewrite: {
         '/back': '',
@@ -34,15 +34,15 @@ export default {
     },
     '/deviceManagement': {
       target: 'http://debug.locksuiyi.com',
-      changeOrigin: true
+      changeOrigin: true,
     },
     '/crossing': {
       target: 'http://localhost:3000',
       changeOrigin: true,
       pathRewrite: {
-        '/crossing': ''
-      }
-    }
+        '/crossing': '',
+      },
+    },
   },
   test: {
     '/api/': {

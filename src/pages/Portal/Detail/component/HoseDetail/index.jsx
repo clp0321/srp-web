@@ -193,7 +193,7 @@ const HouseDetail = ({ houseDetail }) => {
 
   let configArr = [];
 
-  if (houseConfiglist.length) {
+  if (Array.isArray(houseConfiglist) && houseConfiglist.length) {
     configArr = houseConfiglist[0];
     for (let i in bed_facility) {
       if (configArr[i]) {

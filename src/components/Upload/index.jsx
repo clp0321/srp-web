@@ -23,7 +23,7 @@ const UploadComponent = ({ handleFile, house_id }) => {
     username: localStorage.getItem('name'),
   };
   const props = {
-    action: '/back/housePic',
+    action: '/back/house/pic',
     method: 'post',
     multiple: true,
     data,
